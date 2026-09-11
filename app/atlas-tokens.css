@@ -1,0 +1,30 @@
+/* IoT Atlas Signal Terrain design language — see docs/design/STYLE.md */
+.app {
+  --bg: #f4f7f9;
+  --surface: #ffffff;
+  --surface2: #f8fafc;
+  --border: #dce5ea;
+  --text: #17232c;
+  --muted: #60737d;
+  --accent: #078ea6;
+  --soft: #dff4f7;
+}
+
+.app.dark {
+  --bg: #07131c;
+  --surface: #0d1e2a;
+  --surface2: #132a38;
+  --border: #24404e;
+  --text: #eaf5f8;
+  --muted: #91a7b1;
+  --accent: #22d3ee;
+  --soft: #103642;
+}
+
+.app .panel {
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+}
+
+.app.dark .world {
+  background: radial-gradient(circle at 50% 45%, #103e4b, transparent 58%), var(--surface2);
+}

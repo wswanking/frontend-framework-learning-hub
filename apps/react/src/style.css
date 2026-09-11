@@ -1,0 +1,16 @@
+:root { font-family: Inter, system-ui, sans-serif; color: #eaf5f8; background: #07131c; }
+* { box-sizing: border-box; }
+body { margin: 0; }
+main { min-height: 100vh; padding: 32px; background: #f4f7f9; color: #10232c; }
+main.dark { background: #07131c; color: #eaf5f8; }
+header { display: flex; justify-content: space-between; align-items: center; }
+button { padding: 8px 12px; border: 0; border-radius: 8px; cursor: pointer; }
+section { margin: 20px 0; padding: 20px; border: 1px solid #24404e; border-radius: 12px; background: #0d1e2a; }
+.cards { display: flex; gap: 16px; background: none; border: 0; padding: 0; }
+.cards article { flex: 1; padding: 20px; border: 1px solid #24404e; border-radius: 12px; background: #0d1e2a; }
+.cards strong { display: block; font-size: 30px; color: #22d3ee; }
+.dashboard-filters { display: flex; flex-wrap: wrap; gap: 12px; }
+@media (max-width: 640px) { main { padding: 16px; } .cards { flex-direction: column; } }
+.offline-map{position:relative;height:300px;overflow:hidden;border:1px solid #45617f;border-radius:12px;background:radial-gradient(circle at 70% 30%,#21466a 0 8%,transparent 9%),radial-gradient(circle at 25% 45%,#193d5d 0 12%,transparent 13%),linear-gradient(160deg,#071b31,#0c2943)}
+.offline-map:before{content:"离线世界坐标视图";position:absolute;left:12px;top:10px;color:#a9c5df}.map-point{position:absolute;width:14px;height:14px;border:2px solid white;border-radius:50%;background:#35d07f;transform:translate(-50%,-50%);cursor:pointer}.map-point.offline,.map-point.fault{background:#ff6b6b}.map-point.maintenance{background:#f3b33d}.map-point:focus-visible{outline:3px solid #fff;outline-offset:3px}.map-empty{position:absolute;inset:45% 0;text-align:center}
+.node-point{position:absolute;display:grid;place-items:center;width:38px;height:38px;padding:0;border:4px solid #22d3ee;border-radius:50%;background:#08263b;color:#fff;font-weight:700;transform:translate(-50%,-50%)}.node-point:focus-visible{outline:3px solid #fff;outline-offset:3px}
