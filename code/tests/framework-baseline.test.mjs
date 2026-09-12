@@ -1,5 +1,7 @@
 import assert from "node:assert/strict";
-import { readFile } from "node:fs/promises";
+import { readFile, readdir } from "node:fs/promises";
+import { fileURLToPath } from "node:url";
+import { spawnSync } from "node:child_process";
 import test from "node:test";
 
 const cases = [
@@ -74,6 +76,31 @@ test("portal stages independently navigable framework production builds", async 
   const portalSource = await readFile(new URL("../app/dashboard-shell.tsx", import.meta.url), "utf8");
   assert.match(reactSource, /HashRouter/);
   for (const framework of ["react", "vue", "angular"]) assert.match(portalSource, new RegExp(`/frameworks/${framework}/index\\.html`));
+});
+
+test("staged framework JavaScript is syntactically executable", async () => {
+  for (const framework of ["react", "vue", "angular"]) {
+    const assetsDirectory = new URL(`../public/frameworks/${framework}/assets/`, import.meta.url);
+    const bundles = (await readdir(assetsDirectory)).filter((file) => file.endsWith(".js"));
+    assert.ok(bundles.length > 0, `${framework} should emit at least one JavaScript bundle`);
+    for (const bundle of bundles) {
+      const result = spawnSync(process.execPath, ["--check", fileURLToPath(new URL(bundle, assetsDirectory))], { encoding: "utf8" });
+      assert.equal(result.status, 0, `${framework}/${bundle} is invalid JavaScript:\n${result.stderr}`);
+    }
+  }
+});
+
+test("Angular inline templates pass the Angular compiler parser", async () => {
+  const { parseTemplate } = await import("@angular/compiler");
+  for (const sourcePath of ["../apps/angular/src/main.ts", "../apps/angular/src/labs.ts"]) {
+    const source = await readFile(new URL(sourcePath, import.meta.url), "utf8");
+    const templates = [...source.matchAll(/template:\s*`([\s\S]*?)`/g)].map((match) => match[1]);
+    assert.ok(templates.length > 0, `${sourcePath} should contain an inline Angular template`);
+    for (const [index, template] of templates.entries()) {
+      const errors = parseTemplate(template, `${sourcePath}#${index}`).errors ?? [];
+      assert.equal(errors.length, 0, errors.map((error) => error.toString()).join("\n\n"));
+    }
+  }
 });
 
 test("React product workbench exposes query, model validation, JSON preview, dirty state, and DP steps", async () => {
