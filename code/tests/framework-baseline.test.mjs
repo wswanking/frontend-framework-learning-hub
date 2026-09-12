@@ -73,9 +73,27 @@ test("portal stages independently navigable framework production builds", async 
     assert.match(config, /base:\s*"\.\/"/);
   }
   const reactSource = await readFile(new URL("../apps/react/src/main.tsx", import.meta.url), "utf8");
+  const vueSource = await readFile(new URL("../apps/vue/src/dashboard.ts", import.meta.url), "utf8");
+  const angularSource = await readFile(new URL("../apps/angular/src/main.ts", import.meta.url), "utf8");
   const portalSource = await readFile(new URL("../app/dashboard-shell.tsx", import.meta.url), "utf8");
   assert.match(reactSource, /HashRouter/);
+  assert.match(vueSource, /createRouter/);
+  assert.match(vueSource, /createWebHashHistory/);
+  assert.match(angularSource, /provideRouter/);
+  assert.match(angularSource, /withHashLocation/);
   for (const framework of ["react", "vue", "angular"]) assert.match(portalSource, new RegExp(`/frameworks/${framework}/index\\.html`));
+  assert.doesNotMatch(portalSource, /createMockApi|DeliveryBoard|数据大盘|交付看板/);
+});
+
+test("three framework shells follow the same interaction navigation", async () => {
+  const sources = await Promise.all(cases.map(([, path]) => readFile(new URL(path, import.meta.url), "utf8")));
+  for (const source of sources) {
+    assert.match(source, /atlas-sidebar/);
+    assert.match(source, /atlas-topbar/);
+    assert.match(source, /atlas-content/);
+    for (const label of ["数据大盘", "全球节点", "产品与物模型", "设备中心", "规则引擎", "固件与 OTA", "租户管理", "组件与图表实验室"])
+      assert.match(source, new RegExp(label));
+  }
 });
 
 test("staged framework JavaScript is syntactically executable", async () => {

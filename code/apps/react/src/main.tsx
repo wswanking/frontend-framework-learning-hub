@@ -1,10 +1,11 @@
 import { lazy, Suspense, useEffect, useMemo, useRef, useState } from "react";
 import { createRoot } from "react-dom/client";
-import { HashRouter, Link, Route, Routes, useNavigate, useParams } from "react-router-dom";
+import { HashRouter, Link, Route, Routes, useLocation, useNavigate, useParams } from "react-router-dom";
 import { Alert, AppBar, Box, Button, Card, CardContent, Chip, CssBaseline, Stack, Toolbar, Typography } from "@mui/material";
 import type { ApiScenario } from "../../../packages/domain/index.ts";
 import { createMockApi } from "../../../packages/mock-api/index.ts";
 import "./style.css";
+import "./shell-layout.css";
 
 const context = { actorId: "usr_001", role: "tenantAdmin" as const, tenantId: "ten_cn_001", seed: 20260829 };
 const api = createMockApi(context);
@@ -14,12 +15,20 @@ const ReactLabs = lazy(() => import("./labs.tsx"));
 
 function Frame({ children }: { children: React.ReactNode }) {
   const [dark, setDark] = useState(() => localStorage.getItem("iot-atlas-react-theme") !== "light");
+  const location = useLocation();
   const toggleTheme = () => setDark(value => { localStorage.setItem("iot-atlas-react-theme", value ? "light" : "dark"); return !value; });
-  return <Box className={dark ? "dark" : ""} sx={{ minHeight: "100vh", p: { xs: 1, md: 3 } }}>
+  const current = nav.find(([path]) => path === "/" ? location.pathname === "/" : location.pathname.startsWith(path))?.[1] ?? "数据大盘";
+  return <Box className={`atlas-app ${dark ? "dark" : "light"}`}>
     <CssBaseline />
-    <AppBar position="static" color="transparent"><Toolbar><Typography sx={{ flexGrow: 1 }}>IoT Atlas / React</Typography><Button variant="contained" onClick={toggleTheme}>主题</Button></Toolbar></AppBar>
-    <Stack direction="row" useFlexGap spacing={1} sx={{ my: 2, flexWrap: "wrap" }}>{nav.map(([path, name]) => <Button key={path} component={Link} to={path} variant="outlined">{name}</Button>)}</Stack>
-    {children}
+    <aside className="atlas-sidebar">
+      <a className="atlas-brand" href="../../../"><b>IA</b><span>IoT Atlas<small>REACT · MUI</small></span></a>
+      <nav aria-label="主导航">{nav.map(([path, name], index) => <Button key={path} component={Link} to={path} className={(path === "/" ? location.pathname === "/" : location.pathname.startsWith(path)) ? "active" : ""} aria-current={(path === "/" ? location.pathname === "/" : location.pathname.startsWith(path)) ? "page" : undefined}><i>{["⌂","◎","▣","◇","⌁","⇧","♙","✣"][index]}</i>{name}</Button>)}</nav>
+      <div className="atlas-runtime"><span><i /> MOCK SERVICE</span><strong>服务运行正常</strong><small>seed · {context.seed}</small></div>
+    </aside>
+    <section className="atlas-workspace">
+      <AppBar className="atlas-topbar" position="sticky" color="transparent"><Toolbar><div className="atlas-title"><small>GLOBAL OPERATIONS / {context.tenantId}</small><Typography>{current}</Typography></div><div className="atlas-actions"><span>UTC+8 · 最近 24 小时</span><Button onClick={toggleTheme} aria-label="切换明暗主题">{dark ? "☀" : "☾"}</Button><b>OP</b></div></Toolbar></AppBar>
+      <main className="atlas-content">{children}</main>
+    </section>
   </Box>;
 }
 

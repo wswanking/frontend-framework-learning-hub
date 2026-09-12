@@ -14,10 +14,13 @@ test("server-renders the IoT Atlas framework launch portal", async () => {
   assert.match(response.headers.get("content-type") ?? "", /^text\/html\b/i);
   const html = await response.text();
   assert.match(html, /IoT Atlas/);
-  assert.match(html, /三框架，同一套 IoT 业务契约/);
+  assert.match(html, /选择应用/);
+  assert.match(html, /同一套 IoT 业务契约，三种框架独立实现/);
   assert.match(html, /\/frameworks\/react\/index\.html#\//);
   assert.match(html, /\/frameworks\/vue\/index\.html#\//);
   assert.match(html, /\/frameworks\/angular\/index\.html#\//);
+  assert.equal((html.match(/launcher-card/g) ?? []).length, 3);
+  assert.doesNotMatch(html, /数据大盘|全球节点|交付看板/);
   assert.doesNotMatch(html, /Your site is taking shape|react-loading-skeleton|codex-preview/i);
 });
 
