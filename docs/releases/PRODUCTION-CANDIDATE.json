@@ -1,7 +1,7 @@
 {
   "version": "0.1.0",
   "environment": "production",
-  "commit": "workspace-snapshot-pending-sites-push",
+  "commit": "901bd2d732b74a457b74ae5eef4d16613419987a",
   "summary": "IoT Atlas 完整三框架学习门户与 IoT SaaS 演示平台",
   "owner": "Codex automated release under explicit user authorization",
   "requirements": [
@@ -26,9 +26,10 @@
   "buildPassed": true,
   "testsPassed": true,
   "testEvidence": [
-    "npm test: typecheck, portal build, three framework builds, and full automated suite",
+    "npm test: typecheck, portal build, three framework builds, and 62 automated tests",
     "npm run lint: zero errors and zero warnings",
-    "npm run release:check:production: accepted"
+    "npm run release:check:production: accepted",
+    "browser smoke: portal, React, Vue, and Angular all rendered with zero console errors"
   ],
   "knownRisks": [
     "Framework experiment bundles remain intentionally large and are route-isolated",
@@ -49,8 +50,8 @@
   "releaseOwnerApproval": false,
   "openHighSeverityIssues": 0,
   "previousVerifiedVersion": "0.1.0-preview.3",
-  "deploymentStatus": "pending",
+  "deploymentStatus": "succeeded",
   "deploymentAccess": "owner-private",
-  "deploymentUrl": "",
-  "siteVersion": null
+  "deploymentUrl": "https://iot-atlas-learning-hub.eager-ape-3258.chatgpt.site",
+  "siteVersion": 5
 }

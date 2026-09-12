@@ -1,6 +1,6 @@
 # 当前活跃计划
 
-## 状态：全量自动化验收与正式私有发布进行中
+## 状态：PRD 全量完成，正式私有版本 5 已发布
 
 > 2026-09-12：用户明确要求完成剩余 PRD 且无需人工审核。本轮以逐条验收、全仓测试、静态检查、三端可达性与发布门禁为完成条件。
 
@@ -19,13 +19,13 @@
 | PRD、架构、路线图 | IOT-PLATFORM-001 | 已完成 | 文档入口可追溯到 PRD 与架构 |
 | 正式 PRD v1.0 | IOT-PLATFORM-001 | 已完成，已批准 | 需求看板中的六项需求均有完整 PRD 条目与追溯矩阵 |
 | 全部模块详细 PRD | IOT-PLATFORM-001 | 已完成，已批准 | [详细 PRD 索引](../prd/README.md) 覆盖平台、IoT 业务、三框架和发布模块 |
-| 全部模块交互规格 | IOT-PLATFORM-001 | 已完成，待审核 | [交互索引](../interaction/README.md) 覆盖用户流、状态、权限、异常和验收映射 |
-| 视觉交互基线与设计语言 | IOT-DASH-001 | 已完成，待审核 | [视觉资产](../../code/public/design/) 与 [设计语言](../design/STYLE.md) 已定义最终实现风格 |
+| 全部模块交互规格 | IOT-PLATFORM-001 | 已完成，自动化验收通过 | [交互索引](../interaction/README.md) 覆盖用户流、状态、权限、异常和验收映射 |
+| 视觉交互基线与设计语言 | IOT-DASH-001 | 已完成，自动化验收通过 | [视觉资产](../../code/public/design/) 与 [设计语言](../design/STYLE.md) 已定义最终实现风格 |
 | AI 协作上下文 | IOT-PLATFORM-002 | 已完成 | `AGENTS.md`、计划、ADR 和目录边界齐全 |
 | 根 Dashboard 基线 | IOT-DASH-001 | 已完成 | 构建成功，页面含主题切换和大盘模块 |
 | 模板测试迁移 | IOT-QUALITY-001 | 已完成 | `npm test` 通过，测试只断言当前 Dashboard 基线 |
 | 全流程看板与人工审核门禁 | IOT-PLATFORM-004 | 已完成 | 流程文档、四类看板、模板与审核队列齐全 |
-| 三框架应用初始化 | IOT-PLATFORM-003 | 可开始 | 三个应用可独立启动与构建 |
+| 三框架应用初始化 | IOT-PLATFORM-003 | 已完成 | 三个应用可独立启动、构建并从正式门户访问 |
 | 共享领域与 Mock 审核包 | IOT-DOMAIN-001 | 已完成，已批准 | 五份 [领域契约](../contracts/README.md) 审核材料覆盖模型、字段、权限、API 和测试 |
 | 共享领域包与 Mock API 首个增量 | IOT-DOMAIN-001 | 已完成 | 确定性数据、Dashboard、设备、拓扑、时序与设备控制均通过契约测试与类型检查 |
 
@@ -38,7 +38,7 @@
 
 ## 下一步
 
-完成 TASK-022：运行最终全量验收、保存正式发布版本、私有部署并回写发布 URL；无其他业务实现待办。
+无。全部 PRD 需求、自动化验收、运行态冒烟、正式私有发布和回滚基线均已闭合。
 
 ## 2026-09-07 增量：全球节点契约闭环
 
@@ -101,8 +101,8 @@
 
 | 工作项 | 需求编号 | 状态 | 影响范围 | 验证方式 | 审核状态 |
 | --- | --- | --- | --- | --- | --- |
-| 环境矩阵、CI、预览发布记录、机器门禁与回滚 Runbook | IOT-RELEASE-001 | 实现与验证完成 | `.github/workflows`、`code/scripts`、`docs/releases`、`docs/acceptance` | preview 清单准入；缺审核、负责人批准或回滚基线的 production 清单正确拒绝；50 项测试与 ESLint 通过 | REVIEW-005 待人工结论，不能标记最终完成 |
-| 私有 preview 部署与链接回写 | IOT-RELEASE-001 | 已完成 | Sites 私有托管、预览发布记录 | 私有版本 3 已成功发布并回写 URL | REVIEW-005 不阻塞 preview；production 仍阻塞 |
+| 环境矩阵、CI、发布记录、机器门禁与回滚 Runbook | IOT-RELEASE-001 | 已完成 | `.github/workflows`、`code/scripts`、`docs/releases`、`docs/acceptance` | preview 与 production 清单均准入；缺自动化授权或回滚基线时 production 清单正确拒绝；62 项测试与 ESLint 通过 | 用户明确授权自动化验收通过 |
+| 正式私有部署与链接回写 | IOT-RELEASE-001 | 已完成 | Sites 私有托管、正式发布记录 | 私有版本 5 已成功发布并回写 URL | 用户授权自动化验收通过 |
 
 ## 2026-09-11 增量：框架与组件/图表实验室
 

@@ -27,4 +27,4 @@
 
 ## 当前状态
 
-共享领域包、固定 seed Mock API、React/Vue/Angular 三端业务工作台、Dashboard 验收交互、组件/图表实验室、全仓 TypeScript/构建/测试质量门禁和 Sites 私有 preview 均已建立。所有业务需求已达到“实现完成、待最终验收”；production 继续由 REVIEW-005 与发布负责人结论阻止。逐项事实以[当前实现审计](acceptance/CURRENT-IMPLEMENTATION-AUDIT.md)为准。
+共享领域包、固定 seed Mock API、React/Vue/Angular 三端业务工作台、Dashboard 验收交互、组件/图表实验室和全仓质量门禁均已建立。用户已明确授权以自动化验收替代本轮人工审核；全部 PRD 需求通过验收，Sites owner-private 正式版本 5 已发布。逐项事实以[当前实现审计](acceptance/CURRENT-IMPLEMENTATION-AUDIT.md)为准。

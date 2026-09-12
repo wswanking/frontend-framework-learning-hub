@@ -9,6 +9,7 @@
 
 - 将 React、Vue、Angular 三个独立生产构建自动挂载到学习门户，支持从统一入口直接访问全部业务模块。
 - 三端 Vite 产物改用相对资源路径；React 使用 Hash Router，保证嵌套静态部署的刷新与导航稳定。
+- Vue 生产构建启用运行时模板编译器；Angular 构建启用 legacy decorator 转换、Zone.js，并修复内联模板中的字面量花括号。
 - 根门户首屏改为真实三框架学习入口，展示共享固定 seed 指标、业务范围和框架技术栈。
 - 新增专属 Open Graph / X 社交预览图与随请求主机生成的绝对元数据 URL。
 - 正式发布门禁支持用户明确授权的自动化验收，同时保留缺授权或缺回滚基线时的拒绝测试。
@@ -16,11 +17,13 @@
 
 ## 验证
 
-- `npm test`：类型检查、根门户与三端生产构建、60 项自动化测试全部通过。
+- `npm test`：类型检查、根门户与三端生产构建、62 项自动化测试全部通过。
 - `npm run lint`：零错误、零警告。
 - `npm run release:check:preview`：通过。
 - `npm run release:check:production`：通过。
+- 浏览器产物冒烟：门户、React、Vue、Angular 均完成挂载，验收标记可见且控制台零错误。
 - `code/dist/client/frameworks/{react,vue,angular}/index.html` 与 `code/dist/client/og.png` 均存在。
+- Sites 私有正式版本 5 发布成功：https://iot-atlas-learning-hub.eager-ape-3258.chatgpt.site 。
 
 ## 已知限制
 

@@ -27,6 +27,6 @@
 | TASK-019 | IOT-TENANT-001 | 完成租户、成员、角色与配额 | 验收准备 | 已完成 | AI | 隔离、权限预览、硬配额和三端工作台 | [实现审计](../acceptance/CURRENT-IMPLEMENTATION-AUDIT.md) | REVIEW-003：通过 |
 | TASK-020 | IOT-LEARNING-001 | 完成三端组件与图表实验室 | 验收准备 | 已完成 | AI | Top 3 UI 库、三图表引擎和独立构建 | [实验室变更](../changes/CHG-2026-09-11-006-learning-labs.md) | REVIEW-004：通过 |
 | TASK-021 | IOT-RELEASE-001 | 完成 preview 发布、门禁和验收草案 | 完成 | 已完成 | AI | 私有 preview 3、发布清单、负向 production 门禁 | [预览记录](../releases/PREVIEW-2026-09-11.json) | 自动化验收通过 |
-| TASK-022 | IOT-PLATFORM-003、IOT-RELEASE-001 | 将三端生产构建接入学习门户并完成正式私有发布 | 发布 | 进行中 | AI | 三端静态入口、相对资源路径、完整验收与回滚记录 | [正式发布记录](../releases/PRODUCTION-CANDIDATE.json) | 用户授权自动化验收 |
+| TASK-022 | IOT-PLATFORM-003、IOT-RELEASE-001 | 将三端生产构建接入学习门户并完成正式私有发布 | 完成 | 已完成 | AI | 三端静态入口、相对资源路径、62 项自动化测试、四入口运行态冒烟与 Sites 私有版本 5 | [正式发布记录](../releases/PRODUCTION-CANDIDATE.json) | 用户授权自动化验收通过 |
 
 任务在开始前必须关联一个需求；无法关联时先创建或更新需求。每一次状态变更追加到对应变更记录。
