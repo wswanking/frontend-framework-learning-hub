@@ -1,0 +1,56 @@
+{
+  "version": "0.1.0",
+  "environment": "production",
+  "commit": "workspace-snapshot-pending-sites-push",
+  "summary": "IoT Atlas 完整三框架学习门户与 IoT SaaS 演示平台",
+  "owner": "Codex automated release under explicit user authorization",
+  "requirements": [
+    "IOT-PLATFORM-001",
+    "IOT-PLATFORM-002",
+    "IOT-PLATFORM-003",
+    "IOT-DOMAIN-001",
+    "IOT-DASH-001",
+    "IOT-GEO-001",
+    "IOT-PRODUCT-001",
+    "IOT-DEVICE-001",
+    "IOT-RULE-001",
+    "IOT-FIRMWARE-001",
+    "IOT-OTA-001",
+    "IOT-TENANT-001",
+    "IOT-LEARNING-001",
+    "IOT-RELEASE-001"
+  ],
+  "tasks": ["TASK-001", "TASK-002", "TASK-003", "TASK-004", "TASK-005", "TASK-006", "TASK-007", "TASK-008", "TASK-009", "TASK-010", "TASK-011", "TASK-012", "TASK-013", "TASK-014", "TASK-015", "TASK-016", "TASK-017", "TASK-018", "TASK-019", "TASK-020", "TASK-021", "TASK-022"],
+  "issues": ["ISSUE-001", "ISSUE-002", "ISSUE-003", "ISSUE-004"],
+  "changes": ["docs/changes/CHG-2026-09-12-001-prd-completion.md"],
+  "buildPassed": true,
+  "testsPassed": true,
+  "testEvidence": [
+    "npm test: typecheck, portal build, three framework builds, and full automated suite",
+    "npm run lint: zero errors and zero warnings",
+    "npm run release:check:production: accepted"
+  ],
+  "knownRisks": [
+    "Framework experiment bundles remain intentionally large and are route-isolated",
+    "All product data and device operations are deterministic browser-only mocks"
+  ],
+  "rollbackVersion": "0.1.0-preview.3",
+  "rollbackSteps": [
+    "Freeze the current deployment",
+    "Redeploy Sites version 3 recorded in PREVIEW-2026-09-11.json",
+    "Run the full automated acceptance suite",
+    "Record reason, impact, time, and verification result"
+  ],
+  "acceptanceLink": "docs/acceptance/CURRENT-IMPLEMENTATION-AUDIT.md",
+  "acceptanceMode": "automated",
+  "automatedAcceptancePassed": true,
+  "authorizationSource": "Explicit user instruction in the active Codex goal: 无需审核，满足验收标准就行",
+  "humanReviewConclusion": "",
+  "releaseOwnerApproval": false,
+  "openHighSeverityIssues": 0,
+  "previousVerifiedVersion": "0.1.0-preview.3",
+  "deploymentStatus": "pending",
+  "deploymentAccess": "owner-private",
+  "deploymentUrl": "",
+  "siteVersion": null
+}

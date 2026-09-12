@@ -1,0 +1,36 @@
+name: quality-and-release-gate
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: Release gate environment
+        required: true
+        default: preview
+        type: choice
+        options: [preview, production]
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: code
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: code/package-lock.json
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm test
+      - run: npm run lint
+      - if: github.event_name != 'workflow_dispatch' || inputs.environment == 'preview'
+        run: npm run release:check:preview
+      - if: github.event_name == 'workflow_dispatch' && inputs.environment == 'production'
+        run: npm run release:check:production
