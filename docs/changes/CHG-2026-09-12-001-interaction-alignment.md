@@ -17,6 +17,7 @@ IOT-DASH-001、IOT-PLATFORM-003。
 - `npm.cmd test`：63/63 通过，包含根首页仅三入口、三端路由与壳层一致性、三端构建、Angular 模板解析和共享契约测试。
 - `npm.cmd run lint`：通过。
 - React、Vue、Angular 生产构建均成功并重新暂存到门户静态目录。
+- 已发布到现有私有 Sites 地址：`https://iot-atlas-learning-hub.eager-ape-3258.chatgpt.site`。
 
 ## 已知限制
 
