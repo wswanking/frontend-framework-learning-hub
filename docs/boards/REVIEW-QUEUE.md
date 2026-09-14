@@ -4,7 +4,7 @@
 
 审核材料入口：[总 PRD](../prd/PRD.md) · [设计语言](../design/STYLE.md) · [Dashboard 视觉原型](../../code/public/design/iot-atlas-dashboard-visual-baseline-v1.png) · [交互索引](../interaction/README.md) · [领域契约](../contracts/README.md) · [仓库结构](../architecture/REPOSITORY.md)
 
-历史审核结论保留不变。2026-09-12 用户明确要求本轮“无需审核，满足验收标准就行”，因此 REVIEW-005 不再作为本轮完成与私有发布阻塞项，改由自动化验收记录承接。
+历史审核结论保留不变。2026-09-14 用户复核后重新要求先审核统一交互图；因此新增 REVIEW-006，并在结论明确前暂停三端 UI 重实现。
 
 | 审核编号 | 审核阶段 | 对象 | 触发条件 | 建议审核人 | 审核材料 | 状态 | 审核结论 | 日期 |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- |
@@ -13,6 +13,7 @@
 | REVIEW-003 | 方案 | 共享领域模型、Mock API、IoT 配置/设备/规则/OTA/租户语义 | 跨框架业务契约 | 技术负责人 | [领域模型](../contracts/DOMAIN-MODEL.md)、[数据字典](../contracts/DATA-DICTIONARY.md)、[权限矩阵](../contracts/PERMISSIONS.md)、[Mock API](../contracts/MOCK-API.md)、[测试计划](../contracts/CONTRACT-TEST-PLAN.md) | 已完成 | 通过 | 2026-08-29 |
 | REVIEW-004 | 工程 | 三框架应用初始化与依赖策略 | 新建子应用/工作区 | 技术负责人 | [仓库结构](../architecture/REPOSITORY.md) | 已完成 | 通过 | 2026-08-29 |
 | REVIEW-005 | 发布 | 发布环境、版本、回滚与验收门禁 | 首次 production 部署前 | 发布负责人 | [环境矩阵](../releases/ENVIRONMENTS.md)、[正式发布记录](../releases/PRODUCTION-CANDIDATE.json)、[回滚 Runbook](../releases/ROLLBACK-RUNBOOK.md)、[验收记录](../acceptance/IOT-RELEASE-001.md) | 不适用 | 用户明确取消本轮人工审核，改用自动化验收 | 2026-09-12 |
+| REVIEW-006 | 交互 | 首页、全局壳层及九个功能域的统一交互 V2 | 用户指出三端交互不一致并要求先审图 | 用户/产品设计负责人 | [统一交互 V2 评审包](../interaction/UNIFIED-V2.md) | 待审核 | 待用户逐图确认 | 2026-09-14 |
 
 ## 人工审核触发矩阵
 

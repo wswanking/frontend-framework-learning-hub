@@ -4,14 +4,16 @@
 | --- | --- |
 | 产品 | IoT Atlas · 前端框架学习中心 |
 | 版本 | v1.1 |
-| 状态 | 已完成（自动化验收） |
-| 最后更新 | 2026-09-12 |
+| 状态 | 交互 V2 待用户审核 |
+| 最后更新 | 2026-09-14 |
 | 需求来源 | [需求看板](../boards/REQUIREMENTS.md) |
 | 审核入口 | [待审核任务列表](../boards/REVIEW-QUEUE.md) 的 REVIEW-001 |
 
 > 模块级实施规格见 [`README.md`](README.md) 及 `features/`。总 PRD 描述产品范围和交付治理；模块 PRD 是设计、开发、测试和验收的直接输入。
 
 > 2026-09-12 交付决策：按用户最新指令，本轮剩余需求不再等待人工审核；以 PRD 验收标准、全仓自动化测试、构建、静态检查与发布门禁全部通过作为完成依据。该决策覆盖本 PRD 中旧有的“待人工审核/待最终验收”描述。
+
+> 2026-09-14 交互复核：用户确认现有三端交互不一致，并要求先审核完整交互图。自动化结果继续作为构建、契约和发布历史证据，但不再作为交互一致性验收结论；以 [统一交互 V2 评审包](../interaction/UNIFIED-V2.md) 和 REVIEW-006 的用户结论为准。
 
 ## 1. 产品概述
 
@@ -115,7 +117,7 @@ IoT Atlas 是一套仅在浏览器运行的物联网 SaaS 演示平台，也是 
 
 ### IOT-DASH-001：IoT Dashboard 学习门户基线
 
-**优先级：P0；状态：已完成；验收方式：自动化证据审计。**
+**优先级：P0；状态：交互整改待实施；验收方式：用户交互评审与自动化证据审计。**
 
 **目标**：根首页仅提供 React、Vue、Angular 三个应用入口；各应用内的大盘展示物联网平台全局运行态势，并使用项目交互图作为统一视觉和交互基线。
 
@@ -209,7 +211,7 @@ IoT Atlas 是一套仅在浏览器运行的物联网 SaaS 演示平台，也是 
 | 项目 | 类型 | 当前处理 | 验收结论 |
 | --- | --- | --- | --- |
 | 共享领域模型与 Mock API | 架构依赖 | 契约先行，三端共享 | 契约测试通过 |
-| Dashboard 信息架构 | 交互风险 | 现有原型作为基线并补齐交互说明 | 三端验收通过 |
+| Dashboard 信息架构 | 交互风险 | V2 完整交互图已归档，等待用户审核后统一实施 | REVIEW-006 待审核 |
 | 三框架依赖与工作区 | 工程依赖 | 独立工程、共享领域契约 | 独立构建通过 |
 | 发布与回滚 | 发布风险 | 正式记录与上一预览基线齐全 | 发布门禁通过 |
 | 范围与 P0 切分 | 产品风险 | 以本 PRD 为范围事实源 | 自动化审计通过 |
@@ -220,7 +222,7 @@ IoT Atlas 是一套仅在浏览器运行的物联网 SaaS 演示平台，也是 
 | --- | --- | --- | --- | --- |
 | IOT-PLATFORM-001 | TASK-001 | — | REVIEW-001 | [工程上下文](../CONTEXT.md)、本 PRD |
 | IOT-PLATFORM-002 | TASK-004 | — | REVIEW-001 | `AGENTS.md`、交付流程和看板 |
-| IOT-DASH-001 | TASK-002、TASK-003 | ISSUE-002 | REVIEW-002 | [Dashboard 代码](../../code/app/)、[测试目录](../../code/tests/) |
+| IOT-DASH-001 | TASK-002、TASK-003、TASK-023、TASK-024 | ISSUE-002 | REVIEW-002、REVIEW-006 | [统一交互 V2](../interaction/UNIFIED-V2.md)、[Dashboard 代码](../../code/app/)、[测试目录](../../code/tests/) |
 | IOT-DOMAIN-001 | TASK-005、TASK-011 | ISSUE-002 | REVIEW-003 | [领域契约](../contracts/README.md)、[契约测试](../../code/tests/mock-api.test.mjs) |
 | IOT-PLATFORM-003 | TASK-014 | ISSUE-001、ISSUE-004 | REVIEW-004 | [三端工程](../../code/apps/)、[类型与基线测试](../../code/tests/framework-baseline.test.mjs) |
 | IOT-RELEASE-001 | TASK-006、TASK-021、TASK-022 | ISSUE-003 | 用户授权自动验收 | [正式发布记录](../releases/PRODUCTION-CANDIDATE.json)、[验收记录](../acceptance/IOT-RELEASE-001.md) |
@@ -229,7 +231,7 @@ IoT Atlas 是一套仅在浏览器运行的物联网 SaaS 演示平台，也是 
 
 ## 9. 验收记录
 
-2026-09-12，用户明确要求“无需审核，满足验收标准就行”。因此本版本以需求逐条审计、共享契约测试、三端独立构建、门户可达性、静态检查和发布门禁作为最终验收依据；结果记录于 [当前实现审计](../acceptance/CURRENT-IMPLEMENTATION-AUDIT.md)。
+2026-09-12，用户明确要求“无需审核，满足验收标准就行”，当时以需求逐条审计、共享契约测试、三端独立构建、门户可达性、静态检查和发布门禁作为验收依据，结果记录于 [当前实现审计](../acceptance/CURRENT-IMPLEMENTATION-AUDIT.md)。2026-09-14 用户复核后撤销交互一致性结论；构建与契约证据仍有效，交互最终验收转入 REVIEW-006。
 
 ## 10. 模块级 PRD 追溯
 

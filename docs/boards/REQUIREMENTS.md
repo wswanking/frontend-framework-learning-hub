@@ -8,7 +8,7 @@
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | IOT-PLATFORM-001 | 工程上下文、PRD 与路线图 | P0 | 完成 | 已完成 | 文档追溯审计 | [工程上下文](../CONTEXT.md) | 2026-09-12 |
 | IOT-PLATFORM-002 | AI 协作工程规范 | P0 | 完成 | 已完成 | 流程与看板审计 | [协作约定](../../AGENTS.md) | 2026-09-12 |
-| IOT-DASH-001 | IoT Dashboard 学习门户基线 | P0 | 完成 | 已完成 | 三端构建与大盘契约测试 | [实现审计](../acceptance/CURRENT-IMPLEMENTATION-AUDIT.md) | 2026-09-12 |
+| IOT-DASH-001 | IoT Dashboard 学习门户基线 | P0 | 交互复核 | 待整改 | 用户审核 V2 后执行三端交互验收 | [统一交互 V2](../interaction/UNIFIED-V2.md)、[已撤销交互验收](../acceptance/INTERACTION-ALIGNMENT-2026-09-12.md) | 2026-09-14 |
 | IOT-DOMAIN-001 | 共享领域模型与固定 seed Mock 数据 | P0 | 完成 | 已完成 | 领域契约测试 | [领域契约](../contracts/README.md)、[契约测试](../../code/tests/mock-api.test.mjs) | 2026-09-12 |
 | IOT-PLATFORM-003 | 三框架独立工程初始化 | P0 | 完成 | 已完成 | 独立构建与门户可达性测试 | [三端源码](../../code/apps/)、[基线测试](../../code/tests/framework-baseline.test.mjs) | 2026-09-12 |
 | IOT-RELEASE-001 | 本地、预览与正式发布流程及回滚预案 | P1 | 完成 | 已完成 | 用户授权的自动化发布门禁 | [正式发布记录](../releases/PRODUCTION-CANDIDATE.json)、[验收记录](../acceptance/IOT-RELEASE-001.md) | 2026-09-12 |
