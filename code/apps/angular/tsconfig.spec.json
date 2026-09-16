@@ -1,0 +1,10 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "outDir": "./dist/test-types"
+  },
+  "include": [
+    "src/**/*.spec.ts",
+    "tests/setup.ts"
+  ]
+}

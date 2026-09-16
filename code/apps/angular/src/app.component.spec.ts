@@ -1,0 +1,24 @@
+import { afterEach, expect, it } from 'vitest';
+import { screen } from '@testing-library/dom';
+import { TestBed } from '@angular/core/testing';
+import userEvent from '@testing-library/user-event';
+import { AppComponent } from './app.component';
+afterEach(() => TestBed.resetTestingModule());
+it('IOT-QUALITY-001 validation, failed input retention and retry', async () => {
+  const user = userEvent.setup();
+  await TestBed.configureTestingModule({ imports: [AppComponent] }).compileComponents();
+  const fixture = TestBed.createComponent(AppComponent);
+  document.body.appendChild(fixture.nativeElement);
+  await fixture.whenStable();
+  await user.click(screen.getByRole('button', { name: '运行诊断' }));
+  expect(screen.getByRole('alert')).toHaveTextContent('请输入诊断名称');
+  await user.type(screen.getByLabelText('诊断名称'), '链路检查');
+  await user.click(screen.getByLabelText('模拟失败'));
+  await user.click(screen.getByRole('button', { name: '运行诊断' }));
+  expect(screen.getByRole('button', { name: '诊断中…' })).toBeDisabled();
+  expect(await screen.findByText('模拟请求失败，请关闭失败开关后重试')).toBeInTheDocument();
+  expect(screen.getByLabelText('诊断名称')).toHaveValue('链路检查');
+  await user.click(screen.getByLabelText('模拟失败'));
+  await user.click(screen.getByRole('button', { name: '运行诊断' }));
+  expect(await screen.findByRole('status')).toHaveTextContent('诊断通过：链路检查');
+});

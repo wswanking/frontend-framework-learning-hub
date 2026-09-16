@@ -1,11 +1,3 @@
-import { defineConfig } from "vite";
-import react from "@vitejs/plugin-react";
-import { fileURLToPath, URL } from "node:url";
-
-export default defineConfig({
-  root: fileURLToPath(new URL(".", import.meta.url)),
-  base: "./",
-  plugins: [react()],
-  server: { host: "127.0.0.1", port: 13101 },
-  build: { outDir: "dist", emptyOutDir: true },
-});
+import { defineConfig } from 'vitest/config';
+import plugin from '@vitejs/plugin-react';
+export default defineConfig({ plugins: [plugin()], test: { environment: 'jsdom', setupFiles: ['./tests/setup.ts'], include: ['src/**/*.spec.{ts,tsx}'], reporters: ['default', 'junit'], outputFile: { junit: 'reports/unit.xml' } } });

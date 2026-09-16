@@ -1,14 +1,3 @@
-import { defineConfig } from "vite";
-import { fileURLToPath, URL } from "node:url";
-
-export default defineConfig({
-  root: fileURLToPath(new URL(".", import.meta.url)),
-  base: "./",
-  resolve: {
-    alias: {
-      vue: fileURLToPath(new URL("../../node_modules/vue/dist/vue.esm-bundler.js", import.meta.url)),
-    },
-  },
-  server: { host: "127.0.0.1", port: 13102 },
-  build: { outDir: "dist", emptyOutDir: true },
-});
+import { defineConfig } from 'vitest/config';
+import plugin from '@vitejs/plugin-vue';
+export default defineConfig({ plugins: [plugin()], test: { environment: 'jsdom', setupFiles: ['./tests/setup.ts'], include: ['src/**/*.spec.{ts,tsx}'], reporters: ['default', 'junit'], outputFile: { junit: 'reports/unit.xml' } } });

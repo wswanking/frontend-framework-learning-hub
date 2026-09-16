@@ -1,0 +1,53 @@
+{
+  "name": "@iot-atlas/angular",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=24.15.0 <25"
+  },
+  "scripts": {
+    "dev": "ng serve --host 127.0.0.1 --port 14103",
+    "build": "ng build",
+    "preview": "node scripts/serve.mjs",
+    "typecheck": "ngc -p tsconfig.app.json --noEmit && tsc -p tsconfig.tools.json --noEmit",
+    "lint": "eslint . && stylelint \"src/**/*.css\"",
+    "check:boundaries": "node scripts/check-boundaries.mjs",
+    "test:unit": "ng test --watch=false",
+    "diagnose": "npm run test:guards && npm run check:boundaries && npm run typecheck && npm run lint && npm run test:unit && npm run build",
+    "test:e2e": "playwright test",
+    "test:visual": "node scripts/visual.mjs check",
+    "visual:capture": "node scripts/visual.mjs capture",
+    "verify": "npm run diagnose && npm run test:e2e && npm run test:visual",
+    "browser:install": "playwright install --only-shell chromium",
+    "report": "playwright show-report reports/playwright",
+    "trace": "playwright show-trace",
+    "test:guards": "node --test scripts/guards.test.mjs"
+  },
+  "dependencies": {
+    "@angular/compiler": "^22.1.6",
+    "@angular/core": "^22.1.6",
+    "@angular/platform-browser": "^22.1.6",
+    "rxjs": "~7.8.2",
+    "tslib": "^2.8.1"
+  },
+  "devDependencies": {
+    "@angular/build": "^22.1.8",
+    "@angular/cli": "^22.1.8",
+    "@angular/compiler-cli": "^22.1.6",
+    "@axe-core/playwright": "^4.11.0",
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "^1.58.0",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.9.0",
+    "@testing-library/user-event": "^14.6.0",
+    "@types/node": "^24.0.0",
+    "angular-eslint": "^22.0.0",
+    "eslint": "10.10.0",
+    "jsdom": "^28.0.0",
+    "stylelint": "^16.26.0",
+    "typescript": "~6.0.0",
+    "typescript-eslint": "^8.57.0",
+    "vitest": "^4.0.8"
+  }
+}

@@ -1,30 +1,16 @@
-# 工程上下文入口
+# 工程上下文
 
-本目录是 IoT Atlas 的长期记忆。所有实现前先读取本页及其链接；不要只根据当前页面代码推测业务规则。
+2026-09-16，按用户要求清理实现，仅保留需求、架构和交互。随后用户授权建立诊断环境，当前 code/apps 仅有三端独立诊断基座，IoT 业务未实现；旧运行结果不作为新实现验收证据。
 
-## 阅读路线
+## 阅读顺序
 
-| 场景 | 必读文档 |
-| --- | --- |
-| 任何开发任务 | [协作约定](../AGENTS.md)、[当前计划](plans/ACTIVE.md)、[总 PRD](prd/PRD.md) |
-| 修改业务功能 | `prd/PRD.md`、`architecture/CONTEXT.md`、关联 ADR |
-| 设计或实现页面 | `interaction/README.md`、关联模块 PRD、关联 ADR |
-| 修改目录或依赖 | `architecture/REPOSITORY.md`、`decisions/` |
-| 新增 Mock 数据或接口 | `architecture/CONTEXT.md`、`contracts/README.md` |
-| 进入任何交付阶段 | `process/DELIVERY-LIFECYCLE.md`、`boards/REVIEW-QUEUE.md` |
+1. [总 PRD](prd/PRD.md)与[模块需求](prd/README.md)。
+2. [架构边界](architecture/CONTEXT.md)与[仓库结构](architecture/REPOSITORY.md)。
+3. [领域与 Mock 契约](architecture/contracts/README.md)。
+4. [统一交互 V2](interaction/UNIFIED-V2.md)与[交互规格](interaction/README.md)。
 
-## 文档地图
+三端各自维护全部代码与资源，不共享运行时包，不相互导入，不依赖父目录安装的依赖。功能、字段、权限、Mock 确定性规则与交互由共同文档约束，各端独立实现与验证。
 
-- `prd/`：产品事实、功能范围与验收标准。
-- `architecture/`：系统边界、目录、数据流和技术约束。
-- `plans/`：当前任务与阶段路线图；`ACTIVE.md` 是唯一进行中任务清单。
-- `decisions/`：已确认且会影响后续实现的 ADR。
-- `contracts/`：领域模型、Mock API 与跨框架契约说明。
-- `research/`：会变化的生态排名、版本和调研日期。
-- `process/`：AI 与人工协作的交付阶段、门禁与留痕规则。
-- `boards/`：需求、任务、Issue 和待审核事项的当前状态。
-- `interaction/`：页面布局、用户流、控件状态、异常与可访问性规格。
+本轮关联 IOT-PLATFORM-003。React、Vue、Angular 均待重新实现。交互设计通过不代表功能已实现。可恢复归档说明见根 README。
 
-## 当前状态
-
-共享领域包、固定 seed Mock API、React/Vue/Angular 三端业务工作台、Dashboard 验收交互、组件/图表实验室和全仓质量门禁均已建立。用户已明确授权以自动化验收替代本轮人工审核；全部 PRD 需求通过验收，Sites owner-private 正式版本 5 已发布。逐项事实以[当前实现审计](acceptance/CURRENT-IMPLEMENTATION-AUDIT.md)为准。
+当前工作与检查点：[诊断与验收环境](architecture/QUALITY.md)。

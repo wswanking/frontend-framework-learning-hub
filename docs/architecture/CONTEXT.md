@@ -1,45 +1,33 @@
-# 工程上下文
+# 架构规范
 
-## 仓库职责
+## 决策与状态
 
-- `app/`：项目总控门户和 React Dashboard 视觉基线。
-- `apps/react/`、`apps/vue/`、`apps/angular/`：三个独立完整示例。
-- `packages/domain/`：无框架依赖的实体、枚举和业务规则。
-- `packages/mock-api/`：内存数据库、固定 seed、请求与实时事件。
-- `packages/design-tokens/`：颜色、间距、排版和图表色板。
-- [PRD 文档](../prd/README.md)：业务事实来源；[架构决策](../decisions/ADR-001-ai-driven-workflow.md)：架构决策记录。
+2026-09-16 用户要求三个项目隔离，各自维护全部代码与资源，遵循同一套交互并实现相同功能；随后要求清理代码，仅保留需求、架构与交互。用户随后授权搭建独立诊断环境，业务仍处于设计基线阶段，此决策覆盖旧共享 domain、Mock API、design-tokens 运行时包方案。
 
-```text
-PRD → 领域契约 → Mock API → 框架适配层 → 页面交互 → 契约测试
-```
+关联：IOT-PLATFORM-003、IOT-DOMAIN-001。
 
-三端共享业务契约，不共享 UI 组件。每个框架使用自己的惯用模式，避免把一种框架的写法机械复制到另外两种。
+## 应用边界
 
-## 应用内分层
+- React、Vue、Angular 各自维护依赖清单、锁文件、构建/类型检查/测试配置、环境配置与部署资源。
+- 各端自行维护组件、路由、状态、领域类型、业务校验、Mock、设计令牌、样式、图片、字体及图表资源。
+- 禁止跨应用导入、依赖公共运行时包、父目录 node_modules 或其他应用的资源地址。
+- 任一项目复制到仓库外，均应可独立安装、启动、检查、测试与构建。
+- 第三方依赖由各端清单和锁文件管理，构建工具可按框架需要选择。
 
-```text
-src/
-├─ app/       # 启动、路由、Provider、布局
-├─ pages/     # 路由页面
-├─ features/  # 按业务用例组织
-├─ entities/  # 领域实体的 UI 与状态适配
-├─ shared/    # 通用组件与工具
-└─ mocks/     # Mock 接入
-```
+## 一致性
 
-## 选型策略
+共同遵循 [PRD](../prd/PRD.md)、[领域契约](contracts/README.md)与[统一交互 V2](../interaction/UNIFIED-V2.md)。保持字段、流程、状态、权限、错误语义、确定性数据和验收场景一致，各端独立实现，不通过共享源码强制一致。
 
-- React 主应用使用 MUI；实验室覆盖 Ant Design、shadcn/ui。
-- Vue 主应用使用 Element Plus；实验室覆盖 Ant Design Vue、Vuetify。
-- Angular 主应用使用 Angular Material；实验室覆盖 PrimeNG、NG-ZORRO。
-- 主图表使用 Apache ECharts；实验室覆盖 Chart.js、D3.js。
-- 地图使用可离线演示的矢量地理数据，不依赖在线密钥。
-- IndexedDB 保存业务演示数据，LocalStorage 保存主题等设备偏好。
+React 主 UI 为 MUI，Vue 为 Element Plus，Angular 为 Angular Material；业务图表使用 ECharts，其他库仅用于各端独立实验室。
 
-## Mock 行为
+## 数据与后端
 
-- Promise API 模拟 REST，默认延迟 120–600ms。
-- 浏览器事件模拟遥测、告警与 OTA 推送。
-- 支持分页、排序、过滤、全文检索和时间范围。
-- 可切换正常、慢速、局部失败、离线和无权限状态。
-- 所有业务随机数据由显式 seed 生成，页面禁止直接使用 `Math.random()`。
+目标仍为纯前端演示：各端独立实现固定 seed Mock，模拟查询、命令、失败、延迟、权限和实时事件，不接真实设备、消息 Broker、鉴权或生产数据库。持久化与异步行为按契约规范重新实现；当前仅有验证工具链的诊断页面，没有业务运行时代码。
+
+## 统一构建
+
+未来外层可以依次或并行调用各项目 build 命令并汇总产物，各端编译链与依赖安装独立。统一构建不引入跨应用代码依赖。
+
+## 验收
+
+三端分别在脱离仓库后验证安装、运行与构建，检查无跨项目源码和资源引用，并逐端验证统一业务交互场景。所有实现证据须重新建立。

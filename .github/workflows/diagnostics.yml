@@ -1,0 +1,61 @@
+name: Independent diagnostics and browser checks
+on:
+  push:
+    paths: ['code/apps/**', '.github/workflows/diagnostics.yml']
+  pull_request:
+    paths: ['code/apps/**', '.github/workflows/diagnostics.yml']
+  workflow_dispatch:
+    inputs:
+      visual:
+        description: Run reviewed visual acceptance (fails when baseline is pending)
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  diagnostics:
+    name: ${{ matrix.framework }} — isolated build and behavior
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        framework: [react, vue, angular]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: code/apps/${{ matrix.framework }}/package-lock.json
+      - name: Copy only this project outside the repository
+        run: cp -R code/apps/${{ matrix.framework }} "$RUNNER_TEMP/atlas-app"
+      - run: npm ci
+        working-directory: ${{ runner.temp }}/atlas-app
+      - name: No-browser diagnostics and production build
+        run: npm run diagnose
+        working-directory: ${{ runner.temp }}/atlas-app
+      - run: npx playwright install --with-deps chromium
+        working-directory: ${{ runner.temp }}/atlas-app
+      - name: Browser behavior and accessibility
+        run: npm run test:e2e
+        working-directory: ${{ runner.temp }}/atlas-app
+      - name: Candidate screenshots (not design approval)
+        run: npm run visual:capture
+        working-directory: ${{ runner.temp }}/atlas-app
+      - name: Read visual review state
+        id: visual
+        working-directory: ${{ runner.temp }}/atlas-app
+        run: |
+          node --input-type=module -e "import fs from 'node:fs'; const r=JSON.parse(fs.readFileSync('tests/visual/baseline-review.json','utf8')); const approved=r.platforms.linux?.status==='approved'; fs.appendFileSync(process.env.GITHUB_OUTPUT,'approved='+approved+'\n'); fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,approved?'Visual baseline present; comparison required.\n':'VISUAL_PENDING: diagnostic behavior only; candidate screenshots are not design acceptance.\n');"
+      - name: Reviewed visual acceptance
+        if: ${{ steps.visual.outputs.approved == 'true' || (github.event_name == 'workflow_dispatch' && inputs.visual) }}
+        run: npm run test:visual
+        working-directory: ${{ runner.temp }}/atlas-app
+      - name: Upload diagnostic evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: diagnostics-${{ matrix.framework }}-${{ runner.os }}
+          path: ${{ runner.temp }}/atlas-app/reports/
+          if-no-files-found: warn
+          retention-days: 14

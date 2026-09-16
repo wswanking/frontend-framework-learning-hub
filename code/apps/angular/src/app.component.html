@@ -1,0 +1,11 @@
+<main><section aria-labelledby="title">
+  <small>IoT Atlas · Angular</small><h1 id="title">诊断与验收环境</h1>
+  <p>输入名称，验证校验、失败反馈与重试流程。</p>
+  <form (submit)="submit($event)" novalidate [attr.aria-busy]="busy()">
+    <label for="name">诊断名称<input id="name" type="text" [value]="name()" (input)="updateName($event)" [disabled]="busy()"></label>
+    <label class="check"><input type="checkbox" [checked]="fail()" (change)="updateFailure($event)" [disabled]="busy()">模拟失败</label>
+    <button type="submit" [disabled]="busy()">{{ busy() ? '诊断中…' : '运行诊断' }}</button>
+  </form>
+  @if (result(); as current) { <p [attr.role]="current.ok ? 'status' : 'alert'">{{ current.message }}</p> }
+  <p><small>此页面仅验证工程工具链，业务功能待实现。</small></p>
+</section></main>

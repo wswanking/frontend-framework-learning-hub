@@ -1,8 +1,10 @@
 # IoT Atlas 统一交互 V2 评审包
 
+> 2026-09-16：保留交互基线与全部图稿，应用代码已清理，三端待按独立维护架构重新实现。
+
 ## 状态
 
-**待用户审核。** 本评审包是后续 React、Vue、Angular 三端实现的候选统一基线；审核通过前，不得将其标记为最终设计或据此宣称三端交互验收完成。
+**已批准进入实施。** 2026-09-14，用户要求根据当前交互落地 React、Vue、Angular 三端页面并完成浏览器调试与功能验收。本评审包成为本轮统一实现基线；实现完成仍需以运行态证据单独验收。
 
 ## 一致性约束
 
@@ -16,22 +18,22 @@
 
 | 编号 | 功能域 | 视觉评审稿 | 关联规格 | 状态 |
 | --- | --- | --- | --- | --- |
-| 01 | 首页与全局壳层 | [查看 PNG](../../code/public/design/interaction-v2/01-home-global-shell.png) | [交互原则](00-principles.md) | 待审核 |
-| 02 | 数据大盘 | [查看 PNG](../../code/public/design/interaction-v2/02-dashboard.png) | [数据大盘](01-dashboard.md) | 待审核 |
-| 03 | 全球节点 | [查看 PNG](../../code/public/design/interaction-v2/03-global-topology.png) | [全球节点地图](02-global-topology.md) | 待审核 |
-| 04 | 产品、物模型与 DP | [查看 PNG](../../code/public/design/interaction-v2/04-product-thingmodel-dp.png) | [产品、物模型与 DP](03-product-thingmodel.md) | 待审核 |
-| 05 | 设备、时序与控制 | [查看 PNG](../../code/public/design/interaction-v2/05-device-telemetry-control.png) | [设备与时序](04-device-telemetry.md) | 待审核 |
-| 06 | 规则引擎 | [查看 PNG](../../code/public/design/interaction-v2/06-rule-engine.png) | [规则引擎](05-rule-engine.md) | 待审核 |
-| 07 | 固件与 OTA | [查看 PNG](../../code/public/design/interaction-v2/07-firmware-ota.png) | [固件与 OTA](06-firmware-ota.md) | 待审核 |
-| 08 | 租户管理 | [查看 PNG](../../code/public/design/interaction-v2/08-tenant-management.png) | [租户与配额](07-tenant.md) | 待审核 |
-| 09 | 框架实验室 | [查看 PNG](../../code/public/design/interaction-v2/09-framework-labs.png) | [框架实验室](08-framework-labs.md) | 待审核 |
-| 10 | 交付看板 | [查看 PNG](../../code/public/design/interaction-v2/10-delivery-board.png) | [交付看板与发布](09-delivery-boards.md) | 待审核 |
+| 01 | 首页与全局壳层 | [查看 PNG](assets/interaction-v2/01-home-global-shell.png) | [交互原则](00-principles.md) | 已批准实施 |
+| 02 | 数据大盘 | [查看 PNG](assets/interaction-v2/02-dashboard.png) | [数据大盘](01-dashboard.md) | 已批准实施 |
+| 03 | 全球节点 | [查看 PNG](assets/interaction-v2/03-global-topology.png) | [全球节点地图](02-global-topology.md) | 已批准实施 |
+| 04 | 产品、物模型与 DP | [查看 PNG](assets/interaction-v2/04-product-thingmodel-dp.png) | [产品、物模型与 DP](03-product-thingmodel.md) | 已批准实施 |
+| 05 | 设备、时序与控制 | [查看 PNG](assets/interaction-v2/05-device-telemetry-control.png) | [设备与时序](04-device-telemetry.md) | 已批准实施 |
+| 06 | 规则引擎 | [查看 PNG](assets/interaction-v2/06-rule-engine.png) | [规则引擎](05-rule-engine.md) | 已批准实施 |
+| 07 | 固件与 OTA | [查看 PNG](assets/interaction-v2/07-firmware-ota.png) | [固件与 OTA](06-firmware-ota.md) | 已批准实施 |
+| 08 | 租户管理 | [查看 PNG](assets/interaction-v2/08-tenant-management.png) | [租户与配额](07-tenant.md) | 已批准实施 |
+| 09 | 框架实验室 | [查看 PNG](assets/interaction-v2/09-framework-labs.png) | [框架实验室](08-framework-labs.md) | 已批准实施 |
+| 10 | 交付看板 | [查看 PNG](assets/interaction-v2/10-delivery-board.png) | [交付看板与发布](09-delivery-boards.md) | 已批准实施 |
 
 ## 归档信息
 
 - 生成方式：OpenAI 内置 ImageGen，`ui-mockup` 用例。
 - 视觉输入：项目既有五张 V1 原型作为风格与布局参考。
-- 归档目录：`code/public/design/interaction-v2/`。
+- 归档目录：`docs/interaction/assets/interaction-v2/`。
 - 归档日期：2026-09-14。
 - V1 文件保留不变，V2 未覆盖任何既有资产。
 

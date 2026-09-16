@@ -1,0 +1,51 @@
+{
+  "name": "@iot-atlas/vue",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "engines": {
+    "node": ">=24.15.0 <25"
+  },
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 14102 --strictPort",
+    "build": "vite build",
+    "preview": "vite preview --host 127.0.0.1 --port 14102 --strictPort",
+    "typecheck": "vue-tsc --noEmit",
+    "lint": "eslint . && stylelint \"src/**/*.css\"",
+    "check:boundaries": "node scripts/check-boundaries.mjs",
+    "test:unit": "vitest run",
+    "diagnose": "npm run test:guards && npm run check:boundaries && npm run typecheck && npm run lint && npm run test:unit && npm run build",
+    "test:e2e": "playwright test",
+    "test:visual": "node scripts/visual.mjs check",
+    "visual:capture": "node scripts/visual.mjs capture",
+    "verify": "npm run diagnose && npm run test:e2e && npm run test:visual",
+    "browser:install": "playwright install --only-shell chromium",
+    "report": "playwright show-report reports/playwright",
+    "trace": "playwright show-trace",
+    "test:guards": "node --test scripts/guards.test.mjs"
+  },
+  "dependencies": {
+    "vue": "^3.5.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.11.0",
+    "@eslint/js": "10.0.1",
+    "@playwright/test": "^1.58.0",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.9.0",
+    "@testing-library/user-event": "^14.6.0",
+    "@testing-library/vue": "^8.1.0",
+    "@types/node": "^24.0.0",
+    "@vitejs/plugin-vue": "^6.0.0",
+    "eslint": "10.10.0",
+    "eslint-plugin-vue": "^10.8.0",
+    "jsdom": "^28.0.0",
+    "stylelint": "^16.26.0",
+    "typescript": "~6.0.0",
+    "typescript-eslint": "^8.57.0",
+    "vite": "^8.0.0",
+    "vitest": "^4.0.8",
+    "vue-eslint-parser": "^10.2.0",
+    "vue-tsc": "^3.2.0"
+  }
+}

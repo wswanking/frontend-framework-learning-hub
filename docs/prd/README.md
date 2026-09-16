@@ -7,7 +7,7 @@
 | 文档 | 编号 | 审核 |
 | --- | --- | --- |
 | [工程治理与 AI 协作](features/01-platform-governance.md) | IOT-PLATFORM-001、IOT-PLATFORM-002、IOT-PLATFORM-004 | REVIEW-001 |
-| [共享领域与 Mock 平台](features/02-domain-mock.md) | IOT-DOMAIN-001 | REVIEW-003 |
+| [领域与 Mock 规范](features/02-domain-mock.md) | IOT-DOMAIN-001 | REVIEW-003 |
 | [三框架工程与实验室](features/11-framework-labs.md) | IOT-PLATFORM-003、IOT-LEARNING-001 | REVIEW-004 |
 | [发布、回滚与验收](features/12-release-acceptance.md) | IOT-RELEASE-001 | REVIEW-005 |
 

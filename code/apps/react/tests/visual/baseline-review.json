@@ -1,0 +1,5 @@
+{
+  "requirement": "IOT-QUALITY-001",
+  "scope": "diagnostic-fixture-only",
+  "platforms": {}
+}
