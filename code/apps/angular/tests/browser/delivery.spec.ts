@@ -139,3 +139,13 @@ test('IOT-PLATFORM-002 delivery dialog keeps keyboard focus and restores the tri
   await expect(trigger).toBeFocused();
   expect(await page.evaluate(() => document.documentElement.style.overflow)).toBe('');
 });
+
+test('IOT-RELEASE-001 keeps release title and actions visible while reviewing checks', async ({ page }) => {
+  await page.goto('/delivery');
+  await page.getByRole('button', { name: '创建发布记录' }).click();
+  const dialog = page.getByRole('dialog', { name: '新建发布记录' });
+  await dialog.locator('.delivery-check').scrollIntoViewIfNeeded();
+  await expect(dialog.getByRole('heading', { name: '新建发布记录' })).toBeInViewport();
+  await expect(dialog.getByRole('button', { name: '保存模拟记录' })).toBeInViewport();
+  await expect(dialog.getByRole('button', { name: '取消' })).toBeInViewport();
+});
