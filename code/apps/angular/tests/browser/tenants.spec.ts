@@ -39,6 +39,9 @@ test('IOT-TENANT-001 previews quota impact, manages Mock members and keeps viewe
   await page.getByLabel('设备上限', { exact: true }).fill('5');
   await page.getByRole('button', { name: '预览影响' }).click();
   await expect(page.getByRole('dialog', { name: '编辑配额' }).getByRole('alert')).toContainText('设备 6/5');
+  await page.getByRole('dialog', { name: '编辑配额' }).getByRole('alert').scrollIntoViewIfNeeded();
+  await expect(page.getByRole('dialog', { name: '编辑配额' }).getByRole('heading', { name: '编辑配额' })).toBeInViewport();
+  await expect(page.getByRole('dialog', { name: '编辑配额' }).getByRole('button', { name: '保存配额' })).toBeInViewport();
   await expect(page.getByRole('button', { name: '保存配额' })).toBeDisabled();
   await page.getByLabel('设备上限', { exact: true }).fill('6');
   await page.getByRole('button', { name: '预览影响' }).click();

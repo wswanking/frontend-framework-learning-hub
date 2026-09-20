@@ -52,7 +52,7 @@ try {
   async function saveCandidate(page, device, width, height, route, title, reference) {
     await page.waitForTimeout(350);
     const candidate = `${device}/${route}.png`;
-    const viewportOnly = ['products-new', 'devices-create', 'devices-import', 'devices-delete', 'devices-control-preview', 'devices-control-error', 'ota-start-confirm', 'delivery-release-blocked', 'delivery-release-checklist', 'delivery-release-edit'].includes(route);
+    const viewportOnly = ['products-new', 'devices-create', 'devices-import', 'devices-delete', 'devices-control-preview', 'devices-control-error', 'ota-start-confirm', 'delivery-release-blocked', 'delivery-release-checklist', 'delivery-release-edit', 'tenant-member-new', 'tenant-quota-blocked'].includes(route);
     const bytes = await page.screenshot({ path: `${output}/${candidate}`, fullPage: !viewportOnly, animations: 'disabled' });
     captures.push({ device, route, viewport: { width, height }, title, candidate, reference: `docs/interaction/assets/interaction-v2/${reference}`, sha256: createHash('sha256').update(bytes).digest('hex') });
   }
@@ -161,6 +161,27 @@ try {
           await page.getByRole('button', { name: '新建产品' }).click();
           await expect(page.getByRole('dialog', { name: '产品详情' }).getByRole('status').filter({ hasText: '产品配额' })).toContainText('保存后达到 80% 预警阈值');
           await saveCandidate(page, device, width, height, 'products-new', '新建产品与配额预警', reference);
+        }
+        if (route === 'tenants') {
+          await page.getByRole('button', { name: '华东智联' }).click();
+          await expect(page.locator('.tenant-panel').last()).toContainText('华东智联');
+          await saveCandidate(page, device, width, height, 'tenant-overview', '租户概览详情', reference);
+          await page.getByRole('button', { name: '成员', exact: true }).click();
+          await saveCandidate(page, device, width, height, 'tenant-members', '成员列表与状态', reference);
+          await page.getByRole('button', { name: '添加成员' }).click();
+          await expect(page.getByRole('dialog', { name: '编辑成员' })).toBeVisible();
+          await saveCandidate(page, device, width, height, 'tenant-member-new', '添加成员与权限预览', reference);
+          await page.getByRole('dialog', { name: '编辑成员' }).getByRole('button', { name: '关闭编辑' }).click();
+          await page.getByRole('button', { name: '角色', exact: true }).click();
+          await saveCandidate(page, device, width, height, 'tenant-roles', '角色与权限矩阵', reference);
+          await page.getByRole('button', { name: '配额', exact: true }).click();
+          await saveCandidate(page, device, width, height, 'tenant-quotas', '租户资源配额', reference);
+          await page.getByRole('button', { name: '编辑配额' }).click();
+          await page.getByLabel('设备上限', { exact: true }).fill('5');
+          await page.getByRole('button', { name: '预览影响' }).click();
+          await expect(page.getByRole('dialog', { name: '编辑配额' }).getByRole('alert')).toContainText('设备 6/5');
+          await page.getByRole('dialog', { name: '编辑配额' }).getByRole('alert').scrollIntoViewIfNeeded();
+          await saveCandidate(page, device, width, height, 'tenant-quota-blocked', '配额降低阻塞预览', reference);
         }
         if (route === 'firmware') {
           await page.goto(`${base}/tenants`);
