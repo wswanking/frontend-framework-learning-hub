@@ -80,7 +80,7 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
   contract-parity:
-    name: Three independent domains — exact DTO comparison
+    name: Three independent domains and build candidate
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -100,11 +100,21 @@ jobs:
           done
       - name: Compare independent domain DTOs and errors
         run: node tools/diagnose-all.mjs parity
+      - name: Build and collect independent app artifacts
+        run: node tools/diagnose-all.mjs build
       - name: Upload contract evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: contract-parity-${{ runner.os }}
           path: code/apps/*/reports/contract-parity.json
+          if-no-files-found: warn
+          retention-days: 14
+      - name: Upload build candidate
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: build-candidate-${{ runner.os }}
+          path: reports/build-candidate-*/
           if-no-files-found: warn
           retention-days: 14

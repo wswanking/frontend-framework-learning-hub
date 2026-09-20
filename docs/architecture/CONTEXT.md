@@ -26,7 +26,7 @@ React 主 UI 为 MUI，Vue 为 Element Plus，Angular 为 Angular Material；业
 
 ## 统一构建
 
-未来外层可以依次或并行调用各项目 build 命令并汇总产物，各端编译链与依赖安装独立。统一构建不引入跨应用代码依赖。
+外层 `node tools/diagnose-all.mjs build` 依次调用各项目自己的 build 命令，再把三个独立输出收进忽略提交的 `reports/build-candidate-*` 候选包。候选包含提交号、各端独立文件清单与 SHA-256，可用 `node tools/collect-build-artifacts.mjs verify <目录>` 复核。各端编译链与依赖安装独立；候选包不是可直接部署的统一站点，也不引入跨应用代码依赖。
 
 ## 验收
 

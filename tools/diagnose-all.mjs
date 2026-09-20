@@ -20,5 +20,10 @@ if (task === 'parity') {
     const result = spawnSync(process.execPath, [fileURLToPath(new URL('./check-contract-parity.mjs', import.meta.url))], { stdio: 'inherit' });
     if (result.status !== 0) { failed = true; console.error(`cross-framework parity: failed (${result.status ?? result.error?.message})`); }
   }
+  if (!failed && task === 'build') {
+    console.log('\n[build candidate] collect independent app artifacts');
+    const result = spawnSync(process.execPath, [fileURLToPath(new URL('./collect-build-artifacts.mjs', import.meta.url))], { stdio: 'inherit' });
+    if (result.status !== 0) { failed = true; console.error(`build candidate: failed (${result.status ?? result.error?.message})`); }
+  }
   process.exitCode = failed ? 1 : 0;
 }
