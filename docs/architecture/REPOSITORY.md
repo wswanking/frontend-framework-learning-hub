@@ -4,8 +4,10 @@
 frontend-framework-learning-hub/
 ├─ AGENTS.md
 ├─ README.md
-├─ code/apps/{react,vue,angular}/ # 独立诊断基座，业务待实现
+├─ index.html                    # 本地三应用入口
+├─ code/apps/{react,vue,angular}/ # 独立应用，大盘、全球节点、产品、设备、规则、固件、OTA、租户、主 UI 实验示例与交付治理 Mock 已接入，其他业务待实现
 ├─ tools/diagnose-all.mjs         # 仅外层调度
+├─ tools/serve-portal.mjs         # 本地入口服务
 ├─ .github/workflows/            # 各端隔离 CI
 └─ docs/
    ├─ CONTEXT.md

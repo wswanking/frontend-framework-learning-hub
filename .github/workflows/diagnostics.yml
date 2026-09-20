@@ -1,9 +1,9 @@
 name: Independent diagnostics and browser checks
 on:
   push:
-    paths: ['code/apps/**', '.github/workflows/diagnostics.yml']
+    paths: ['code/apps/**', 'tools/**', 'docs/**', 'index.html', 'README.md', 'AGENTS.md', '.github/workflows/diagnostics.yml']
   pull_request:
-    paths: ['code/apps/**', '.github/workflows/diagnostics.yml']
+    paths: ['code/apps/**', 'tools/**', 'docs/**', 'index.html', 'README.md', 'AGENTS.md', '.github/workflows/diagnostics.yml']
   workflow_dispatch:
     inputs:
       visual:
@@ -32,15 +32,22 @@ jobs:
       - run: npm ci
         working-directory: ${{ runner.temp }}/atlas-app
       - name: No-browser diagnostics and production build
+        id: diagnose
         run: npm run diagnose
         working-directory: ${{ runner.temp }}/atlas-app
       - run: npx playwright install --with-deps chromium
         working-directory: ${{ runner.temp }}/atlas-app
       - name: Browser behavior and accessibility
+        id: browser
         run: npm run test:e2e
         working-directory: ${{ runner.temp }}/atlas-app
       - name: Candidate screenshots (not design approval)
+        id: candidate
         run: npm run visual:capture
+        working-directory: ${{ runner.temp }}/atlas-app
+      - name: V2 business candidates (not design approval)
+        id: v2
+        run: npm run capture:v2
         working-directory: ${{ runner.temp }}/atlas-app
       - name: Read visual review state
         id: visual
@@ -48,14 +55,56 @@ jobs:
         run: |
           node --input-type=module -e "import fs from 'node:fs'; const r=JSON.parse(fs.readFileSync('tests/visual/baseline-review.json','utf8')); const approved=r.platforms.linux?.status==='approved'; fs.appendFileSync(process.env.GITHUB_OUTPUT,'approved='+approved+'\n'); fs.appendFileSync(process.env.GITHUB_STEP_SUMMARY,approved?'Visual baseline present; comparison required.\n':'VISUAL_PENDING: diagnostic behavior only; candidate screenshots are not design acceptance.\n');"
       - name: Reviewed visual acceptance
+        id: visual_acceptance
         if: ${{ steps.visual.outputs.approved == 'true' || (github.event_name == 'workflow_dispatch' && inputs.visual) }}
         run: npm run test:visual
         working-directory: ${{ runner.temp }}/atlas-app
+      - name: Record commit-linked diagnostic evidence
+        if: always()
+        working-directory: ${{ runner.temp }}/atlas-app
+        env:
+          ATLAS_APP: ${{ matrix.framework }}
+          ATLAS_RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          ATLAS_DIAGNOSE: ${{ steps.diagnose.outcome }}
+          ATLAS_BROWSER: ${{ steps.browser.outcome }}
+          ATLAS_CANDIDATE: ${{ steps.candidate.outcome }}
+          ATLAS_V2: ${{ steps.v2.outcome }}
+          ATLAS_VISUAL: ${{ steps.visual_acceptance.outcome }}
+        run: node "$GITHUB_WORKSPACE/tools/write-ci-evidence.mjs"
       - name: Upload diagnostic evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: diagnostics-${{ matrix.framework }}-${{ runner.os }}
           path: ${{ runner.temp }}/atlas-app/reports/
+          if-no-files-found: warn
+          retention-days: 14
+  contract-parity:
+    name: Three independent domains — exact DTO comparison
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+          cache-dependency-path: |
+            code/apps/react/package-lock.json
+            code/apps/vue/package-lock.json
+            code/apps/angular/package-lock.json
+      - name: Install each app from its own lockfile
+        run: |
+          set -e
+          for framework in react vue angular; do
+            (cd "code/apps/$framework" && npm ci)
+          done
+      - name: Compare independent domain DTOs and errors
+        run: node tools/diagnose-all.mjs parity
+      - name: Upload contract evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: contract-parity-${{ runner.os }}
+          path: code/apps/*/reports/contract-parity.json
           if-no-files-found: warn
           retention-days: 14

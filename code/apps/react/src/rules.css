@@ -1,0 +1,60 @@
+.atlas-rules .rule-page-tabs { display: flex; gap: 0.5rem; margin-bottom: 0.8rem; border-bottom: 1px solid var(--line); }
+.rule-page-tabs button { padding: 0.65rem 0.8rem; border: 0; border-bottom: 2px solid transparent; color: var(--muted); background: transparent; cursor: pointer; }
+.rule-page-tabs button[aria-current='page'] { border-color: var(--metric-accent); color: var(--text); }
+.rule-page-tabs button:disabled { cursor: not-allowed; opacity: 0.5; }
+.rule-filter, .rule-list, .rule-editor-head, .rule-log-detail { margin-bottom: 0.75rem; }
+.rule-filter-grid { display: grid; grid-template-columns: repeat(4, minmax(9rem, 1fr)) auto; gap: 0.65rem; align-items: end; }
+.rule-filter-grid label, .rule-editor-meta label, .rule-config label, .rule-bottom label { display: grid; gap: 0.3rem; color: var(--muted); font-size: 0.8rem; }
+.rule-filter-grid input, .rule-filter-grid select, .rule-editor-meta input, .rule-editor-meta select, .rule-config input:not([type='checkbox']), .rule-config select, .rule-config textarea, .rule-bottom select, .rule-bottom textarea, .rule-case-actions input, .rule-version-controls select { width: 100%; min-height: 2.35rem; padding: 0.4rem 0.55rem; border: 1px solid var(--line); border-radius: 0.3rem; color: var(--text); background: var(--panel); font: inherit; }
+.rule-editor-meta { display: grid; grid-template-columns: repeat(4, minmax(9rem, 1fr)); gap: 0.6rem; }
+.rule-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 0.55rem; margin-top: 0.8rem; font-size: 0.82rem; }
+.rule-editor-grid { display: grid; grid-template-columns: minmax(8rem, 0.75fr) minmax(20rem, 3fr) minmax(12rem, 1.25fr); gap: 0.7rem; align-items: start; margin-bottom: 0.7rem; }
+.rule-editor-grid > *, .rule-bottom > * { min-width: 0; }
+.rule-palette, .rule-canvas-card, .rule-config { min-height: 31rem; }
+.rule-palette p, .rule-canvas-head p, .rule-config p, .rule-bottom p { color: var(--muted); font-size: 0.8rem; }
+.rule-palette > button { display: block; width: 100%; margin: 0.35rem 0; padding: 0.55rem; border: 1px solid var(--line); border-radius: 0.3rem; color: var(--text); background: transparent; text-align: left; cursor: grab; }
+.rule-palette > button:disabled { cursor: not-allowed; opacity: 0.5; }
+.rule-palette > button:hover { border-color: var(--metric-accent); }
+.rule-canvas-head { display: flex; justify-content: space-between; gap: 0.4rem; }
+.rule-canvas-head h2 { flex: 0 0 auto; }
+.rule-canvas-head p { margin: 0; }
+.rule-canvas-scroll { width: 100%; height: 27rem; overflow: auto; border: 1px solid var(--line); border-radius: 0.35rem; background-color: #092538; background-image: radial-gradient(#3c758d 0.7px, transparent 0.7px); background-size: 12px 12px; }
+[data-theme='light'] .rule-canvas-scroll { background-color: #eff8fb; background-image: radial-gradient(#bed2dc 0.7px, transparent 0.7px); }
+.rule-canvas-inner { position: relative; width: 880px; height: 420px; }
+.rule-canvas-inner > svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.rule-node { position: absolute; z-index: 1; width: 150px; min-height: 84px; border: 2px solid #268aaf; border-radius: 0.45rem; background: var(--panel); box-shadow: 0 3px 12px #0006; }
+.rule-node.condition, .rule-node.transform, .rule-node.delay { border-color: #7b89d1; }
+.rule-node.alarm, .rule-node.notification { border-color: #dba735; }
+.rule-node.storage { border-color: #42bd77; }
+.rule-node.selected { outline: 2px solid var(--metric-accent); outline-offset: 2px; }
+.rule-node.failed, .rule-node.invalid { border-color: #e36d65; }
+.rule-node.skipped { opacity: 0.67; }
+.rule-node-main { display: grid; width: 100%; min-height: 50px; padding: 0.4rem; border: 0; color: var(--text); background: transparent; text-align: left; cursor: pointer; }
+.rule-node-main small { overflow: hidden; color: var(--muted); font-size: 0.64rem; white-space: nowrap; text-overflow: ellipsis; }
+.rule-node-ports { display: flex; border-top: 1px solid var(--line); }
+.rule-node-ports button { width: 50%; padding: 0.18rem; border: 0; color: var(--metric-accent); background: transparent; font-size: 0.65rem; cursor: pointer; }
+.rule-node-ports button:disabled { color: var(--muted); cursor: not-allowed; opacity: 0.5; }
+.rule-edge-list { display: flex; flex-wrap: wrap; gap: 0.45rem; margin-top: 0.5rem; }
+.rule-edge-list h3 { width: 100%; }
+.rule-edge-list span { padding: 0.2rem 0.4rem; border: 1px solid var(--line); border-radius: 0.25rem; font-size: 0.7rem; }
+.rule-edge-list button { border: 0; color: #ffb6a7; background: transparent; cursor: pointer; }
+.rule-config label { margin: 0.45rem 0; }
+.rule-config label:has(input[type='checkbox']) { display: flex; align-items: center; }
+.rule-clause { margin: 0.6rem 0; padding: 0.4rem; border: 1px solid var(--line); border-radius: 0.25rem; }
+.rule-clause button { border: 0; color: var(--metric-accent); background: transparent; cursor: pointer; }
+.rule-bottom { display: grid; grid-template-columns: minmax(14rem, 0.8fr) minmax(20rem, 1.5fr); gap: 0.7rem; align-items: start; }
+.rule-issues { max-height: 22rem; overflow: auto; padding-left: 1.1rem; }
+.rule-issues li { margin: 0.4rem 0; }
+.rule-issues button { border: 0; color: #ffad9d; background: transparent; text-align: left; cursor: pointer; }
+.rule-traces { max-height: 20rem; overflow: auto; padding-left: 1.3rem; font-size: 0.8rem; }
+.rule-traces li { margin: 0.45rem 0; }
+.rule-traces pre, .rule-log-detail pre { overflow-x: auto; padding: 0.5rem; border: 1px solid var(--line); color: var(--text); white-space: pre-wrap; overflow-wrap: anywhere; }
+.rule-log-detail details { padding: 0.45rem; border-bottom: 1px solid var(--line); }
+.atlas-rules .product-table-wrap table { min-width: 46rem; }
+@media (width <= 1100px) { .rule-editor-grid { grid-template-columns: minmax(8rem, 0.7fr) minmax(16rem, 2fr); } .rule-config { grid-column: 1 / -1; min-height: auto; } .rule-editor-meta, .rule-filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (width <= 720px) { .rule-editor-grid, .rule-bottom { grid-template-columns: 1fr; } .rule-palette, .rule-canvas-card { min-height: auto; } .rule-palette > button { display: inline-block; width: auto; margin-right: 0.3rem; } .rule-editor-meta, .rule-filter-grid { grid-template-columns: 1fr; } }
+.atlas-rules .rule-case-actions,.atlas-rules .rule-version-controls{display:flex;align-items:end;gap:12px;flex-wrap:wrap;margin-top:12px}
+.atlas-rules .rule-case-actions label,.atlas-rules .rule-version-controls label{min-width:160px}
+.atlas-rules .rule-version-panel{padding:18px;margin-top:16px}
+.atlas-rules .rule-version-panel ol{margin:10px 0;padding-left:22px}
+.atlas-rules .rule-version-diff{margin-top:12px;padding:12px;border:1px solid #3488a1;border-radius:8px}

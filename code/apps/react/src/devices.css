@@ -1,0 +1,52 @@
+.atlas-devices .device-filters { padding: 1rem; margin-bottom: 0.7rem; }
+.device-filter-grid { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 0.65rem; align-items: end; }
+.device-filter-grid label, .device-edit label, .device-control label, .device-telemetry-controls > label, .device-filters details label { display: grid; gap: 0.3rem; min-width: 0; color: var(--muted); font-size: 0.8rem; }
+.device-filter-grid input, .device-filter-grid select, .device-edit input, .device-control input, .device-control select, .device-telemetry-controls select, .device-filters details input, .device-filters details select { width: 100%; min-height: 2.4rem; padding: 0.4rem 0.55rem; border: 1px solid var(--line); border-radius: 0.3rem; color: var(--text); background: var(--panel); font: inherit; }
+.device-filter-actions, .device-list-actions, .device-filter-chips { display: flex; flex-wrap: wrap; gap: 0.45rem; align-items: center; }
+.device-filters details { margin-top: 0.7rem; }
+.device-filters details label { display: inline-grid; margin: 0.5rem 1rem 0 0; }
+.device-filter-chips { margin-top: 0.6rem; }
+.device-filter-chips button { border: 1px solid var(--line); border-radius: 1rem; padding: 0.2rem 0.55rem; color: var(--text); background: var(--panel); cursor: pointer; }
+.device-list { padding: 1rem; }
+.device-list .product-list-head details { position: relative; color: var(--text); font-size: 0.8rem; }
+.device-list .product-list-head details label { display: block; margin: 0.3rem 0; }
+.device-list-actions { margin: 0.6rem 0; color: var(--muted); font-size: 0.8rem; }
+.device-list table { min-width: 55rem; }
+.device-list th button { color: var(--text); font-weight: 600; }
+.device-status { display: inline-flex; align-items: center; gap: 0.3rem; font-size: 0.82rem; color: #5de0a1; }
+.device-status::before { content: ''; display: inline-block; width: 0.45rem; height: 0.45rem; border-radius: 50%; background: currentColor; }
+.device-status.offline, .device-status.maintenance { color: #ffcb6c; }
+.device-status.fault { color: #ff7b7b; }
+.device-status.unactivated { color: var(--muted); }
+html[data-theme='light'] .device-status { color: #0b6540; }
+html[data-theme='light'] .device-status.offline, html[data-theme='light'] .device-status.maintenance { color: #7b5200; }
+html[data-theme='light'] .device-status.fault { color: #a22930; }
+html[data-theme='light'] .device-status.unactivated { color: #475569; }
+.device-drawer { width: min(64rem, 100vw); }
+.product-modal-backdrop.device-control-backdrop { display: flex; justify-content: flex-end; padding: 0; background: #0016; }
+.product-modal.device-control-sheet { box-sizing: border-box; display: flex; flex-direction: column; width: min(28rem, 100vw); height: 100dvh; max-height: 100dvh; overflow: auto; border-radius: 0; }
+.device-control-sheet > div { margin-top: auto; }
+.device-drawer .drawer-head p { margin: 0; color: var(--muted); font-size: 0.8rem; }
+.device-facts { display: grid; grid-template-columns: 8rem 1fr; gap: 0.5rem; padding: 0.8rem; border: 1px solid var(--line); border-radius: 0.4rem; }
+.device-facts dt { color: var(--muted); }
+.device-facts dd { margin: 0; }
+.device-edit, .device-control { display: grid; gap: 0.7rem; max-width: 32rem; margin-top: 1rem; }
+.device-edit button, .device-control button { justify-self: start; }
+.product-modal > .device-create-form { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.65rem; }
+.device-create-form label { display: grid; gap: 0.3rem; min-width: 0; color: var(--muted); font-size: 0.8rem; }
+.device-create-form input, .device-create-form select { width: 100%; min-height: 2.35rem; padding: 0.4rem 0.55rem; border: 1px solid var(--line); border-radius: 0.3rem; color: var(--text); background: var(--panel); font: inherit; }
+.device-create-actions { display: flex; gap: 0.55rem; margin-top: 0.8rem; }
+.device-telemetry-controls { display: flex; flex-wrap: wrap; align-items: end; gap: 0.6rem; margin: 0.8rem 0; }
+.device-telemetry-controls fieldset { display: flex; flex-wrap: wrap; gap: 0.5rem; border: 1px solid var(--line); }
+.device-telemetry-controls fieldset label { white-space: nowrap; }
+.device-telemetry-controls > label { min-width: 9rem; }
+.device-chart { margin: 0.8rem 0; padding: 0.7rem; border: 1px solid var(--line); border-radius: 0.4rem; }
+.device-chart svg { display: block; width: 100%; max-height: 13rem; color: var(--muted); }
+.device-telemetry-table { max-height: 18rem; overflow: auto; }
+.device-drawer pre { overflow: auto; padding: 0.7rem; background: #071d2b; color: #d1f0f9; }
+@media (width <= 1150px) { .device-filter-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (width <= 700px) { .device-filter-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } .product-modal > .device-create-form { grid-template-columns: 1fr; } .device-filter-actions { grid-column: 1 / -1; } .device-facts { grid-template-columns: 1fr; } }
+
+.device-drawer [role="tabpanel"] > details, .device-alarm { margin: 0.6rem 0; padding: 0.75rem; border: 1px solid var(--line); border-radius: 0.4rem; }
+.device-drawer [role="tabpanel"] > details summary { cursor: pointer; overflow-wrap: anywhere; }
+.device-alarm p { margin: 0.35rem 0; color: var(--muted); }

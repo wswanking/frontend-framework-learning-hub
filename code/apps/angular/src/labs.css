@@ -1,0 +1,34 @@
+.atlas-labs .lab-notice{padding:16px;border:1px solid #24a8c8;border-radius:10px;background:#0b4050;color:#e8faff}
+.atlas-labs .lab-flow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:18px 0}
+.atlas-labs .lab-flow>div,.atlas-labs .lab-card{padding:18px;border:1px solid #31536a;border-radius:12px;background:#132b3b;color:#edf9ff}
+.atlas-labs .lab-grid{display:grid;grid-template-columns:minmax(240px,1fr) minmax(300px,2fr) minmax(240px,1fr);gap:16px;align-items:start}
+.atlas-labs .lab-card{min-width:0}
+.atlas-labs .lab-grid>.lab-card{width:100%;overflow:hidden}
+.atlas-labs h2,.atlas-labs h3{margin:0 0 12px}
+.atlas-labs .lab-controls,.atlas-labs .lab-local-nav,.atlas-labs .lab-form{display:grid;gap:12px}
+.atlas-labs label{display:grid;gap:5px}
+.atlas-labs input,.atlas-labs select{width:100%;min-height:38px;padding:7px;border:1px solid #68849a;border-radius:6px;background:#102433;color:#fff}
+.atlas-labs .lab-local-nav{grid-template-columns:repeat(2,minmax(0,1fr))}
+.atlas-labs .lab-table-wrap{overflow-x:auto}
+.atlas-labs .mat-mdc-table{min-width:0}
+.atlas-labs .lab-candidate-frame{display:block;width:100%;height:480px;border:0;background:transparent}
+.atlas-labs table{width:100%;border-collapse:collapse}
+.atlas-labs th,.atlas-labs td{padding:9px;text-align:left;border-bottom:1px solid #36576a;white-space:nowrap}
+.atlas-labs .lab-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:14px}
+.atlas-labs .lab-card a{color:#70dbff}
+.atlas-labs .lab-success{color:#64eab6}.atlas-labs .lab-muted{color:#b8d0dc}
+.atlas-labs [data-lab-theme='light'] .lab-card a{color:#075b72}
+.atlas-labs [data-lab-theme='light'] .lab-card button{color:#075b72;border-color:#075b72}
+.atlas-labs [data-lab-theme='light'] .lab-card{background:#fff;color:#102536;border-color:#b5c9d3}
+.atlas-labs [data-lab-theme='light'] input,.atlas-labs [data-lab-theme='light'] select{background:#fff;color:#102536}
+.atlas-labs [data-lab-theme='light'] th,.atlas-labs [data-lab-theme='light'] td{border-color:#d3e1e8}
+.atlas-labs .lab-dialog-backdrop{position:fixed;inset:0;z-index:20;display:grid;place-items:center;background:#07121bcc;padding:16px}
+.atlas-labs .lab-dialog{max-width:440px;width:100%;padding:24px;border-radius:12px;background:#fff;color:#11283a}
+@media(max-width:1050px){.atlas-labs .lab-grid{grid-template-columns:1fr 1fr}.atlas-labs .lab-grid>:last-child{grid-column:1/-1}}
+@media(max-width:700px){.atlas-labs .lab-flow,.atlas-labs .lab-grid{grid-template-columns:minmax(0,1fr)}.atlas-labs .lab-grid>:last-child{grid-column:auto}}
+
+.atlas-labs .lab-charts{margin-top:18px;padding:18px;border:1px solid #31536a;border-radius:12px;background:#132b3b;color:#edf9ff}
+.atlas-labs .lab-charts .lab-controls{grid-template-columns:repeat(2,minmax(0,220px))}
+.atlas-labs .lab-chart-host{width:100%;height:300px;min-width:0}
+.atlas-labs .lab-chart-host svg{width:100%;height:100%}
+@media(max-width:700px){.atlas-labs .lab-charts .lab-controls{grid-template-columns:1fr}}

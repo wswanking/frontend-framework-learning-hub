@@ -1,0 +1,17 @@
+<main class="lab-candidate" [class.lab-light]="theme === 'light'" [class.lab-dark]="theme === 'dark'" data-ui-library="zorro">
+  @if (example() === 'table') {
+    <div class="lab-controls"><label>搜索设备<input aria-label="实验搜索设备" [value]="keyword()" (input)="keyword.set(value($event))"></label><label>设备状态<select aria-label="实验设备状态" [value]="status()" (change)="setStatus(value($event))"><option value="all">全部</option><option value="online">在线</option><option value="offline">离线</option></select></label></div>
+    <nz-table #deviceTable [nzData]="rows()" [nzShowPagination]="false" nzSize="small"><thead><tr><th>设备</th><th>状态</th><th>区域</th><th>最后上线</th></tr></thead><tbody>@for (row of deviceTable.data; track row.id) { <tr><td>{{row.name}}</td><td>{{row.status === 'online' ? '在线' : '离线'}}</td><td>{{row.region}}</td><td>{{row.lastSeen}}</td></tr> }</tbody></nz-table>
+    <p>{{rows().length}} / {{total}} 台设备</p>
+  }
+  @if (example() === 'form') {
+    <form class="lab-form" (submit)="submit($event)"><label for="candidate-device-name">设备名称<input id="candidate-device-name" nz-input aria-label="实验设备名称" [value]="name()" (input)="name.set(value($event))"></label><button nz-button nzType="primary" type="submit">验证表单</button></form>
+  }
+  @if (example() === 'dialog') {
+    <p>打开对话框，确认操作只改变本页提示。</p><button nz-button nzType="primary" (click)="dialog.set(true)">打开示例对话框</button><nz-modal [nzVisible]="dialog()" nzTitle="确认示例操作" nzOkText="确认" nzCancelText="取消" (nzOnOk)="confirm()" (nzOnCancel)="dialog.set(false)"><ng-container *nzModalContent>这是一项本地组件实验，不会修改设备。</ng-container></nz-modal>
+  }
+  @if (example() === 'nav') {
+    <nav aria-label="实验室示例导航"><ul nz-menu nzMode="horizontal">@for (key of examples; track key) { <li nz-menu-item><button type="button" (click)="choose(key)">{{labels[key]}}</button></li> }</ul></nav>
+  }
+  @if (message()) { <p role="status" class="lab-success">{{message()}}</p> }
+</main>

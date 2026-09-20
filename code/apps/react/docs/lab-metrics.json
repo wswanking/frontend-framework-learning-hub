@@ -1,0 +1,165 @@
+{
+  "framework": "react",
+  "capturedAt": "2026-09-19T22:46:19.480Z",
+  "node": "v24.15.0",
+  "browser": "153.0.8010.12",
+  "conditions": "production build; local 127.0.0.1 preview; Chromium desktop 1440x900; fresh browser context per sample; 3 samples; median; UI timing starts after default chart is ready; chart timing from navigation for ECharts and selection for others; local JS/CSS resource bytes, gzip level 9",
+  "results": {
+    "chart:echarts": {
+      "medianMs": 969,
+      "medianRawBytes": 1649153,
+      "medianGzipBytes": 536888,
+      "medianAssetCount": 9,
+      "samples": [
+        {
+          "elapsedMs": 973,
+          "rawBytes": 1649153,
+          "gzipBytes": 536888,
+          "assetCount": 9
+        },
+        {
+          "elapsedMs": 940,
+          "rawBytes": 1649153,
+          "gzipBytes": 536888,
+          "assetCount": 9
+        },
+        {
+          "elapsedMs": 969,
+          "rawBytes": 1649153,
+          "gzipBytes": 536888,
+          "assetCount": 9
+        }
+      ]
+    },
+    "chart:chartjs": {
+      "medianMs": 93,
+      "medianRawBytes": 1851362,
+      "medianGzipBytes": 605403,
+      "medianAssetCount": 10,
+      "samples": [
+        {
+          "elapsedMs": 99,
+          "rawBytes": 1851362,
+          "gzipBytes": 605403,
+          "assetCount": 10
+        },
+        {
+          "elapsedMs": 93,
+          "rawBytes": 1851362,
+          "gzipBytes": 605403,
+          "assetCount": 10
+        },
+        {
+          "elapsedMs": 86,
+          "rawBytes": 1851362,
+          "gzipBytes": 605403,
+          "assetCount": 10
+        }
+      ]
+    },
+    "chart:d3": {
+      "medianMs": 91,
+      "medianRawBytes": 1929000,
+      "medianGzipBytes": 629428,
+      "medianAssetCount": 10,
+      "samples": [
+        {
+          "elapsedMs": 70,
+          "rawBytes": 1929000,
+          "gzipBytes": 629428,
+          "assetCount": 10
+        },
+        {
+          "elapsedMs": 91,
+          "rawBytes": 1929000,
+          "gzipBytes": 629428,
+          "assetCount": 10
+        },
+        {
+          "elapsedMs": 95,
+          "rawBytes": 1929000,
+          "gzipBytes": 629428,
+          "assetCount": 10
+        }
+      ]
+    },
+    "ui:mui": {
+      "medianMs": 952,
+      "medianRawBytes": 1649153,
+      "medianGzipBytes": 536888,
+      "medianAssetCount": 9,
+      "samples": [
+        {
+          "elapsedMs": 952,
+          "rawBytes": 1649153,
+          "gzipBytes": 536888,
+          "assetCount": 9
+        },
+        {
+          "elapsedMs": 941,
+          "rawBytes": 1649153,
+          "gzipBytes": 536888,
+          "assetCount": 9
+        },
+        {
+          "elapsedMs": 954,
+          "rawBytes": 1649153,
+          "gzipBytes": 536888,
+          "assetCount": 9
+        }
+      ]
+    },
+    "ui:antd": {
+      "medianMs": 354,
+      "medianRawBytes": 2321650,
+      "medianGzipBytes": 751729,
+      "medianAssetCount": 10,
+      "samples": [
+        {
+          "elapsedMs": 341,
+          "rawBytes": 2321650,
+          "gzipBytes": 751729,
+          "assetCount": 10
+        },
+        {
+          "elapsedMs": 359,
+          "rawBytes": 2321650,
+          "gzipBytes": 751729,
+          "assetCount": 10
+        },
+        {
+          "elapsedMs": 354,
+          "rawBytes": 2321650,
+          "gzipBytes": 751729,
+          "assetCount": 10
+        }
+      ]
+    },
+    "ui:chakra": {
+      "medianMs": 377,
+      "medianRawBytes": 1944879,
+      "medianGzipBytes": 611331,
+      "medianAssetCount": 10,
+      "samples": [
+        {
+          "elapsedMs": 406,
+          "rawBytes": 1944879,
+          "gzipBytes": 611331,
+          "assetCount": 10
+        },
+        {
+          "elapsedMs": 369,
+          "rawBytes": 1944879,
+          "gzipBytes": 611331,
+          "assetCount": 10
+        },
+        {
+          "elapsedMs": 377,
+          "rawBytes": 1944879,
+          "gzipBytes": 611331,
+          "assetCount": 10
+        }
+      ]
+    }
+  }
+}

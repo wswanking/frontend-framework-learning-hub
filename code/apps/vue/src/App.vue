@@ -12,7 +12,7 @@ async function submit() {
 }
 </script>
 <template>
-  <main><section aria-labelledby="title">
+  <main class="diagnostic-page"><section aria-labelledby="title">
     <small>IoT Atlas · Vue</small><h1 id="title">诊断与验收环境</h1>
     <p>输入名称，验证校验、失败反馈与重试流程。</p>
     <form novalidate :aria-busy="busy" @submit.prevent="submit">
@@ -21,6 +21,6 @@ async function submit() {
       <button type="submit" :disabled="busy">{{ busy ? '诊断中…' : '运行诊断' }}</button>
     </form>
     <p v-if="result" :role="result.ok ? 'status' : 'alert'">{{ result.message }}</p>
-    <p><small>此页面仅验证工程工具链，业务功能待实现。</small></p>
+    <p><a href="/dashboard">进入数据大盘</a></p>
   </section></main>
 </template>

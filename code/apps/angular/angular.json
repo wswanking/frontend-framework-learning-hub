@@ -14,8 +14,15 @@
           "builder": "@angular/build:application",
           "options": {
             "browser": "src/main.ts",
+            "polyfills": ["@angular/localize/init"],
             "index": "src/index.html",
             "tsConfig": "tsconfig.app.json",
+            "assets": [
+              { "glob": "**/*", "input": "public", "output": "/" },
+              { "glob": "bootstrap.min.css", "input": "node_modules/bootstrap/dist/css", "output": "/lab-candidate-styles" },
+              { "glob": "ng-zorro-antd.min.css", "input": "node_modules/ng-zorro-antd", "output": "/lab-candidate-styles" },
+              { "glob": "ng-zorro-antd.dark.min.css", "input": "node_modules/ng-zorro-antd", "output": "/lab-candidate-styles" }
+            ],
             "styles": [
               "src/styles.css"
             ],

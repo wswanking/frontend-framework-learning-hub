@@ -1,0 +1,6 @@
+html,body{margin:0;min-height:100%;background:transparent;font-family:Arial,sans-serif}
+#app{padding:4px;color:#eaf8ff}
+.atlas-labs .lab-candidate{min-height:0}
+.atlas-labs .lab-vuetify-app{min-height:0}
+.atlas-labs .lab-candidate .lab-controls{margin-bottom:12px}
+.atlas-labs .lab-candidate .lab-success{margin-top:12px}

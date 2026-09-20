@@ -7,15 +7,18 @@
     "node": ">=24.15.0 <25"
   },
   "scripts": {
-    "dev": "vite --host 127.0.0.1 --port 14101 --strictPort",
-    "build": "vite build",
+    "dev": "node scripts/sync-lab-source.mjs && vite --host 127.0.0.1 --port 14101 --strictPort",
+    "build": "node scripts/sync-lab-source.mjs && vite build",
     "preview": "vite preview --host 127.0.0.1 --port 14101 --strictPort",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . && stylelint \"src/**/*.css\"",
     "check:boundaries": "node scripts/check-boundaries.mjs",
+    "test:parity": "vitest run src/contract-parity.spec.ts",
     "test:unit": "vitest run",
     "diagnose": "npm run test:guards && npm run check:boundaries && npm run typecheck && npm run lint && npm run test:unit && npm run build",
     "test:e2e": "playwright test",
+    "measure:labs": "node scripts/measure-labs.mjs",
+    "capture:v2": "node scripts/capture-v2.mjs",
     "test:visual": "node scripts/visual.mjs check",
     "visual:capture": "node scripts/visual.mjs capture",
     "verify": "npm run diagnose && npm run test:e2e && npm run test:visual",
@@ -25,8 +28,19 @@
     "test:guards": "node --test scripts/guards.test.mjs"
   },
   "dependencies": {
+    "@chakra-ui/react": "3.37.0",
+    "@emotion/react": "11.14.0",
+    "@emotion/styled": "11.14.1",
+    "@mui/material": "9.4.0",
+    "antd": "6.6.4",
+    "chart.js": "4.5.1",
+    "d3": "7.9.0",
+    "echarts": "6.1.0",
     "react": "^19.2.0",
-    "react-dom": "^19.2.0"
+    "react-dom": "^19.2.0",
+    "react-router-dom": "7.18.4",
+    "topojson-client": "3.1.0",
+    "world-atlas": "2.0.2"
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.0",
@@ -36,9 +50,11 @@
     "@testing-library/jest-dom": "^6.9.0",
     "@testing-library/react": "^16.3.0",
     "@testing-library/user-event": "^14.6.0",
+    "@types/d3": "7.4.3",
     "@types/node": "^24.0.0",
     "@types/react": "^19.2.0",
     "@types/react-dom": "^19.2.0",
+    "@types/topojson-client": "3.1.5",
     "@vitejs/plugin-react": "^6.0.0",
     "eslint": "10.10.0",
     "eslint-plugin-react-hooks": "^7.0.0",
