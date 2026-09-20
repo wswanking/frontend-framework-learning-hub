@@ -65,6 +65,8 @@ async function snapshots() {
       list: await catalog.devices.list(context, ownPage), filtered: await catalog.devices.list(context, { ...ownPage, region: 'AS' }),
       get: await catalog.devices.get(context, 'dev_as_001'), forbidden: await catalog.devices.list(context, otherPage),
       foreignGet: await catalog.devices.get(context, 'dev_as_002'),
+      invalidUtcFilter: await catalog.devices.list(context, { ...ownPage, lastActiveFrom: '2026-02-30T11:57:00.000Z' }),
+      invalidUtcTelemetry: await catalog.devices.queryTelemetry(context, { deviceId: 'dev_as_001', from: '2026-09-31T00:00:00.000Z', to: '2026-10-02T00:00:00.000Z', metrics: ['temperature'], granularity: 'hour', seed: 42 }),
       offline: await catalog.devices.list(offline, ownPage),
     },
     rules: {
@@ -393,6 +395,8 @@ describe('IOT-DOMAIN-001 cross-framework contract export', () => {
       expect(values.foreignGet).not.toHaveProperty('data');
     }
     expect(first.domain.ota.get).toMatchObject({ error: { code: 'NOT_FOUND' } });
+    expect(first.domain.devices.invalidUtcFilter).toMatchObject({ error: { code: 'VALIDATION_ERROR', fieldErrors: { lastActiveFrom: expect.any(String) } } });
+    expect(first.domain.devices.invalidUtcTelemetry).toMatchObject({ error: { code: 'VALIDATION_ERROR', fieldErrors: { range: expect.any(String) } } });
     expect(first.mutations.ota.foreignCreated).toHaveProperty('data');
     expect(first.mutations.ota.foreignGet).toMatchObject({ error: { code: 'FORBIDDEN' } });
     expect(first.mutations.ota.foreignGet).not.toHaveProperty('data');

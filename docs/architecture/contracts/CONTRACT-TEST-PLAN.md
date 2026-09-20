@@ -32,6 +32,8 @@ REVIEW-003 通过前，技术负责人必须确认测试矩阵足以覆盖 P0 Da
 
 随后各端由平台管理员创建另一租户的 OTA Mock 任务，再用原租户身份直接读取该任务 ID，断言 `FORBIDDEN` 且不含 `data`。外层契约门禁增至 **170** 项，SHA-256 `91e2d5107510deafa070a42ba157a64f5c974dc087054cd746eb8d7918b99569`。完整角色、事件和异常矩阵及 REVIEW-003 仍待完成。
 
+设备列表与时序范围新增无效 UTC 日历日期服务层拒绝结果，三端门禁现为 **172** 项，SHA-256 `5e86292191eba7cb886b38023e86cdc5afa55b7d7231b1d45330774f49af5778`；其余异常和角色矩阵仍按本计划补齐。
+
 ## 2026-09-20 跨端 DTO 比对增量
 
 三端各自的 `src/contract-parity.spec.ts` 在 Node 环境调用本端 Dashboard、地理、产品、设备、规则、固件、OTA、租户服务，导出固定 seed、租户和 UTC 时间窗下的实际 DTO 与错误对象。仓库外层 `node tools/diagnose-all.mjs parity` 只调度本端测试并逐字段比较输出，不提供共享运行时实现；`diagnose` 和 `verify` 也包含该门禁。

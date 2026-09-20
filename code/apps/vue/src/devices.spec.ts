@@ -38,6 +38,7 @@ describe('IOT-DEVICE-001 device and telemetry contract', () => {
     expect(await current.list(viewer, { ...query, tenantId: 'all' })).toMatchObject({ error: { code: 'FORBIDDEN' } });
     expect(await current.get(viewer, 'dev_as_002')).toMatchObject({ error: { code: 'FORBIDDEN' } });
     expect(await current.list(admin, { ...query, tenantId: 'all', page: 0 })).toMatchObject({ error: { code: 'VALIDATION_ERROR' } });
+    expect(await current.list(tenant, { ...query, lastActiveFrom: '2026-02-30T11:57:00.000Z' })).toMatchObject({ error: { code: 'VALIDATION_ERROR', fieldErrors: { lastActiveFrom: expect.any(String) } } });
   });
 
   it('compares two units and preserves explicit missing telemetry points', async () => {
@@ -58,6 +59,7 @@ describe('IOT-DEVICE-001 device and telemetry contract', () => {
     expect(beforeCreation).toMatchObject({ data: { noData: true } });
     if ('data' in beforeCreation) expect(beforeCreation.data.points.every(point => point.value === null && point.quality === 'missing')).toBe(true);
     expect(await current.queryTelemetry(tenant, { ...query, from: query.to })).toMatchObject({ error: { code: 'VALIDATION_ERROR' } });
+    expect(await current.queryTelemetry(tenant, { ...query, from: '2026-09-31T00:00:00.000Z', to: '2026-10-02T00:00:00.000Z' })).toMatchObject({ error: { code: 'VALIDATION_ERROR', fieldErrors: { range: expect.any(String) } } });
     expect(await current.queryTelemetry(tenant, { ...query, metrics: ['unknown'] })).toMatchObject({ error: { code: 'VALIDATION_ERROR' } });
     expect(await current.queryTelemetry({ ...tenant, scenario: 'partialFailure' }, query)).toMatchObject({ error: { code: 'SCENARIO_TIMEOUT' } });
   });

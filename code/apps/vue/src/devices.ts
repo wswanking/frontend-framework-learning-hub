@@ -33,6 +33,7 @@ const FIXED_AT = '2026-09-16T12:00:00.000Z';
 const STORAGE_KEY = 'iot-atlas-device-commands-v1';
 const DAY = 86_400_000;
 const UTC_ISO = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$/;
+const validUtc = (value: string) => UTC_ISO.test(value) && Number.isFinite(Date.parse(value)) && new Date(value).toISOString().slice(0, 19) === value.slice(0, 19);
 const clone = <T>(value: T): T => structuredClone(value);
 const base = Date.parse(FIXED_AT);
 type SeedRow = [string, string, string, string, DeviceStatus, string, string, [number, number] | null, number | null];
@@ -98,7 +99,7 @@ export class DeviceService {
     if (query.seed !== context.seed || !Number.isInteger(query.seed)) return fail('VALIDATION_ERROR', 'seed 不一致', { seed: 'seed 必须与上下文一致' });
     if (!Number.isInteger(query.page) || query.page < 1 || !Number.isInteger(query.pageSize) || query.pageSize < 1 || query.pageSize > 100) return fail('VALIDATION_ERROR', '分页无效', { page: '页码从 1 开始，每页 1–100 条' });
     if (query.status && !['unactivated', 'online', 'offline', 'fault', 'maintenance'].includes(query.status)) return fail('VALIDATION_ERROR', '状态无效', { status: '未知状态' });
-    if (query.lastActiveFrom && (!UTC_ISO.test(query.lastActiveFrom) || !Number.isFinite(Date.parse(query.lastActiveFrom)))) return fail('VALIDATION_ERROR', '时间无效', { lastActiveFrom: '请输入 UTC 时间' });
+    if (query.lastActiveFrom && !validUtc(query.lastActiveFrom)) return fail('VALIDATION_ERROR', '时间无效', { lastActiveFrom: '请输入有效 UTC 时间' });
     if (context.scenario === 'slow') await new Promise(resolve => setTimeout(resolve, 80));
     const direction = query.sortDirection === 'asc' ? 1 : -1;
     const key = query.sortBy ?? 'lastActiveAt';
@@ -205,7 +206,7 @@ export class DeviceService {
     const denied = access(context, device?.tenantId ?? context.tenantId); if (denied) return denied;
     if (!device) return fail('NOT_FOUND', '设备不存在');
     const from = Date.parse(query.from), to = Date.parse(query.to);
-    if (query.seed !== context.seed || !UTC_ISO.test(query.from) || !UTC_ISO.test(query.to) || !Number.isFinite(from) || !Number.isFinite(to) || from >= to || to - from > 30 * DAY) return fail('VALIDATION_ERROR', '时序查询范围无效', { range: '请使用不超过 30 天的 UTC 时间范围' });
+    if (query.seed !== context.seed || !validUtc(query.from) || !validUtc(query.to) || from >= to || to - from > 30 * DAY) return fail('VALIDATION_ERROR', '时序查询范围无效', { range: '请使用不超过 30 天的有效 UTC 时间范围' });
     if (!['minute', 'hour', 'day'].includes(query.granularity)) return fail('VALIDATION_ERROR', '粒度无效', { granularity: '未知采样粒度' });
     if (!query.metrics.length || query.metrics.length > 4 || new Set(query.metrics).size !== query.metrics.length || query.metrics.some(metric => !(metric in device.attributes))) return fail('VALIDATION_ERROR', '指标无效', { metrics: '请选择 1–4 个设备指标' });
     if (context.scenario === 'partialFailure') return fail('SCENARIO_TIMEOUT', '模拟时序分区不可用');
@@ -309,7 +310,7 @@ export class DeviceService {
     if (!device) return fail('NOT_FOUND', '设备不存在');
     if (device.status !== 'online') return fail('DEVICE_OFFLINE', '设备不在线，无法更新影子');
     const occurredAt = points[0]?.timestamp;
-    if (!occurredAt || !UTC_ISO.test(occurredAt) || !Number.isFinite(Date.parse(occurredAt)) || points.some(point => point.deviceId !== id || point.timestamp !== occurredAt || !(point.metric in device.attributes) || point.value !== null && !Number.isFinite(point.value))) return fail('VALIDATION_ERROR', '遥测点与设备不匹配');
+    if (!occurredAt || !validUtc(occurredAt) || points.some(point => point.deviceId !== id || point.timestamp !== occurredAt || !(point.metric in device.attributes) || point.value !== null && !Number.isFinite(point.value))) return fail('VALIDATION_ERROR', '遥测点与设备不匹配');
     if (device.lastActiveAt && occurredAt <= device.lastActiveAt) return this.getShadow(context, id);
     const valid = points.filter(point => point.value !== null && point.quality !== 'invalid' && point.quality !== 'missing');
     if (!valid.length) return this.getShadow(context, id);

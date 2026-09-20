@@ -1,5 +1,9 @@
 # 诊断与验收环境
 
+## 2026-09-20：IOT-DEVICE-001 UTC 日历日期服务校验
+
+三端设备服务对最后活跃筛选、时序范围和遥测写入时间增加实际 UTC 日历日期校验，避免无效日期被 `Date.parse` 归一化后通过。React、Vue 的设备定向单测各 **7/7**；Angular 直接 Vitest 缺少本端测试环境而报 `localStorage` 未定义，按本端 `npm run test:unit` 复跑后 **110/110** 通过。三端 `npm run typecheck` 均退出 0。跨端契约快照新增无效列表时间和无效时序范围两项，`node tools/diagnose-all.mjs parity` 退出 0，现 **172** 项逐字段一致，SHA-256 `5e86292191eba7cb886b38023e86cdc5afa55b7d7231b1d45330774f49af5778`。本轮未重新执行全路由浏览器回归或正式 V2 审核。
+
 ## 2026-09-20：IOT-DOMAIN-001 OTA 跨租户详情 ID 边界
 
 三端各自用平台管理员创建另一租户的实际 OTA Mock 任务，再用本租户身份读取所得 ID，结果均为 `FORBIDDEN` 且不含 `data`。`node tools/diagnose-all.mjs parity` 退出 0，现 **170** 个实际 DTO/错误结果逐字段一致，SHA-256 `91e2d5107510deafa070a42ba157a64f5c974dc087054cd746eb8d7918b99569`。该固定场景不替代真实认证、完整角色矩阵或 REVIEW-003 验收。
