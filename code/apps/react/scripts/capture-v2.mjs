@@ -163,6 +163,14 @@ try {
           await saveCandidate(page, device, width, height, 'products-new', '新建产品与配额预警', reference);
         }
         if (route === 'firmware') {
+          await page.goto(`${base}/tenants`);
+          await page.getByRole('button', { name: '华东智联' }).click();
+          await page.getByRole('button', { name: '配额', exact: true }).click();
+          await page.getByRole('button', { name: '编辑配额' }).click();
+          await page.getByLabel('存储（MiB）上限', { exact: true }).fill('321');
+          await page.getByRole('button', { name: '预览影响' }).click();
+          await page.getByRole('button', { name: '保存配额' }).click();
+          await page.goto(`${base}/firmware`);
           await page.getByRole('button', { name: '新建固件' }).click();
           await page.getByLabel('本地固件文件').setInputFiles({ name: 'review-sensor.bin', mimeType: 'application/octet-stream', buffer: Buffer.from('v2 candidate firmware') });
           await expect(page.locator('.firmware-form [role="status"]')).toContainText('校验完成');
@@ -170,6 +178,9 @@ try {
           await page.getByLabel('固件名称').fill('sensor-core');
           await page.getByLabel('固件版本号').fill('2.5.0');
           await saveCandidate(page, device, width, height, 'firmware-new', '新建固件元数据与校验', reference);
+          await page.getByRole('button', { name: '下一步' }).click();
+          await expect(page.locator('.firmware-form [role="status"]')).toContainText('达到 80% 预警阈值');
+          await saveCandidate(page, device, width, height, 'firmware-storage', '固件登记存储配额预警', reference);
           await page.goto(`${base}/firmware`);
           await page.getByRole('button', { name: 'OTA 任务' }).click();
           await page.getByRole('button', { name: '创建 OTA 任务' }).click();

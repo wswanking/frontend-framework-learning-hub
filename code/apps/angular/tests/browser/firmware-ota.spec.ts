@@ -43,6 +43,28 @@ test('IOT-FIRMWARE-001 shows actual local read progress before checksum complete
   await expect(page.getByRole('progressbar', { name: '固件文件读取进度' })).toHaveCount(0);
 });
 
+test('IOT-TENANT-001 previews storage use and rejects firmware metadata beyond the tenant limit', async ({ page }) => {
+  await page.goto('/tenants');
+  await page.getByRole('button', { name: '华东智联' }).click();
+  await page.getByRole('button', { name: '配额', exact: true }).click();
+  await page.getByRole('button', { name: '编辑配额' }).click();
+  await page.getByLabel('存储（MiB）上限', { exact: true }).fill('320');
+  await page.getByRole('button', { name: '预览影响' }).click();
+  await page.getByRole('button', { name: '保存配额' }).click();
+  await page.goto('/firmware');
+  await page.getByRole('button', { name: '新建固件' }).click();
+  await page.getByLabel('本地固件文件').setInputFiles({ name: 'quota.bin', mimeType: 'application/octet-stream', buffer: Buffer.from('abc') });
+  await expect(page.locator('.firmware-form [role="status"]')).toContainText('校验完成');
+  await page.getByRole('button', { name: '下一步' }).click();
+  await page.getByLabel('固件名称').fill('quota-check');
+  await page.getByLabel('固件版本号').fill('3.0.0');
+  await page.getByRole('button', { name: '下一步' }).click();
+  await expect(page.locator('.firmware-form [role="status"]')).toContainText('存储已用 320/320 MiB；登记后预计 321/320 MiB，将超过上限');
+  await page.getByRole('button', { name: '登记固件元数据' }).click();
+  await expect(page.getByText('存储配额不足：预计 321/320 MiB')).toBeVisible();
+  await expect(page.locator('.firmware-panel h2').first()).toContainText('共 3 条');
+});
+
 test('IOT-OTA-001 previews batches, auto pauses on failure and preserves a retry attempt', async ({ page }) => {
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
   await page.goto('/tenants');

@@ -1,6 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { FirmwareService, inspectFirmwareFile, type FirmwareInput } from './firmware';
 import { ProductService } from './products';
+import { TenantService } from './tenants';
 import type { Context } from './dashboard';
 
 const admin: Context = { actorId: 'usr_test', role: 'platformAdmin', tenantId: 'all', seed: 42, scenario: 'normal' };
@@ -20,6 +21,37 @@ function storage(): Storage {
 function service(store: Storage | null = null) { return new FirmwareService(store, new ProductService()); }
 
 describe('IOT-FIRMWARE-001 firmware contract', () => {
+  it('counts registered firmware size against the tenant storage quota and releases it on removal', async () => {
+    const store = storage(), tenantService = new TenantService(store), mock = new FirmwareService(store, new ProductService(), tenantService);
+    const found = await tenantService.get(admin, input.tenantId);
+    if (!('data' in found)) throw new Error('missing tenant');
+    expect(await tenantService.updateQuota(admin, input.tenantId, { ...found.data.quota, storageMb: { limit: 322, warningAt: 80 } }, found.data.revision)).toMatchObject({ data: { revision: 2 } });
+    const first = await mock.create(tenant, { ...input, sizeBytes: 1024 * 1024 });
+    expect(first).toMatchObject({ data: { version: '2.5.0' } });
+    const second = await mock.create(tenant, { ...input, version: '2.5.1', sizeBytes: 1024 * 1024 });
+    expect(second).toMatchObject({ data: { version: '2.5.1' } });
+    expect(await tenantService.get(admin, input.tenantId)).toMatchObject({ data: { usage: expect.arrayContaining([{ resource: 'storageMb', used: 322, limit: 322, warningAt: 80, percent: 100, health: 'exceeded' }]) } });
+    expect(await tenantService.updateQuota(admin, input.tenantId, { ...found.data.quota, storageMb: { limit: 321, warningAt: 80 } }, 2)).toMatchObject({ error: { code: 'CONFLICT', message: expect.stringContaining('storageMb 322/321') } });
+    expect(await mock.create(tenant, { ...input, version: '2.5.2', sizeBytes: 1024 * 1024 })).toMatchObject({ error: { code: 'CONFLICT', message: expect.stringContaining('323/322 MiB') } });
+    if (!('data' in first)) throw new Error('missing firmware');
+    expect(await mock.remove(tenant, first.data.id, 1)).toMatchObject({ data: { id: first.data.id } });
+    expect(await tenantService.get(admin, input.tenantId)).toMatchObject({ data: { usage: expect.arrayContaining([{ resource: 'storageMb', used: 321, limit: 322, warningAt: 80, percent: 100, health: 'warning' }]) } });
+    const replacement = await mock.create(tenant, { ...input, version: '2.5.2', sizeBytes: 1024 * 1024 });
+    if (!('data' in replacement) || !('data' in second)) throw new Error('replacement failed');
+    expect(replacement.data.id).not.toBe(second.data.id);
+    expect(await tenantService.get(admin, input.tenantId)).toMatchObject({ data: { usage: expect.arrayContaining([{ resource: 'storageMb', used: 322, limit: 322, warningAt: 80, percent: 100, health: 'exceeded' }]) } });
+  });
+  it('rounds aggregate firmware bytes once in the storage preview', async () => {
+    const store = storage(), tenantService = new TenantService(store), mock = new FirmwareService(store, new ProductService(), tenantService);
+    const found = await tenantService.get(admin, input.tenantId);
+    if (!('data' in found)) throw new Error('missing tenant');
+    expect(await tenantService.updateQuota(admin, input.tenantId, { ...found.data.quota, storageMb: { limit: 321, warningAt: 80 } }, found.data.revision)).toMatchObject({ data: { revision: 2 } });
+    expect(await mock.create(tenant, { ...input, sizeBytes: 256 * 1024 })).toMatchObject({ data: { version: '2.5.0' } });
+    expect(await mock.previewStorage(tenant, input.tenantId, 256 * 1024)).toMatchObject({ data: { used: 321, projected: 321, limit: 321 } });
+    expect(await mock.create(tenant, { ...input, version: '2.5.1', sizeBytes: 256 * 1024 })).toMatchObject({ data: { version: '2.5.1' } });
+    expect(await mock.previewStorage(tenant, input.tenantId, 768 * 1024)).toMatchObject({ data: { used: 321, projected: 322, limit: 321 } });
+    expect(await mock.create(tenant, { ...input, version: '2.5.2', sizeBytes: 768 * 1024 })).toMatchObject({ error: { code: 'CONFLICT' } });
+  });
   it('filters, pages, isolates tenants and rejects invalid queries', async () => {
     const mock = service();
     expect(await mock.list(admin, { tenantId: 'all', seed: 42, page: 1, pageSize: 2 })).toMatchObject({ data: { total: 3, items: [{ id: 'fw_as_001' }, { id: 'fw_as_002' }] } });

@@ -39,6 +39,8 @@ export class FirmwareOtaComponent implements OnDestroy {
   readonly message = signal('');
   readonly fDraftFilter = signal<FirmwareQuery>(fBase()); readonly fFilter = signal<FirmwareQuery>(fBase()); readonly fRows = signal<Firmware[]>([]); readonly fTotal = signal(0);
   readonly selectedFirmware = signal<(Firmware & { referencedTaskIds: string[] }) | null>(null); readonly fStep = signal(0); readonly fileState = signal<'idle' | 'reading' | 'ready'>('idle'); readonly fileProgress = signal(0); readonly fileInfo = signal<FileInspection | null>(null); readonly fInput = signal(emptyFirmware('ten_202609_001'));
+  readonly storageNote = signal('');
+  private storageRequest = 0;
   readonly versionPeers = signal<Firmware[]>([]);
   readonly oDraftFilter = signal<OtaQuery>(oBase()); readonly oFilter = signal<OtaQuery>(oBase()); readonly oRows = signal<OtaTask[]>([]); readonly oTotal = signal(0);
   readonly task = signal<OtaTask | null>(null); readonly oStep = signal(0); readonly oInput = signal<OtaInput>(emptyOta('ten_202609_001')); readonly preview = signal<OtaPreview | null>(null); readonly options = signal<Firmware[]>([]); readonly targets = signal<Device[]>([]); readonly connected = signal(true);
@@ -66,10 +68,16 @@ export class FirmwareOtaComponent implements OnDestroy {
       if (task && ['draft', 'paused'].includes(task.status) && role !== 'viewer') void this.loadOtaCapacity(task.tenantId, task.status);
       else { this.capacityRequest++; this.capacityNote.set(''); }
     });
+    effect(() => {
+      const step = this.fStep(), file = this.fileInfo(), tenantId = this.fInput().tenantId; this.role(); this.scenario();
+      if (step === 3 && file) void this.loadStorageCapacity(tenantId, file.sizeBytes);
+      else { this.storageRequest++; this.storageNote.set(''); }
+    });
   }
   ngOnDestroy() { this.media.removeEventListener('change', this.updateMedia); clearInterval(this.timer); }
   private context(): Context { return { actorId: 'usr_202609_001', role: this.role(), tenantId: this.role() === 'platformAdmin' ? 'all' : 'ten_202609_001', seed: 42, scenario: this.scenario() }; }
   private async loadOtaCapacity(tenantId: string, status: OtaTask['status']) { const request = ++this.capacityRequest; this.capacityNote.set('正在查询 OTA 并发配额…'); const context = this.context(); const quotaContext = context.role === 'operator' ? { ...context, role: 'tenantAdmin' as const } : context; const result = await tenants.checkCapacity(quotaContext, tenantId, 'otaConcurrent'); if (request !== this.capacityRequest) return; const action = status === 'paused' ? '继续' : '启动'; this.capacityNote.set('error' in result ? result.error.message : `OTA 并发已用 ${result.data.used}/${result.data.limit}${(result.data.used + 1) / result.data.limit * 100 >= result.data.warningAt ? `；${action}后达到 ${result.data.warningAt}% 预警阈值` : ''}`); }
+  private async loadStorageCapacity(tenantId: string, sizeBytes: number) { const request = ++this.storageRequest; this.storageNote.set('正在查询存储配额…'); const result = await firmwares.previewStorage(this.context(), tenantId, sizeBytes); if (request !== this.storageRequest) return; if ('error' in result) { this.storageNote.set(result.error.message); return; } const { used, projected, limit, warningAt } = result.data; this.storageNote.set(`存储已用 ${used}/${limit} MiB；登记后预计 ${projected}/${limit} MiB${projected > limit ? '，将超过上限' : projected / limit * 100 >= warningAt ? `，达到 ${warningAt}% 预警阈值` : ''}`); }
   setTheme(value: string) { this.themeChoice.set(value); this.applyTheme(); }
   private applyTheme() { document.documentElement.dataset['theme'] = this.dark() ? 'dark' : 'light'; localStorage.setItem('iot-atlas-theme', this.themeChoice()); }
   setRole(value: Role) { this.role.set(value); const id = value === 'platformAdmin' ? 'all' : 'ten_202609_001'; this.fDraftFilter.set(fBase(id)); this.fFilter.set(fBase(id)); this.oDraftFilter.set(oBase(id)); this.oFilter.set(oBase(id)); this.selectedFirmware.set(null); this.task.set(null); this.fStep.set(0); this.oStep.set(0); this.message.set(''); void this.loadFirmware(); void this.loadOta(); }

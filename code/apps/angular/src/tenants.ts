@@ -95,12 +95,13 @@ export class TenantService {
     const productRows = parseRows<{ tenantId: string }>(this.storage, 'iot-atlas-products-v1');
     const otaRows = parseRows<{ tenantId: string; status: string }>(this.storage, 'iot-atlas-ota-v1');
     const messageRows = parseRows<{ tenantId: string; id: string }>(this.storage, 'iot-atlas-device-messages-v1');
+    const firmwareRows = parseRows<{ id: string; tenantId: string; sizeBytes: number }>(this.storage, 'iot-atlas-firmware-v1');
     const base = tenantId === 'ten_202609_001' || tenantId === 'ten_202609_002';
     return {
       devices: deviceRows ? deviceRows.filter(row => row.tenantId === tenantId).length : base ? 6 : 0,
       products: productRows ? productRows.filter(row => row.tenantId === tenantId).length : base ? 2 : 0,
       messages: (tenantId === 'ten_202609_001' ? 6_800 : tenantId === 'ten_202609_002' ? 2_400 : 0) + (messageRows?.filter(row => row && row.tenantId === tenantId && typeof row.id === 'string' && !row.id.startsWith('msg_seed_')).length ?? 0),
-      storageMb: tenantId === 'ten_202609_001' ? 320 : tenantId === 'ten_202609_002' ? 120 : 0,
+      storageMb: (tenantId === 'ten_202609_001' ? 320 : tenantId === 'ten_202609_002' ? 120 : 0) + Math.ceil((firmwareRows?.filter(row => row && row.tenantId === tenantId && row.id.startsWith('fw_new_') && Number.isFinite(row.sizeBytes) && row.sizeBytes > 0).reduce((sum, row) => sum + row.sizeBytes, 0) ?? 0) / (1024 * 1024)),
       otaConcurrent: otaRows ? otaRows.filter(row => row.tenantId === tenantId && !['draft', 'paused', 'succeeded', 'failed', 'cancelled', 'rolledBack'].includes(row.status)).length : 0,
     };
   }

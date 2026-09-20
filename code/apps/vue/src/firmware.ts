@@ -1,6 +1,7 @@
 // IOT-FIRMWARE-001 / IOT-DOMAIN-001. Each application owns its own Mock service.
 import type { Context } from './dashboard';
 import { products, type ProductService } from './products';
+import { tenants, type TenantService } from './tenants';
 
 export type FirmwareStatus = 'draft' | 'verified' | 'released' | 'archived';
 export type Firmware = {
@@ -86,7 +87,7 @@ export async function inspectFirmwareFile(file: File, onProgress?: (percent: num
 
 export class FirmwareService {
   private records = clone(seed);
-  constructor(private storage: Storage | null = null, private productService: ProductService = products) { this.sync(); }
+  constructor(private storage: Storage | null = null, private productService: ProductService = products, private tenantService: TenantService = tenants) { this.sync(); }
   private sync() {
     if (!this.storage) return;
     try { const saved = this.storage.getItem(STORAGE_KEY); if (!saved) return; const rows = JSON.parse(saved) as Firmware[];
@@ -94,6 +95,30 @@ export class FirmwareService {
     } catch { /* Corrupt or unavailable demo storage leaves the current session usable. */ }
   }
   private commit() { try { this.storage?.setItem(STORAGE_KEY, JSON.stringify(this.records)); } catch { /* Current session remains usable. */ } }
+  async previewStorage(context: Context, tenantId: string, sizeBytes: number): Promise<FirmwareResult<{ used: number; projected: number; limit: number; warningAt: number; tenantStatus: 'active' | 'suspended' }>> {
+    this.sync(); const denied = access(context, tenantId, true); if (denied) return denied;
+    if (!Number.isInteger(sizeBytes) || sizeBytes <= 0 || sizeBytes > MAX_BYTES) return error('VALIDATION_ERROR', '文件大小无效');
+    const found = await this.tenantService.get(context, tenantId);
+    if ('error' in found) return error(found.error.code, found.error.message);
+    const row = found.data.usage.find(item => item.resource === 'storageMb');
+    if (!row) return error('VALIDATION_ERROR', '租户存储配额不可用');
+    const existingBytes = this.records.filter(item => item.tenantId === tenantId && item.id.startsWith('fw_new_')).reduce((sum, item) => sum + item.sizeBytes, 0);
+    let persistedBytes = 0;
+    try {
+      const rows: unknown = JSON.parse(this.storage?.getItem(STORAGE_KEY) ?? 'null');
+      if (Array.isArray(rows)) persistedBytes = rows.filter(item => item && item.tenantId === tenantId && typeof item.id === 'string' && item.id.startsWith('fw_new_') && Number.isFinite(item.sizeBytes) && item.sizeBytes > 0).reduce((sum, item) => sum + item.sizeBytes, 0);
+    } catch { /* A failed or unavailable write does not erase current-session quota use. */ }
+    const projected = row.used + Math.ceil((existingBytes + sizeBytes) / (1024 * 1024)) - Math.ceil(persistedBytes / (1024 * 1024));
+    return ok(context, { used: row.used, projected, limit: row.limit, warningAt: row.warningAt, tenantStatus: found.data.status }, `${tenantId}_storage_preview`);
+  }
+  private async storageCapacity(context: Context, tenantId: string, sizeBytes: number): Promise<FirmwareError | null> {
+    const preview = await this.previewStorage(context, tenantId, sizeBytes);
+    if ('error' in preview) return preview;
+    const { projected, limit, tenantStatus } = preview.data;
+    if (tenantStatus !== 'active') return error('CONFLICT', '租户已停用，无法创建资源');
+    if (projected > limit) return error('CONFLICT', `存储配额不足：预计 ${projected}/${limit} MiB；请清理固件或申请提高配额`);
+    return null;
+  }
   private references(id: string): string[] {
     if (!this.storage) return [];
     try { const rows = JSON.parse(this.storage.getItem(OTA_KEY) ?? '[]') as { id: string; firmwareId: string; status: string }[];
@@ -121,9 +146,12 @@ export class FirmwareService {
     if (own.data.tenantId !== input.tenantId) return error('VALIDATION_ERROR', '产品与租户不一致', { productId: '请选择同租户产品' });
     for (const id of input.compatibleProductIds) { const product = await this.productService.get(context, id); if ('error' in product || product.data.tenantId !== input.tenantId) return error('VALIDATION_ERROR', '适配产品不兼容', { compatibleProductIds: '所有适配产品须属于同一租户' }); }
     if (this.records.some(row => row.productId === input.productId && row.version === input.version)) return error('CONFLICT', '同产品版本已存在', { version: '请选择新版本' });
+    const quotaError = await this.storageCapacity(context, input.tenantId, input.sizeBytes); if (quotaError) return quotaError;
     await slow(context); this.sync();
     if (this.records.some(row => row.productId === input.productId && row.version === input.version)) return error('CONFLICT', '同产品版本已存在', { version: '请选择新版本' });
-    const id = `fw_new_${String(this.records.length + 1).padStart(3, '0')}`, now = at(this.records.length + 1);
+    const latestQuotaError = await this.storageCapacity(context, input.tenantId, input.sizeBytes); if (latestQuotaError) return latestQuotaError;
+    const nextNumber = Math.max(3, ...this.records.map(item => Number(item.id.slice(7)) || 0)) + 1;
+    const id = `fw_new_${String(nextNumber).padStart(3, '0')}`, now = at(nextNumber);
     const row: Firmware = { ...clone(input), id, status: 'draft', createdBy: context.actorId, createdAt: now, updatedAt: now, revision: 1, history: [{ at: now, actorId: context.actorId, action: 'created', detail: '登记固件元数据；未存储文件内容' }] };
     this.records.push(row); this.commit(); return ok(context, row, id);
   }

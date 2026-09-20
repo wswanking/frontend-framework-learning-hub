@@ -138,6 +138,19 @@ async function snapshots() {
   const releasedFirmware = await firmwareService.transition(context, firmwareId, 'release', 2);
   const eligibleFirmware = await firmwareService.eligible(context, firmwareId, 'prod_as_001');
   const archivedFirmware = await firmwareService.transition(context, firmwareId, 'archive', 3);
+  const quotaStore = memoryStorage();
+  const quotaTenants = new TenantService(quotaStore);
+  const quotaFirmwares = new FirmwareService(quotaStore, new ProductService(quotaStore, quotaTenants), quotaTenants);
+  const quotaTenant = await quotaTenants.get(platform, context.tenantId);
+  const quotaConfig = 'data' in quotaTenant ? { ...quotaTenant.data.quota, storageMb: { limit: 321, warningAt: 80 } } : null;
+  const quotaSet = quotaConfig ? await quotaTenants.updateQuota(platform, context.tenantId, quotaConfig, 1) : quotaTenant;
+  const quotaPreviewBefore = await quotaFirmwares.previewStorage(context, context.tenantId, 256 * 1024);
+  const quotaFirst = await quotaFirmwares.create(context, { ...firmwareInput, sizeBytes: 256 * 1024 });
+  const quotaPreviewSharedMiB = await quotaFirmwares.previewStorage(context, context.tenantId, 256 * 1024);
+  const quotaSecond = await quotaFirmwares.create(context, { ...firmwareInput, version: '2.5.1', sizeBytes: 256 * 1024 });
+  const quotaPreviewOver = await quotaFirmwares.previewStorage(context, context.tenantId, 768 * 1024);
+  const quotaDenied = await quotaFirmwares.create(context, { ...firmwareInput, version: '2.5.2', sizeBytes: 768 * 1024 });
+  const quotaAfter = await quotaTenants.get(platform, context.tenantId);
   const tenantMutationService = new TenantService(memoryStorage());
   const platformContext: Context = { ...context, role: 'platformAdmin', tenantId: 'all' };
   const tenantInput: TenantInput = { name: '契约租户', key: 'contract-tenant', status: 'active', plan: 'standard', contact: '测试人', email: 'contract@example.com', description: '契约', quota: {
@@ -264,6 +277,7 @@ async function snapshots() {
     command,
     eventHistory,
     firmware: { created: createdFirmware, prematureRelease, verified: verifiedFirmware, stale: staleFirmware, released: releasedFirmware, eligible: eligibleFirmware, archived: archivedFirmware },
+    storageQuota: { quotaSet, previewBefore: quotaPreviewBefore, first: quotaFirst, previewSharedMiB: quotaPreviewSharedMiB, second: quotaSecond, previewOver: quotaPreviewOver, denied: quotaDenied, after: quotaAfter },
     tenants: { denied: deniedTenant, created: createdTenant, duplicate: duplicateTenant, invited: invitedMember, updatedMember, afterMember: tenantAfterMember },
     ota: { preview: otaPreview, created: createdOta, deniedStart: deniedOtaStart, started: startedOta, staleStart: staleOtaStart, paused: pausedOta, resumed: resumedOta, cancelled: cancelledOta, afterCancel: otaAfterCancel,
       cancelTrend: { data: 'data' in otaAfterCancel ? otaTrend(otaAfterCancel.data) : [] } },
@@ -429,6 +443,14 @@ describe('IOT-DOMAIN-001 cross-framework contract export', () => {
     expect(first.mutations.firmware.stale).toMatchObject({ error: { code: 'CONFLICT' } });
     expect(first.mutations.firmware.released).toMatchObject({ data: { status: 'released', revision: 3 } });
     expect(first.mutations.firmware.eligible).toHaveProperty('data');
+    expect(first.mutations.storageQuota.quotaSet).toMatchObject({ data: { quota: { storageMb: { limit: 321 } } } });
+    expect(first.mutations.storageQuota.previewBefore).toMatchObject({ data: { used: 320, projected: 321, limit: 321 } });
+    expect(first.mutations.storageQuota.first).toHaveProperty('data');
+    expect(first.mutations.storageQuota.previewSharedMiB).toMatchObject({ data: { used: 321, projected: 321, limit: 321 } });
+    expect(first.mutations.storageQuota.second).toHaveProperty('data');
+    expect(first.mutations.storageQuota.previewOver).toMatchObject({ data: { used: 321, projected: 322, limit: 321 } });
+    expect(first.mutations.storageQuota.denied).toMatchObject({ error: { code: 'CONFLICT' } });
+    expect(first.mutations.storageQuota.after).toMatchObject({ data: { usage: expect.arrayContaining([expect.objectContaining({ resource: 'storageMb', used: 321 })]) } });
     expect(first.mutations.firmware.archived).toMatchObject({ data: { status: 'archived', revision: 4 } });
     expect(first.mutations.tenants.denied).toMatchObject({ error: { code: 'FORBIDDEN' } });
     expect(first.mutations.tenants.created).toMatchObject({ data: { revision: 1 } });
