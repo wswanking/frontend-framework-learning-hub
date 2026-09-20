@@ -1,5 +1,9 @@
 # 诊断与验收环境
 
+## 2026-09-20：IOT-DOMAIN-001 OTA 跨租户详情 ID 边界
+
+三端各自用平台管理员创建另一租户的实际 OTA Mock 任务，再用本租户身份读取所得 ID，结果均为 `FORBIDDEN` 且不含 `data`。`node tools/diagnose-all.mjs parity` 退出 0，现 **170** 个实际 DTO/错误结果逐字段一致，SHA-256 `91e2d5107510deafa070a42ba157a64f5c974dc087054cd746eb8d7918b99569`。该固定场景不替代真实认证、完整角色矩阵或 REVIEW-003 验收。
+
 ## 2026-09-20：IOT-DOMAIN-001 跨租户详情访问契约
 
 三端独立契约快照各新增五个跨租户详情 ID 场景：产品、设备、规则、固件和租户详情均须返回 `FORBIDDEN` 且不携带 `data`。`node tools/diagnose-all.mjs parity` 退出 0，现 **168** 个实际 DTO/错误结果逐字段一致，SHA-256 `dc3c71382e7c91d724a635ce6fc57edf4ebf33e1298d97065d07c3fdcf04a949`。此项验证当前浏览器 Mock 的固定场景，不代替真实认证、OTA 跨租户详情、完整权限矩阵或 REVIEW-003 验收。

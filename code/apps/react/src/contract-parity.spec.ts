@@ -188,6 +188,11 @@ async function snapshots() {
   const resumedOta = await otaService.resume(operator, otaId, 'data' in pausedOta ? pausedOta.data.revision : 1);
   const cancelledOta = await otaService.cancel(context, otaId, 'data' in resumedOta ? resumedOta.data.revision : 1);
   const otaAfterCancel = await otaService.get(context, otaId);
+  const foreignOta = await otaService.create(platform, {
+    ...otaInput, tenantId: 'ten_202609_002', firmwareId: 'fw_as_003', productId: 'prod_as_002',
+    targetSelector: { deviceIds: ['dev_as_002'], tags: [] },
+  });
+  const foreignOtaGet = await otaService.get(context, 'data' in foreignOta ? foreignOta.data.id : 'missing');
   const rollbackStore = memoryStorage();
   const rollbackProducts = new ProductService(rollbackStore);
   const rollbackDevices = new DeviceService(rollbackStore, rollbackProducts);
@@ -284,7 +289,7 @@ async function snapshots() {
     firmware: { created: createdFirmware, prematureRelease, verified: verifiedFirmware, stale: staleFirmware, released: releasedFirmware, eligible: eligibleFirmware, archived: archivedFirmware },
     storageQuota: { quotaSet, previewBefore: quotaPreviewBefore, first: quotaFirst, previewSharedMiB: quotaPreviewSharedMiB, second: quotaSecond, previewOver: quotaPreviewOver, denied: quotaDenied, after: quotaAfter },
     tenants: { denied: deniedTenant, created: createdTenant, duplicate: duplicateTenant, invited: invitedMember, updatedMember, afterMember: tenantAfterMember },
-    ota: { preview: otaPreview, created: createdOta, deniedStart: deniedOtaStart, started: startedOta, staleStart: staleOtaStart, paused: pausedOta, resumed: resumedOta, cancelled: cancelledOta, afterCancel: otaAfterCancel,
+    ota: { preview: otaPreview, created: createdOta, deniedStart: deniedOtaStart, started: startedOta, staleStart: staleOtaStart, paused: pausedOta, resumed: resumedOta, cancelled: cancelledOta, afterCancel: otaAfterCancel, foreignCreated: foreignOta, foreignGet: foreignOtaGet,
       cancelTrend: { data: 'data' in otaAfterCancel ? otaTrend(otaAfterCancel.data) : [] } },
     rollback: { sourceCreated: rollbackSourceCreated, sourceStarted: rollbackSourceStarted, sourceFinished: rollbackSourceFinished,
       created: rollbackCreated, started: rollbackStarted, finished: rollbackFinished, sourceAfter: sourceAfterRollback,
@@ -388,6 +393,9 @@ describe('IOT-DOMAIN-001 cross-framework contract export', () => {
       expect(values.foreignGet).not.toHaveProperty('data');
     }
     expect(first.domain.ota.get).toMatchObject({ error: { code: 'NOT_FOUND' } });
+    expect(first.mutations.ota.foreignCreated).toHaveProperty('data');
+    expect(first.mutations.ota.foreignGet).toMatchObject({ error: { code: 'FORBIDDEN' } });
+    expect(first.mutations.ota.foreignGet).not.toHaveProperty('data');
     expect(first.mutations.products.created).toHaveProperty('data');
     expect(first.mutations.products.duplicate).toMatchObject({ error: { code: 'CONFLICT' } });
     expect(first.mutations.products.afterCreate).toHaveProperty('data');
