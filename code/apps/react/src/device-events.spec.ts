@@ -95,6 +95,19 @@ describe('IOT-DEVICE-001 messages and alarm acknowledgement', () => {
     expect(afterViewer.data.total).toBe(1);
   });
 
+  it('dispatches an accepted report to enabled rules beyond the first rule page', async () => {
+    const store = storage(), seedRules = new RuleService(store);
+    const seed = await seedRules.get(admin, 'rule_high_temp');
+    if ('error' in seed) throw new Error(seed.error.message);
+    const flows = Array.from({ length: 100 }, (_, index) => ({ ...seed.data, id: `rule_${String(index).padStart(3, '0')}` }));
+    store.setItem('iot-atlas-rules-v1', JSON.stringify([...flows, seed.data]));
+    const rules = new RuleService(store), events = new DeviceEventService(store, undefined, undefined, rules);
+    const point = { deviceId: 'dev_as_001', metric: 'temperature', timestamp: '2026-09-16T13:00:00.000Z', value: 82, unit: '°C', quality: 'good' as const };
+    expect(await events.recordTelemetry(operator, point.deviceId, [point])).toMatchObject({ data: { payload: { temperature: 82 } } });
+    expect(await rules.logsFor(operator, { tenantId: operator.tenantId, page: 1, pageSize: 100, seed: 42 })).toMatchObject({ data: { total: 101 } });
+    expect(await rules.logsFor(operator, { tenantId: operator.tenantId, ruleId: 'rule_high_temp', page: 1, pageSize: 10, seed: 42 })).toMatchObject({ data: { total: 1 } });
+  });
+
   it('counts live messages against the tenant hard quota without charging duplicate reports', async () => {
     const store = storage(), tenants = new TenantService(store), ruleService = new RuleService(store), events = new DeviceEventService(store, undefined, undefined, ruleService);
     const current = await tenants.get(admin, 'ten_202609_001');

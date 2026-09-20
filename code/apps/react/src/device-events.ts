@@ -64,8 +64,12 @@ export class DeviceEventService {
     const saved: DeviceMessage = { id: key, tenantId: device.tenantId, deviceId: id, productId: device.productId, occurredAt, kind: 'property', payload };
     this.messages.unshift(saved); this.commit();
     if (context.role !== 'viewer') {
-      const eligible = await this.ruleService.list(context, { tenantId: device.tenantId, productId: device.productId, enabled: true, page: 1, pageSize: 100, seed: context.seed });
-      if ('data' in eligible) for (const flow of eligible.data.items) await this.ruleService.consumeEvent(context, flow.id, { deviceId: id, productId: device.productId, occurredAt, properties: { ...device.attributes, ...payload } });
+      for (let page = 1; ; page++) {
+        const eligible = await this.ruleService.list(context, { tenantId: device.tenantId, productId: device.productId, enabled: true, page, pageSize: 100, seed: context.seed });
+        if ('error' in eligible) break;
+        for (const flow of eligible.data.items) await this.ruleService.consumeEvent(context, flow.id, { deviceId: id, productId: device.productId, occurredAt, properties: { ...device.attributes, ...payload } });
+        if (page * eligible.data.pageSize >= eligible.data.total) break;
+      }
     }
     return { data: clone(saved), meta: found.meta };
   }
