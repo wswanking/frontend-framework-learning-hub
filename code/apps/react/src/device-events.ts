@@ -40,9 +40,11 @@ export class DeviceEventService {
   async recordTelemetry(context: Context, id: string, points: TelemetryPoint[]): Promise<DeviceResult<DeviceMessage | null>> {
     const found = await this.device(context, id); if ('error' in found) return found;
     const device = found.data;
-    if (!points.length || points.every(point => point.value === null)) return { data: null, meta: found.meta };
+    if (!points.length) return { data: null, meta: found.meta };
     const occurredAt = points[0].timestamp;
-    if (!validUtc(occurredAt) || points.some(point => point.deviceId !== id || point.timestamp !== occurredAt || !(point.metric in device.attributes))) return { error: { code: 'VALIDATION_ERROR', message: '遥测点与设备不匹配' } };
+    if (!validUtc(occurredAt) || points.some(point => point.deviceId !== id || point.timestamp !== occurredAt || !(point.metric in device.attributes) || point.value !== null && !Number.isFinite(point.value) || !['good', 'stale', 'invalid', 'missing'].includes(point.quality))) return { error: { code: 'VALIDATION_ERROR', message: '遥测点与设备不匹配' } };
+    const valid = points.filter(point => point.value !== null && point.quality !== 'invalid' && point.quality !== 'missing');
+    if (!valid.length) return { data: null, meta: found.meta };
     this.sync();
     const key = `msg_${id}_${occurredAt}`;
     const existing = this.messages.find(item => item.id === key);
@@ -58,7 +60,7 @@ export class DeviceEventService {
     const used = capacity.data.used + latestCount - (this.storage ? beforeCount : 0);
     if (used >= capacity.data.limit) return { error: { code: 'CONFLICT', message: `已达到 messages 配额上限：已用 ${used}/${capacity.data.limit}；请清理资源或申请提高配额` } };
     const payload: DeviceMessage['payload'] = {};
-    for (const point of points) if (point.value !== null) payload[point.metric] = point.value;
+    for (const point of valid) payload[point.metric] = point.value as number;
     const saved: DeviceMessage = { id: key, tenantId: device.tenantId, deviceId: id, productId: device.productId, occurredAt, kind: 'property', payload };
     this.messages.unshift(saved); this.commit();
     if (context.role !== 'viewer') {

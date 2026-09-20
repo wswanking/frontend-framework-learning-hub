@@ -273,6 +273,10 @@ async function snapshots() {
     missingReport: await historyEvents.recordTelemetry(operator, historyPoint.deviceId, [{ ...historyPoint, value: null, quality: 'missing' }]),
     wrongDevice: await historyEvents.recordTelemetry(operator, historyPoint.deviceId, [{ ...historyPoint, deviceId: 'dev_as_002' }]),
     invalidUtc: await historyEvents.recordTelemetry(operator, historyPoint.deviceId, [{ ...historyPoint, timestamp: '2026-09-31T13:00:00.000Z' }]),
+    nonFinite: await historyEvents.recordTelemetry(operator, historyPoint.deviceId, [{ ...historyPoint, value: Number.NaN }]),
+    invalidQuality: await historyEvents.recordTelemetry(operator, historyPoint.deviceId, [{ ...historyPoint, quality: 'invalid' }]),
+    missingQuality: await historyEvents.recordTelemetry(operator, historyPoint.deviceId, [{ ...historyPoint, quality: 'missing' }]),
+    afterRejected: await historyEvents.listMessages(operator, historyPoint.deviceId),
     recorded: await historyEvents.recordTelemetry(operator, historyPoint.deviceId, [historyPoint]),
     duplicate: await historyEvents.recordTelemetry(operator, historyPoint.deviceId, [historyPoint]),
     messages: await historyEvents.listMessages(operator, historyPoint.deviceId),
@@ -435,6 +439,10 @@ describe('IOT-DOMAIN-001 cross-framework contract export', () => {
     expect(first.mutations.eventHistory.missingReport).toMatchObject({ data: null });
     expect(first.mutations.eventHistory.wrongDevice).toMatchObject({ error: { code: 'VALIDATION_ERROR' } });
     expect(first.mutations.eventHistory.invalidUtc).toMatchObject({ error: { code: 'VALIDATION_ERROR' } });
+    expect(first.mutations.eventHistory.nonFinite).toMatchObject({ error: { code: 'VALIDATION_ERROR' } });
+    expect(first.mutations.eventHistory.invalidQuality).toMatchObject({ data: null });
+    expect(first.mutations.eventHistory.missingQuality).toMatchObject({ data: null });
+    expect(first.mutations.eventHistory.afterRejected).toEqual(first.mutations.eventHistory.seedMessages);
     expect(first.mutations.eventHistory.recorded).toMatchObject({ data: { payload: { temperature: 82 } } });
     expect(first.mutations.eventHistory.duplicate).toEqual(first.mutations.eventHistory.recorded);
     expect(first.mutations.eventHistory.messages).toMatchObject({ data: [expect.objectContaining({ id: 'msg_dev_as_001_2026-09-16T13:00:00.000Z' }), expect.objectContaining({ id: 'msg_seed_dev_as_001' })] });

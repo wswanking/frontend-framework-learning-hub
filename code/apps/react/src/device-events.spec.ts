@@ -45,6 +45,18 @@ describe('IOT-DEVICE-001 messages and alarm acknowledgement', () => {
     expect(await first.listMessages(operator, 'dev_as_002')).toMatchObject({ error: { code: 'FORBIDDEN' } });
   });
 
+  it('does not charge or execute rules for invalid and missing telemetry', async () => {
+    const store = storage(), rules = new RuleService(store), events = new DeviceEventService(store, undefined, undefined, rules);
+    const point = { deviceId: 'dev_as_001', metric: 'temperature', timestamp: '2026-09-16T13:00:00.000Z', value: 82, unit: '°C', quality: 'good' as const };
+    expect(await events.recordTelemetry(operator, point.deviceId, [{ ...point, value: Number.NaN }])).toMatchObject({ error: { code: 'VALIDATION_ERROR' } });
+    expect(await events.recordTelemetry(operator, point.deviceId, [{ ...point, quality: 'invalid' }])).toMatchObject({ data: null });
+    expect(await events.recordTelemetry(operator, point.deviceId, [{ ...point, quality: 'missing' }])).toMatchObject({ data: null });
+    expect(await events.listMessages(operator, point.deviceId)).toMatchObject({ data: [{ id: `msg_seed_${point.deviceId}` }] });
+    expect(await rules.logsFor(operator, { tenantId: operator.tenantId, ruleId: 'rule_high_temp', page: 1, pageSize: 10, seed: 42 })).toMatchObject({ data: { total: 0 } });
+    expect(await new TenantService(store).get(admin, operator.tenantId)).toMatchObject({ data: { usage: expect.arrayContaining([expect.objectContaining({ resource: 'messages', used: 6800 })]) } });
+    expect(await events.recordTelemetry(operator, point.deviceId, [{ ...point, quality: 'invalid' }, { ...point, metric: 'humidity', value: 41, unit: '%RH' }])).toMatchObject({ data: { payload: { humidity: 41 } } });
+  });
+
   it('consumes a new live report with enabled rules once and ignores disabled rules', async () => {
     const store = storage(), ruleService = new RuleService(store);
     const events = new DeviceEventService(store, undefined, undefined, ruleService);
