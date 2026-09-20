@@ -1,4 +1,5 @@
 import { createHash } from 'node:crypto';
+import { spawnSync } from 'node:child_process';
 import { readFile, readdir, writeFile } from 'node:fs/promises';
 import { join, relative, resolve } from 'node:path';
 
@@ -33,12 +34,28 @@ function testSummary(xml, label) {
   const field = (name) => Number(rootTag.match(new RegExp(`\\b${name}="(\\d+)"`))?.[1] ?? (name === 'skipped' ? 0 : NaN));
   const result = Object.fromEntries(['tests', 'failures', 'errors', 'skipped'].map((key) => [key, field(key)]));
   if (!Number.isInteger(result.tests) || result.tests < 1 || Object.entries(result).some(([key, value]) => key !== 'tests' && (!Number.isInteger(value) || value < 0))) throw new Error(`${label} has invalid counts`);
-  if (result.failures || result.errors) throw new Error(`${label} contains failures`);
+  if (result.failures || result.errors || result.skipped) throw new Error(`${label} contains failures or skipped tests`);
   return result;
+}
+
+function listedBrowserTests() {
+  const listed = spawnSync(process.execPath, [join(root, 'node_modules/playwright/cli.js'), 'test', '--list', '--reporter=json'], {
+    cwd: root, encoding: 'utf8', maxBuffer: 16 * 1024 * 1024,
+  });
+  if (listed.status !== 0) throw new Error(`Cannot enumerate browser tests: ${listed.stderr || listed.error || listed.status}`);
+  const suites = JSON.parse(listed.stdout).suites;
+  if (!Array.isArray(suites)) throw new Error('Invalid browser test list');
+  const count = (suite) => (suite.specs ?? []).reduce((total, spec) => total + spec.tests.length, 0)
+    + (suite.suites ?? []).reduce((total, child) => total + count(child), 0);
+  return suites.reduce((total, suite) => total + count(suite), 0);
 }
 
 const unitXml = await readFile(join(root, 'reports/unit.xml'), 'utf8');
 const browserXml = await readFile(join(root, 'reports/e2e.xml'), 'utf8');
+const unitTests = testSummary(unitXml, 'unit');
+const browserTests = testSummary(browserXml, 'browser');
+const expectedBrowserTests = listedBrowserTests();
+if (browserTests.tests !== expectedBrowserTests) throw new Error(`Browser report has ${browserTests.tests} tests; current suite has ${expectedBrowserTests}`);
 const manifestText = await readFile(join(root, 'reports/v2-candidates/manifest.json'), 'utf8');
 const manifest = JSON.parse(manifestText);
 if (manifest.framework !== app || manifest.status !== 'candidate-unreviewed' || !Array.isArray(manifest.captures) || manifest.captures.length < 18) throw new Error('Invalid V2 candidate manifest');
@@ -56,7 +73,7 @@ const evidence = {
   generatedAt: new Date().toISOString(),
   checks: Object.fromEntries(checks.map((check) => [check, 'success'])),
   visualAcceptance: process.env.ATLAS_VISUAL === 'success' ? 'passed' : 'pending-review',
-  tests: { unit: testSummary(unitXml, 'unit'), browser: testSummary(browserXml, 'browser') },
+  tests: { unit: unitTests, browser: browserTests },
   candidateCount: manifest.captures.length,
   hashes: { dist, unitReport: digest(unitXml), browserReport: digest(browserXml), v2Manifest: digest(manifestText) },
   scope: 'diagnostic evidence only; no design, review, deployment, rollback, or final acceptance approval',
