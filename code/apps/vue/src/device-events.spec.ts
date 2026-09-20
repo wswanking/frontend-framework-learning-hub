@@ -13,6 +13,21 @@ const operator: Context = { ...admin, role: 'operator', tenantId: 'ten_202609_00
 function storage(): Storage { const data = new Map<string, string>(); return { get length() { return data.size; }, clear: () => data.clear(), getItem: key => data.get(key) ?? null, key: index => [...data.keys()][index] ?? null, removeItem: key => { data.delete(key); }, setItem: (key, value) => { data.set(key, value); } }; }
 
 describe('IOT-DEVICE-001 messages and alarm acknowledgement', () => {
+  it('includes rule alarms beyond the first log page and excludes partial device ID matches', async () => {
+    const store = storage();
+    const logs = Array.from({ length: 101 }, (_, index) => ({
+      id: `log_${index}`, ruleId: 'rule_high_temp', tenantId: operator.tenantId,
+      deviceId: 'dev_as_001', occurredAt: new Date(Date.parse('2026-09-16T13:00:00.000Z') + index * 1000).toISOString(),
+      mode: 'event', status: 'succeeded', traces: [], alarmCreated: true,
+      sample: { deviceId: 'dev_as_001', productId: 'prod_as_001', occurredAt: '2026-09-16T13:00:00.000Z', properties: {} },
+    }));
+    store.setItem('iot-atlas-rule-logs-v1', JSON.stringify([...logs, { ...logs[0], id: 'other_device', deviceId: 'dev_as_001_extra' }]));
+    const listed = await new DeviceEventService(store).listAlarms(operator, 'dev_as_001');
+    if ('error' in listed) throw new Error(listed.error.message);
+    expect(listed.data.filter(alarm => alarm.source === 'rule')).toHaveLength(101);
+    expect(listed.data.map(alarm => alarm.id)).toContain('alarm_rule_log_0');
+    expect(listed.data.map(alarm => alarm.id)).not.toContain('alarm_rule_other_device');
+  });
   it('keeps the seed report unchanged after live attributes move forward', async () => {
     const store = storage(), current = new DeviceService(store, new ProductService()), events = new DeviceEventService(store, current);
     const seed = initialDeviceReport('dev_as_001');

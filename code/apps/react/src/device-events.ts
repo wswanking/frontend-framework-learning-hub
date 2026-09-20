@@ -73,9 +73,12 @@ export class DeviceEventService {
     const found = await this.device(context, id); if ('error' in found) return found;
     this.sync(); const device = found.data;
     const items: DeviceAlarm[] = device.status === 'fault' ? [{ id: `alarm_fault_${id}`, tenantId: device.tenantId, deviceId: id, occurredAt: device.lastActiveAt ?? device.updatedAt, severity: 'critical', source: 'device', description: '设备故障状态', status: 'open' }] : [];
-    const logs = await this.ruleService.logsFor(context, { tenantId: device.tenantId, deviceId: id, page: 1, pageSize: 100, seed: context.seed });
-    if ('error' in logs) return { error: { code: logs.error.code, message: logs.error.message } };
-    for (const execution of logs.data.items.filter(item => item.alarmCreated)) items.push({ id: `alarm_rule_${execution.id}`, tenantId: device.tenantId, deviceId: id, occurredAt: execution.occurredAt, severity: 'warning', source: 'rule', description: `规则 ${execution.ruleId} 触发模拟告警`, status: 'open' });
+    for (let page = 1; ; page++) {
+      const logs = await this.ruleService.logsFor(context, { tenantId: device.tenantId, deviceId: id, page, pageSize: 100, seed: context.seed });
+      if ('error' in logs) return { error: { code: logs.error.code, message: logs.error.message } };
+      for (const execution of logs.data.items.filter(item => item.deviceId === id && item.alarmCreated)) items.push({ id: `alarm_rule_${execution.id}`, tenantId: device.tenantId, deviceId: id, occurredAt: execution.occurredAt, severity: 'warning', source: 'rule', description: `规则 ${execution.ruleId} 触发模拟告警`, status: 'open' });
+      if (page * logs.data.pageSize >= logs.data.total) break;
+    }
     const history = await this.otaService.historyForDevice(context, id);
     if ('error' in history) return { error: { code: history.error.code, message: history.error.message } };
     for (const taskId of new Set(history.data.filter(item => item.execution.status === 'failed').map(item => item.taskId))) {
