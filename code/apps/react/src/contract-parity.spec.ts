@@ -246,6 +246,22 @@ async function snapshots() {
   const liveDuplicate = await eventService.recordTelemetry(operator, livePoint.deviceId, [livePoint]);
   const liveLogs = await eventRules.logsFor(context, { tenantId: context.tenantId, ruleId: 'rule_high_temp', page: 1, pageSize: 100, seed: 42 });
   const liveAlarms = await eventService.listAlarms(context, livePoint.deviceId);
+  const pagedAlarmStore = memoryStorage();
+  const pagedLogs = Array.from({ length: 101 }, (_, index) => ({
+    id: `paged_${index}`, ruleId: 'rule_high_temp', tenantId: context.tenantId, deviceId: livePoint.deviceId,
+    occurredAt: new Date(Date.parse(livePoint.timestamp) + index * 1000).toISOString(),
+    mode: 'event', status: 'succeeded', traces: [], alarmCreated: true,
+    sample: { deviceId: livePoint.deviceId, productId: 'prod_as_001', occurredAt: livePoint.timestamp, properties: {} },
+  }));
+  pagedAlarmStore.setItem('iot-atlas-rule-logs-v1', JSON.stringify([...pagedLogs, { ...pagedLogs[0], id: 'similar_device', deviceId: `${livePoint.deviceId}_extra` }]));
+  const pagedAlarmResult = await new DeviceEventService(pagedAlarmStore).listAlarms(context, livePoint.deviceId);
+  const pagedAlarms = 'data' in pagedAlarmResult ? pagedAlarmResult.data : [];
+  const alarmPagination = {
+    error: 'error' in pagedAlarmResult ? pagedAlarmResult.error : null,
+    total: pagedAlarms.filter(alarm => alarm.source === 'rule').length,
+    oldestPresent: pagedAlarms.some(alarm => alarm.id === 'alarm_rule_paged_0'),
+    similarDevicePresent: pagedAlarms.some(alarm => alarm.id === 'alarm_rule_similar_device'),
+  };
   const otherTenant: Context = { ...operator, tenantId: 'ten_202609_002' };
   const disabledPoint = { deviceId: 'dev_as_002', metric: 'voltage', timestamp: '2026-09-16T13:01:00.000Z', value: 220, unit: 'V', quality: 'good' as const };
   const disabledRecorded = await eventService.recordTelemetry(otherTenant, disabledPoint.deviceId, [disabledPoint]);
@@ -292,7 +308,7 @@ async function snapshots() {
     products: { created: createdProduct, duplicate: duplicateProduct, afterCreate: productAfterCreate, viewerDenied: deniedProduct },
     devices: { created: createdDevice, unconfirmedDelete, updated: updatedDevice, stale: staleDevice, afterUpdate: deviceAfterUpdate, deleted: deletedDevice, afterDelete: deviceAfterDelete },
     rules: { created: createdRule, deniedToggle, enabled: enabledRule, stale: staleRule, invalidSample: invalidRuleSample, invalidLogRange: invalidRuleLogRange, event: ruleEvent, logs: ruleLogs },
-    telemetryRule: { recorded: liveRecorded, duplicate: liveDuplicate, logs: liveLogs, alarms: liveAlarms, disabledRecorded, disabledLogs },
+    telemetryRule: { recorded: liveRecorded, duplicate: liveDuplicate, logs: liveLogs, alarms: liveAlarms, alarmPagination, disabledRecorded, disabledLogs },
     command,
     eventHistory,
     firmware: { created: createdFirmware, prematureRelease, verified: verifiedFirmware, stale: staleFirmware, released: releasedFirmware, eligible: eligibleFirmware, archived: archivedFirmware },
@@ -469,6 +485,7 @@ describe('IOT-DOMAIN-001 cross-framework contract export', () => {
     expect(first.mutations.rules.logs).toMatchObject({ data: { total: 1 } });
     expect(first.mutations.telemetryRule.logs).toMatchObject({ data: { total: 1, items: [{ mode: 'event', alarmCreated: true }] } });
     expect(first.mutations.telemetryRule.alarms).toMatchObject({ data: expect.arrayContaining([expect.objectContaining({ source: 'rule' })]) });
+    expect(first.mutations.telemetryRule.alarmPagination).toEqual({ error: null, total: 101, oldestPresent: true, similarDevicePresent: false });
     expect(first.mutations.telemetryRule.disabledLogs).toMatchObject({ data: { total: 0 } });
     expect(first.mutations.firmware.created).toMatchObject({ data: { status: 'draft', revision: 1 } });
     expect(first.mutations.firmware.prematureRelease).toMatchObject({ error: { code: 'CONFLICT' } });
