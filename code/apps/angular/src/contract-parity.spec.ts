@@ -58,21 +58,25 @@ async function snapshots() {
     products: {
       list: await catalog.products.list(context, ownPage), filtered: await catalog.products.list(context, { ...ownPage, status: 'published' }),
       get: await catalog.products.get(context, 'prod_as_001'), forbidden: await catalog.products.list(context, otherPage),
+      foreignGet: await catalog.products.get(context, 'prod_as_002'),
       offline: await catalog.products.list(offline, ownPage),
     },
     devices: {
       list: await catalog.devices.list(context, ownPage), filtered: await catalog.devices.list(context, { ...ownPage, region: 'AS' }),
       get: await catalog.devices.get(context, 'dev_as_001'), forbidden: await catalog.devices.list(context, otherPage),
+      foreignGet: await catalog.devices.get(context, 'dev_as_002'),
       offline: await catalog.devices.list(offline, ownPage),
     },
     rules: {
       list: await catalog.rules.list(context, ownPage), filtered: await catalog.rules.list(context, { ...ownPage, enabled: true }),
       get: await catalog.rules.get(context, 'rule_high_temp'), forbidden: await catalog.rules.list(context, otherPage),
+      foreignGet: await catalog.rules.get(context, 'rule_low_battery'),
       offline: await catalog.rules.list(offline, ownPage),
     },
     firmware: {
       list: await catalog.firmware.list(context, ownPage), filtered: await catalog.firmware.list(context, { ...ownPage, status: 'released' }),
       get: await catalog.firmware.get(context, 'fw_as_001'), forbidden: await catalog.firmware.list(context, otherPage),
+      foreignGet: await catalog.firmware.get(context, 'fw_as_003'),
       offline: await catalog.firmware.list(offline, ownPage),
     },
     ota: {
@@ -83,6 +87,7 @@ async function snapshots() {
     tenants: {
       list: await catalog.tenants.list(context, ownPage), filtered: await catalog.tenants.list(context, { ...ownPage, status: 'active' }),
       get: await catalog.tenants.get(context, context.tenantId), forbidden: await catalog.tenants.list(context, otherPage),
+      foreignGet: await catalog.tenants.get(context, 'ten_202609_002'),
       offline: await catalog.tenants.list(offline, ownPage),
     },
   };
@@ -379,6 +384,8 @@ describe('IOT-DOMAIN-001 cross-framework contract export', () => {
     }
     for (const values of [first.domain.products, first.domain.devices, first.domain.rules, first.domain.firmware, first.domain.tenants]) {
       expect(values.get).toHaveProperty('data');
+      expect(values.foreignGet).toMatchObject({ error: { code: 'FORBIDDEN' } });
+      expect(values.foreignGet).not.toHaveProperty('data');
     }
     expect(first.domain.ota.get).toMatchObject({ error: { code: 'NOT_FOUND' } });
     expect(first.mutations.products.created).toHaveProperty('data');

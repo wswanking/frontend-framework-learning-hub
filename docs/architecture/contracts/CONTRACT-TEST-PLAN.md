@@ -26,6 +26,10 @@
 
 REVIEW-003 通过前，技术负责人必须确认测试矩阵足以覆盖 P0 Dashboard、地图、产品、设备和跨租户边界。
 
+## 2026-09-20 跨租户详情 ID 边界
+
+三端各自使用同一固定租户上下文直接读取其他租户的产品、设备、规则、固件和租户详情，断言五项均为 `FORBIDDEN` 且不含 `data`。外层契约门禁现逐字段比对 **168** 个 DTO/错误结果，SHA-256 `dc3c71382e7c91d724a635ce6fc57edf4ebf33e1298d97065d07c3fdcf04a949`。OTA 无其他租户的固定种子任务，本项未覆盖其跨租户详情；完整角色、事件和异常矩阵及 REVIEW-003 仍待完成。
+
 ## 2026-09-20 跨端 DTO 比对增量
 
 三端各自的 `src/contract-parity.spec.ts` 在 Node 环境调用本端 Dashboard、地理、产品、设备、规则、固件、OTA、租户服务，导出固定 seed、租户和 UTC 时间窗下的实际 DTO 与错误对象。仓库外层 `node tools/diagnose-all.mjs parity` 只调度本端测试并逐字段比较输出，不提供共享运行时实现；`diagnose` 和 `verify` 也包含该门禁。
