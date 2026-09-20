@@ -129,6 +129,8 @@ async function snapshots() {
   const enabledRule = await ruleService.toggle(context, ruleId, true, 1);
   const staleRule = await ruleService.save(context, ruleInput, ruleId, 1);
   const ruleSample = { deviceId: 'dev_as_001', productId: 'prod_as_001', occurredAt: '2026-09-16T12:00:00.000Z', properties: { temperature: 82.4, humidity: 41.2 } };
+  const invalidRuleSample = await ruleService.testRun(operator, ruleId, { ...ruleSample, occurredAt: '2026-09-31T12:00:00.000Z' });
+  const invalidRuleLogRange = await ruleService.logsFor(context, { tenantId: context.tenantId, ruleId, from: '2026-02-30T00:00:00.000Z', page: 1, pageSize: 10, seed: 42 });
   const ruleEvent = await ruleService.consumeEvent(operator, ruleId, ruleSample);
   const ruleLogs = await ruleService.logsFor(context, { tenantId: context.tenantId, ruleId, page: 1, pageSize: 10, seed: 42 });
   const firmwareService = new FirmwareService(memoryStorage(), new ProductService());
@@ -270,6 +272,7 @@ async function snapshots() {
     seedMessages: await historyEvents.listMessages(operator, historyPoint.deviceId),
     missingReport: await historyEvents.recordTelemetry(operator, historyPoint.deviceId, [{ ...historyPoint, value: null, quality: 'missing' }]),
     wrongDevice: await historyEvents.recordTelemetry(operator, historyPoint.deviceId, [{ ...historyPoint, deviceId: 'dev_as_002' }]),
+    invalidUtc: await historyEvents.recordTelemetry(operator, historyPoint.deviceId, [{ ...historyPoint, timestamp: '2026-09-31T13:00:00.000Z' }]),
     recorded: await historyEvents.recordTelemetry(operator, historyPoint.deviceId, [historyPoint]),
     duplicate: await historyEvents.recordTelemetry(operator, historyPoint.deviceId, [historyPoint]),
     messages: await historyEvents.listMessages(operator, historyPoint.deviceId),
@@ -284,7 +287,7 @@ async function snapshots() {
   const mutations = {
     products: { created: createdProduct, duplicate: duplicateProduct, afterCreate: productAfterCreate, viewerDenied: deniedProduct },
     devices: { created: createdDevice, unconfirmedDelete, updated: updatedDevice, stale: staleDevice, afterUpdate: deviceAfterUpdate, deleted: deletedDevice, afterDelete: deviceAfterDelete },
-    rules: { created: createdRule, deniedToggle, enabled: enabledRule, stale: staleRule, event: ruleEvent, logs: ruleLogs },
+    rules: { created: createdRule, deniedToggle, enabled: enabledRule, stale: staleRule, invalidSample: invalidRuleSample, invalidLogRange: invalidRuleLogRange, event: ruleEvent, logs: ruleLogs },
     telemetryRule: { recorded: liveRecorded, duplicate: liveDuplicate, logs: liveLogs, alarms: liveAlarms, disabledRecorded, disabledLogs },
     command,
     eventHistory,
@@ -431,6 +434,7 @@ describe('IOT-DOMAIN-001 cross-framework contract export', () => {
     expect(first.mutations.eventHistory.seedMessages).toMatchObject({ data: [expect.objectContaining({ id: 'msg_seed_dev_as_001' })] });
     expect(first.mutations.eventHistory.missingReport).toMatchObject({ data: null });
     expect(first.mutations.eventHistory.wrongDevice).toMatchObject({ error: { code: 'VALIDATION_ERROR' } });
+    expect(first.mutations.eventHistory.invalidUtc).toMatchObject({ error: { code: 'VALIDATION_ERROR' } });
     expect(first.mutations.eventHistory.recorded).toMatchObject({ data: { payload: { temperature: 82 } } });
     expect(first.mutations.eventHistory.duplicate).toEqual(first.mutations.eventHistory.recorded);
     expect(first.mutations.eventHistory.messages).toMatchObject({ data: [expect.objectContaining({ id: 'msg_dev_as_001_2026-09-16T13:00:00.000Z' }), expect.objectContaining({ id: 'msg_seed_dev_as_001' })] });
@@ -451,6 +455,8 @@ describe('IOT-DOMAIN-001 cross-framework contract export', () => {
     expect(first.mutations.rules.deniedToggle).toMatchObject({ error: { code: 'FORBIDDEN' } });
     expect(first.mutations.rules.enabled).toMatchObject({ data: { enabled: true, version: 2 } });
     expect(first.mutations.rules.stale).toMatchObject({ error: { code: 'CONFLICT' } });
+    expect(first.mutations.rules.invalidSample).toMatchObject({ error: { code: 'VALIDATION_ERROR' } });
+    expect(first.mutations.rules.invalidLogRange).toMatchObject({ error: { code: 'VALIDATION_ERROR' } });
     expect(first.mutations.rules.event).toMatchObject({ data: { status: 'succeeded', alarmCreated: true } });
     expect(first.mutations.rules.logs).toMatchObject({ data: { total: 1 } });
     expect(first.mutations.telemetryRule.logs).toMatchObject({ data: { total: 1, items: [{ mode: 'event', alarmCreated: true }] } });

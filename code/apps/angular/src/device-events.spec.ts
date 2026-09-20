@@ -37,6 +37,11 @@ describe('IOT-DEVICE-001 messages and alarm acknowledgement', () => {
     expect(listed.data).toHaveLength(2);
     expect(await first.recordTelemetry(operator, 'dev_as_001', [{ ...points[0], value: null, quality: 'missing' }])).toMatchObject({ data: null });
     expect(await first.recordTelemetry(operator, 'dev_as_001', [{ ...points[0], deviceId: 'dev_as_002' }])).toMatchObject({ error: { code: 'VALIDATION_ERROR' } });
+    expect(await first.recordTelemetry(operator, 'dev_as_001', [{ ...points[0], timestamp: '2026-09-31T13:00:00.000Z' }])).toMatchObject({ error: { code: 'VALIDATION_ERROR' } });
+    expect(await first.listMessages(operator, 'dev_as_001')).toMatchObject({ data: expect.arrayContaining([expect.objectContaining({ id: `msg_dev_as_001_${points[0].timestamp}` })]) });
+    const afterInvalid = await first.listMessages(operator, 'dev_as_001');
+    if ('error' in afterInvalid) throw new Error(afterInvalid.error.message);
+    expect(afterInvalid.data).toHaveLength(2);
     expect(await first.listMessages(operator, 'dev_as_002')).toMatchObject({ error: { code: 'FORBIDDEN' } });
   });
 

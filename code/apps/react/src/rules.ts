@@ -58,6 +58,7 @@ const CASES_KEY = 'iot-atlas-rule-sample-cases-v1';
 const ACTIONS: RuleNodeKind[] = ['alarm', 'storage', 'notification'];
 const IDENTIFIER = /^[a-z][a-z0-9_]{1,63}$/;
 const UTC = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$/;
+const validUtc = (value: string) => UTC.test(value) && Number.isFinite(Date.parse(value)) && new Date(value).toISOString().slice(0, 19) === value.slice(0, 19);
 const clone = <T>(value: T): T => structuredClone(value);
 const versionTime = (version: number) => new Date(Date.parse(FIXED_AT) + version * 60_000).toISOString();
 const seedRules: RuleFlow[] = [
@@ -308,7 +309,7 @@ export class RuleService {
   async testRun(context: Context, id: string, sample: RuleSample): Promise<RuleResult<RuleExecution>> {
     const flow = this.find(context, id, 'run'); if ('error' in flow) return flow;
     const issues = validateFlow(flow); if (issues.length) return err('VALIDATION_ERROR', '规则图校验失败', Object.fromEntries(issues.map((issue, index) => [`${issue.nodeId ?? 'flow'}:${index}`, issue.message])));
-    if (sample.productId !== flow.productId || !UTC.test(sample.occurredAt) || !Number.isFinite(Date.parse(sample.occurredAt)) || !sample.deviceId || !sample.properties || typeof sample.properties !== 'object') return err('VALIDATION_ERROR', '样例报文无效');
+    if (sample.productId !== flow.productId || !validUtc(sample.occurredAt) || !sample.deviceId || !sample.properties || typeof sample.properties !== 'object') return err('VALIDATION_ERROR', '样例报文无效');
     await pause(context);
     return result(context, runGraph(flow, sample, `test_${context.seed}_${flow.id}_${sample.deviceId}`, 'event'), `test_${id}`);
   }
@@ -334,7 +335,7 @@ export class RuleService {
   }
   async logsFor(context: Context, query: RuleLogQuery): Promise<RuleResult<{ items: RuleExecution[]; total: number; page: number; pageSize: number }>> {
     this.sync(); const denied = authorize(context, query.tenantId, 'read'); if (denied) return denied;
-    if (query.seed !== context.seed || !validPage(query.page, query.pageSize) || (query.from && (!UTC.test(query.from) || !Number.isFinite(Date.parse(query.from)))) || (query.to && (!UTC.test(query.to) || !Number.isFinite(Date.parse(query.to)))) || (query.from && query.to && query.from > query.to)) return err('VALIDATION_ERROR', '日志查询条件无效');
+    if (query.seed !== context.seed || !validPage(query.page, query.pageSize) || (query.from && !validUtc(query.from)) || (query.to && !validUtc(query.to)) || (query.from && query.to && query.from > query.to)) return err('VALIDATION_ERROR', '日志查询条件无效');
     await pause(context);
     const items = this.logs.filter(item => (query.tenantId === 'all' || item.tenantId === query.tenantId) && (!query.ruleId || item.ruleId === query.ruleId) && (!query.deviceId || item.deviceId.includes(query.deviceId)) && (!query.status || item.status === query.status) && (!query.from || item.occurredAt >= query.from) && (!query.to || item.occurredAt <= query.to)).sort((a, b) => b.occurredAt.localeCompare(a.occurredAt) || b.id.localeCompare(a.id));
     return result(context, { items: items.slice((query.page - 1) * query.pageSize, query.page * query.pageSize), total: items.length, page: query.page, pageSize: query.pageSize }, `logs_${query.page}`);

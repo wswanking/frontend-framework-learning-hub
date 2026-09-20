@@ -1,5 +1,9 @@
 # 诊断与验收环境
 
+## 2026-09-20：设备消息与规则的 UTC 日期拒绝
+
+关联 IOT-DEVICE-001、IOT-RULE-001、IOT-DOMAIN-001。三端设备消息写入现在先校验实际 UTC 日历日期，再执行去重及配额检查；规则试运行样例与日志查询也拒绝被 `Date.parse` 归一化的无效日期。无效设备消息不写入消息历史或规则日志。React、Vue 设备事件和规则定向单测各 **18/18**，Angular 按本端 `npm run test:unit` **110/110**；三端 `npm run typecheck` 退出 0。`node tools/diagnose-all.mjs parity` 退出 0，现 **175** 个实际 DTO/错误结果逐字段一致，SHA-256 `66859845a8797b807743ed0e8a220548a3413039327e9a40dc326f7f15670806`。本次服务层改动后尚未重跑完整浏览器套件或正式 V2 审核。
+
 ## 2026-09-20：IOT-DEVICE-001 UTC 日历日期服务校验
 
 三端设备服务对最后活跃筛选、时序范围和遥测写入时间增加实际 UTC 日历日期校验，避免无效日期被 `Date.parse` 归一化后通过。React、Vue 的设备定向单测各 **7/7**；Angular 直接 Vitest 缺少本端测试环境而报 `localStorage` 未定义，按本端 `npm run test:unit` 复跑后 **110/110** 通过。三端 `npm run typecheck` 均退出 0。跨端契约快照新增无效列表时间和无效时序范围两项，`node tools/diagnose-all.mjs parity` 退出 0，现 **172** 项逐字段一致，SHA-256 `5e86292191eba7cb886b38023e86cdc5afa55b7d7231b1d45330774f49af5778`。本轮未重新执行全路由浏览器回归或正式 V2 审核。

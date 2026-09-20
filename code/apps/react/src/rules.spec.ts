@@ -70,6 +70,9 @@ describe('IOT-RULE-001 graph and execution contract', () => {
       { nodeId: 'storage_1', status: 'succeeded', output: { storedTo: 'iot_atlas' } },
     ] } });
     expect(await current.logsFor(operator, { ...logQuery, tenantId: tenant.tenantId })).toMatchObject({ data: { total: 0 } });
+    expect(await current.testRun(operator, 'rule_high_temp', { ...sample, occurredAt: '2026-09-31T13:00:00.000Z' })).toMatchObject({ error: { code: 'VALIDATION_ERROR' } });
+    expect(await current.logsFor(operator, { ...logQuery, tenantId: tenant.tenantId, from: '2026-02-30T00:00:00.000Z' })).toMatchObject({ error: { code: 'VALIDATION_ERROR' } });
+    expect(await current.logsFor(operator, { ...logQuery, tenantId: tenant.tenantId })).toMatchObject({ data: { total: 0 } });
     const below = await current.testRun(operator, 'rule_high_temp', { ...sample, properties: { temperature: 20 } });
     expect(below).toMatchObject({ data: { status: 'skipped', traces: [{}, { status: 'skipped' }, { status: 'skipped' }, { status: 'skipped' }] } });
     expect(await current.testRun(operator, 'rule_high_temp', { ...sample, properties: {} })).toMatchObject({ data: { status: 'failed', traces: [

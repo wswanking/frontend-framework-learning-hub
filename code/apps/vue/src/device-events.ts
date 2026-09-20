@@ -11,6 +11,8 @@ export type DeviceAlarm = { id: string; tenantId: string; deviceId: string; occu
 const MESSAGE_KEY = 'iot-atlas-device-messages-v1';
 const ACK_KEY = 'iot-atlas-device-alarm-acks-v1';
 const clone = <T>(value: T): T => structuredClone(value);
+const UTC = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,3})?Z$/;
+const validUtc = (value: string) => UTC.test(value) && Number.isFinite(Date.parse(value)) && new Date(value).toISOString().slice(0, 19) === value.slice(0, 19);
 
 export class DeviceEventService {
   private messages: DeviceMessage[] = [];
@@ -40,7 +42,7 @@ export class DeviceEventService {
     const device = found.data;
     if (!points.length || points.every(point => point.value === null)) return { data: null, meta: found.meta };
     const occurredAt = points[0].timestamp;
-    if (points.some(point => point.deviceId !== id || point.timestamp !== occurredAt || !(point.metric in device.attributes))) return { error: { code: 'VALIDATION_ERROR', message: '遥测点与设备不匹配' } };
+    if (!validUtc(occurredAt) || points.some(point => point.deviceId !== id || point.timestamp !== occurredAt || !(point.metric in device.attributes))) return { error: { code: 'VALIDATION_ERROR', message: '遥测点与设备不匹配' } };
     this.sync();
     const key = `msg_${id}_${occurredAt}`;
     const existing = this.messages.find(item => item.id === key);
