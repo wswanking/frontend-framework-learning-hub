@@ -43,4 +43,7 @@ html[data-theme='light'] .tenant-health.exceeded { color: #af273b; }
 .tenant-quota-edit { display: grid; gap: 0.5rem; }
 .tenant-quota-edit > div { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem; align-items: end; }
 .tenant-quota-edit input { width: 100%; }
+.tenant-quota-help { display: grid; gap: 0.35rem; margin: 0.75rem 0; padding: 0.75rem; border: 1px solid var(--line); border-radius: 0.35rem; }
+.tenant-quota-help p { margin: 0 0 0.2rem; }
+.tenant-quota-help a { color: var(--metric-accent); text-decoration: underline; }
 @media (width <= 700px) { .tenant-form, .tenant-quota-grid, .tenant-quota-edit > div { grid-template-columns: 1fr; } .tenant-form .wide { grid-column: auto; } .tenant-facts { grid-template-columns: 1fr; } }

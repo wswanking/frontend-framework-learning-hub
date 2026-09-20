@@ -181,6 +181,7 @@ try {
           await page.getByRole('button', { name: '预览影响' }).click();
           await expect(page.getByRole('dialog', { name: '编辑配额' }).getByRole('alert')).toContainText('设备 6/5');
           await page.getByRole('dialog', { name: '编辑配额' }).getByRole('alert').scrollIntoViewIfNeeded();
+          await page.getByRole('dialog', { name: '编辑配额' }).getByRole('link', { name: '前往设备处理占用' }).scrollIntoViewIfNeeded();
           await saveCandidate(page, device, width, height, 'tenant-quota-blocked', '配额降低阻塞预览', reference);
         }
         if (route === 'firmware') {

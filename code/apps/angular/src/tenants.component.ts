@@ -20,6 +20,8 @@ export class TenantsComponent implements OnDestroy {
   readonly planNames = { standard: '标准版', professional: '专业版', enterprise: '企业版' };
   readonly roleNames = { tenantAdmin: '租户管理员', operator: '运维工程师', viewer: '数据观察员' };
   readonly resourceNames: Record<QuotaResource, string> = { devices: '设备', products: '产品', messages: '消息量', storageMb: '存储（MiB）', otaConcurrent: 'OTA 并发' };
+  readonly quotaResourceRoute: Partial<Record<QuotaResource, string>> = { devices: '/devices', storageMb: '/firmware', otaConcurrent: '/firmware?tab=ota' };
+  quotaResourceHref(resource: QuotaResource, tenantId: string) { const route = this.quotaResourceRoute[resource]; return route ? `${route}${route.includes('?') ? '&' : '?'}tenant=${encodeURIComponent(tenantId)}` : null; }
   readonly resources = Object.keys(this.resourceNames) as QuotaResource[];
   readonly tabs: Record<Tab, string> = { overview: '概览', members: '成员', roles: '角色', quotas: '配额', products: '产品', devices: '设备' };
   readonly healthNames = { normal: '正常', warning: '预警', exceeded: '超限' };

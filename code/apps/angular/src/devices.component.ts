@@ -1,4 +1,5 @@
-import { Component, HostListener, OnDestroy, computed, effect, signal } from '@angular/core';
+import { Component, HostListener, OnDestroy, computed, effect, inject, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import type { Context, Role, Scenario } from './dashboard';
@@ -19,6 +20,7 @@ const baseQuery = (): DeviceListQuery => ({ tenantId: new URLSearchParams(locati
 
 @Component({ selector: 'app-devices', standalone: true, imports: [MatButtonModule, MatCardModule], templateUrl: './devices.component.html', styleUrls: ['./dashboard.css', './products.css', './devices.css'] })
 export class DevicesComponent implements OnDestroy {
+  private readonly route = inject(ActivatedRoute);
   readonly encodeURIComponent = encodeURIComponent;
   readonly statuses: Record<DeviceStatus, string> = { unactivated: '未激活', online: '在线', offline: '离线', fault: '故障', maintenance: '维护' };
   readonly statusEntries = Object.entries(this.statuses).map(([id, name]) => ({ id, name }));
@@ -106,6 +108,8 @@ export class DevicesComponent implements OnDestroy {
   private entryWasOpen = false;
   private entryOverflow = '';
   constructor() {
+    const routeTenant = this.route.snapshot.queryParamMap.get('tenant');
+    if (routeTenant) { this.draft.update(current => ({ ...current, tenantId: routeTenant })); this.query.update(current => ({ ...current, tenantId: routeTenant })); }
     this.media.addEventListener('change', this.updateSystem); this.setTheme(this.themeChoice()); void this.loadList(); const id = new URLSearchParams(location.search).get('device'); if (id) void this.open(id);
     effect(() => {
       const open = this.commandPreview();

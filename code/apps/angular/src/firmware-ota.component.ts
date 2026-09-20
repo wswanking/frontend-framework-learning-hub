@@ -1,4 +1,5 @@
-import { Component, OnDestroy, computed, effect, signal } from '@angular/core';
+import { Component, OnDestroy, computed, effect, inject, signal } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import type { Context, Role, Scenario } from './dashboard';
@@ -11,14 +12,16 @@ import { tenants } from './tenants';
 
 type Action = 'verify' | 'release' | 'archive' | 'remove' | 'start' | 'pause' | 'resume' | 'cancel' | 'retry' | 'rollback';
 const otaActionLabels: Record<Action, string> = { verify: '校验', release: '发布', archive: '归档', remove: '删除', start: '开始', pause: '暂停', resume: '继续', cancel: '取消', retry: '重试', rollback: '回滚' };
-const fBase = (tenantId = localStorage.getItem('iot-atlas-current-tenant-v1') || 'all'): FirmwareQuery => ({ tenantId, seed: 42, page: 1, pageSize: 10 });
-const oBase = (tenantId = localStorage.getItem('iot-atlas-current-tenant-v1') || 'all'): OtaQuery => ({ tenantId, seed: 42, page: 1, pageSize: 10 });
+const routeTenant = () => new URLSearchParams(location.search).get('tenant') || localStorage.getItem('iot-atlas-current-tenant-v1') || 'all';
+const fBase = (tenantId = routeTenant()): FirmwareQuery => ({ tenantId, seed: 42, page: 1, pageSize: 10 });
+const oBase = (tenantId = routeTenant()): OtaQuery => ({ tenantId, seed: 42, page: 1, pageSize: 10 });
 const emptyFirmware = (tenantId: string): Omit<FirmwareInput, keyof FileInspection> => ({ tenantId, productId: tenantId === 'ten_202609_002' ? 'prod_as_002' : 'prod_as_001', compatibleProductIds: [tenantId === 'ten_202609_002' ? 'prod_as_002' : 'prod_as_001'], name: '', version: '', description: '' });
 const emptyOta = (tenantId: string): OtaInput => ({ tenantId, firmwareId: '', productId: tenantId === 'ten_202609_002' ? 'prod_as_002' : 'prod_as_001', targetSelector: { deviceIds: [], tags: [] }, batches: [10, 30, 60], failureThreshold: 0.2, failureModes: {} });
 const finished = (status: OtaTask['status']) => ['draft', 'paused', 'succeeded', 'failed', 'cancelled', 'rolledBack'].includes(status);
 
 @Component({ selector: 'app-firmware-ota', standalone: true, imports: [MatButtonModule, MatCardModule], templateUrl: './firmware-ota.component.html', styleUrls: ['./dashboard.css', './products.css', './firmware-ota.css'] })
 export class FirmwareOtaComponent implements OnDestroy {
+  private readonly route = inject(ActivatedRoute);
   readonly Math = Math;
   readonly Object = Object;
   readonly encodeURIComponent = encodeURIComponent;
@@ -61,7 +64,10 @@ export class FirmwareOtaComponent implements OnDestroy {
   private busy = false;
   private fileReadToken = 0;
   private timer: ReturnType<typeof setInterval>;
-  constructor() { this.media.addEventListener('change', this.updateMedia); this.applyTheme(); void this.loadFirmware(); void this.loadOta(); const id = new URLSearchParams(location.search).get('task'); if (id) void this.openTask(id);
+  constructor() { this.media.addEventListener('change', this.updateMedia); this.applyTheme();
+    const routeTenant = this.route.snapshot.queryParamMap.get('tenant');
+    if (routeTenant) { this.fDraftFilter.update(current => ({ ...current, tenantId: routeTenant })); this.fFilter.update(current => ({ ...current, tenantId: routeTenant })); this.oDraftFilter.update(current => ({ ...current, tenantId: routeTenant })); this.oFilter.update(current => ({ ...current, tenantId: routeTenant })); }
+    void this.loadFirmware(); void this.loadOta(); const id = new URLSearchParams(location.search).get('task'); if (id) void this.openTask(id);
     this.timer = setInterval(() => void this.autoAdvance(), 900);
     effect(() => {
       const task = this.task(), role = this.role(); this.scenario();

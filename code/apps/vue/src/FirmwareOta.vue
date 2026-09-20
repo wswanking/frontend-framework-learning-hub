@@ -18,8 +18,9 @@ const productNames: Record<string, string> = { prod_as_001: '工业温湿度传�
 const firmwareStatus: Record<Firmware['status'], string> = { draft: '草稿', verified: '已校验', released: '已发布', archived: '已归档' };
 const taskStatus: Record<OtaTask['status'], string> = { draft: '草稿', queued: '等待', downloading: '下载', verifying: '校验', installing: '安装', rebooting: '重启', paused: '已暂停', succeeded: '成功', failed: '失败', cancelled: '已取消', rollingBack: '回滚中', rolledBack: '已回滚' };
 const otaActionLabels: Record<Action, string> = { verify: '校验', release: '发布', archive: '归档', remove: '删除', start: '开始', pause: '暂停', resume: '继续', cancel: '取消', retry: '重试', rollback: '回滚' };
-const fBase = (tenantId = localStorage.getItem('iot-atlas-current-tenant-v1') || 'all'): FirmwareQuery => ({ tenantId, seed: 42, page: 1, pageSize: 10 });
-const oBase = (tenantId = localStorage.getItem('iot-atlas-current-tenant-v1') || 'all'): OtaQuery => ({ tenantId, seed: 42, page: 1, pageSize: 10 });
+const routeTenant = () => new URLSearchParams(location.search).get('tenant') || localStorage.getItem('iot-atlas-current-tenant-v1') || 'all';
+const fBase = (tenantId = routeTenant()): FirmwareQuery => ({ tenantId, seed: 42, page: 1, pageSize: 10 });
+const oBase = (tenantId = routeTenant()): OtaQuery => ({ tenantId, seed: 42, page: 1, pageSize: 10 });
 const emptyFirmware = (tenantId: string): Omit<FirmwareInput, keyof FileInspection> => ({ tenantId, productId: tenantId === 'ten_202609_002' ? 'prod_as_002' : 'prod_as_001', compatibleProductIds: [tenantId === 'ten_202609_002' ? 'prod_as_002' : 'prod_as_001'], name: '', version: '', description: '' });
 const emptyOta = (tenantId: string): OtaInput => ({ tenantId, firmwareId: '', productId: tenantId === 'ten_202609_002' ? 'prod_as_002' : 'prod_as_001', targetSelector: { deviceIds: [], tags: [] }, batches: [10, 30, 60], failureThreshold: 0.2, failureModes: {} });
 const plain = <T>(value: T): T => JSON.parse(JSON.stringify(value)) as T;

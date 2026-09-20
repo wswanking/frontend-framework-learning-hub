@@ -65,6 +65,48 @@ test('IOT-TENANT-001 has accessible light theme and no page overflow', async ({ 
   expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations.map(item => ({ id: item.id, targets: item.nodes.map(node => node.target) }))).toEqual([]);
 });
 
+test('IOT-TENANT-001 routes blocked quota use to the correct tenant resources', async ({ page }) => {
+  await page.goto('/tenants');
+  await page.getByRole('button', { name: '华东智联' }).click();
+  await page.getByRole('button', { name: '配额', exact: true }).click();
+  await page.getByRole('button', { name: '编辑配额' }).click();
+  await page.getByLabel('设备上限', { exact: true }).fill('5');
+  await page.getByRole('button', { name: '预览影响' }).click();
+  const dialog = page.getByRole('dialog', { name: '编辑配额' });
+  const deviceLink = dialog.getByRole('link', { name: '前往设备处理占用' });
+  await expect(deviceLink).toHaveAttribute('href', '/devices?tenant=ten_202609_001');
+  page.once('dialog', prompt => void prompt.dismiss());
+  await deviceLink.click();
+  await expect(dialog).toBeVisible();
+  page.once('dialog', prompt => void prompt.accept());
+  await deviceLink.click();
+  await expect(page).toHaveURL(/\/devices\?tenant=ten_202609_001$/);
+  await expect(page.getByLabel('设备租户')).toHaveValue('ten_202609_001');
+
+  await page.goto('/tenants');
+  await page.getByRole('button', { name: '华东智联' }).click();
+  await page.getByRole('button', { name: '配额', exact: true }).click();
+  await page.getByRole('button', { name: '编辑配额' }).click();
+  await page.getByLabel('存储（MiB）上限', { exact: true }).fill('319');
+  await page.getByRole('button', { name: '预览影响' }).click();
+  const storageLink = page.getByRole('dialog', { name: '编辑配额' }).getByRole('link', { name: '前往存储（MiB）处理占用' });
+  await expect(storageLink).toHaveAttribute('href', '/firmware?tenant=ten_202609_001');
+  page.once('dialog', prompt => void prompt.accept());
+  await storageLink.click();
+  await expect(page).toHaveURL(/\/firmware\?tenant=ten_202609_001$/);
+  await expect(page.getByLabel('固件租户')).toHaveValue('ten_202609_001');
+  await page.goto('/firmware?tab=ota&tenant=ten_202609_001');
+  await expect(page.getByLabel('OTA 租户')).toHaveValue('ten_202609_001');
+
+  await page.goto('/tenants');
+  await page.getByRole('button', { name: '华东智联' }).click();
+  await page.getByRole('button', { name: '配额', exact: true }).click();
+  await page.getByRole('button', { name: '编辑配额' }).click();
+  await page.getByLabel('产品上限', { exact: true }).fill('1');
+  await page.getByRole('button', { name: '预览影响' }).click();
+  await expect(page.getByRole('dialog', { name: '编辑配额' })).toContainText('产品当前不提供清理操作，请提高上限');
+});
+
 test('IOT-TENANT-001 creates a tenant, publishes its product and registers its device', async ({ page }) => {
   await page.goto('/tenants');
   await page.getByRole('button', { name: '新建租户' }).click();
