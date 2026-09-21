@@ -1,5 +1,6 @@
 // IOT-RULE-001 / IOT-DOMAIN-001. Each application keeps its own physical copy.
 import type { Context } from './dashboard';
+import { ProductService } from './products';
 
 export type RuleNodeKind = 'trigger' | 'condition' | 'transform' | 'delay' | 'alarm' | 'storage' | 'notification';
 export type RuleNode = {
@@ -105,9 +106,9 @@ function edgeError(nodes: RuleNode[], edge: RuleEdge): string | null {
 }
 export function validateFlow(input: RuleInput): RuleIssue[] {
   const issues: RuleIssue[] = [];
-  if (!['ten_202609_001', 'ten_202609_002'].includes(input.tenantId)) issues.push({ nodeId: null, code: 'INVALID_CONFIG', message: '请选择有效租户' });
+  if (typeof input.tenantId !== 'string' || !input.tenantId.trim()) issues.push({ nodeId: null, code: 'INVALID_CONFIG', message: '请选择有效租户' });
   if (!input.name?.trim() || input.name.trim().length > 80) issues.push({ nodeId: null, code: 'INVALID_CONFIG', message: '规则名称为 1–80 字符' });
-  if (!['prod_as_001', 'prod_as_002'].includes(input.productId)) issues.push({ nodeId: null, code: 'INVALID_CONFIG', message: '请选择有效产品' });
+  if (typeof input.productId !== 'string' || !input.productId.trim()) issues.push({ nodeId: null, code: 'INVALID_CONFIG', message: '请选择有效产品' });
   if (!Array.isArray(input.nodes) || !Array.isArray(input.edges) || input.nodes.length > 30 || input.edges.length > 60) return [{ nodeId: null, code: 'INVALID_CONFIG', message: '节点与连线数量无效' }];
   const ids = input.nodes.map(node => node.id);
   if (new Set(ids).size !== ids.length) issues.push({ nodeId: null, code: 'INVALID_CONFIG', message: '节点 ID 必须唯一' });
@@ -217,7 +218,7 @@ export class RuleService {
   private logs: RuleExecution[] = [];
   private versions = clone(seedRules);
   private cases: RuleSampleCase[] = [];
-  constructor(private storage: Storage | null = null) { this.sync(); }
+  constructor(private storage: Storage | null = null, private products = new ProductService(storage)) { this.sync(); }
   private sync() {
     if (!this.storage) return;
     try {
@@ -285,9 +286,11 @@ export class RuleService {
     const denied = authorize(context, existing?.tenantId ?? input.tenantId, 'write'); if (denied) return denied;
     if (id && !existing) return err('NOT_FOUND', '规则不存在');
     if (existing && input.tenantId !== existing.tenantId) return err('VALIDATION_ERROR', '不能迁移规则租户');
-    if (input.tenantId === 'ten_202609_001' && input.productId !== 'prod_as_001' || input.tenantId === 'ten_202609_002' && input.productId !== 'prod_as_002') return err('VALIDATION_ERROR', '产品不属于所选租户');
     const issues = validateFlow(input);
     if (issues.length) return err('VALIDATION_ERROR', '规则图校验失败', Object.fromEntries(issues.map((issue, index) => [`${issue.nodeId ?? 'flow'}:${index}`, issue.message])));
+    const product = await this.products.get(context, input.productId);
+    if ('error' in product) return product.error.code === 'FORBIDDEN' || product.error.code === 'SCENARIO_TIMEOUT' ? product : err('VALIDATION_ERROR', '产品不存在', { productId: '请选择已存在的产品' });
+    if (product.data.tenantId !== input.tenantId) return err('VALIDATION_ERROR', '产品不属于所选租户', { productId: '请选择同租户产品' });
     if (existing && expectedVersion !== existing.version) return err('CONFLICT', '规则版本已变化，请刷新', { version: '版本冲突' });
     await pause(context); this.sync();
     if (existing && this.flows.find(item => item.id === id)?.version !== expectedVersion) return err('CONFLICT', '规则版本已变化，请刷新', { version: '版本冲突' });
