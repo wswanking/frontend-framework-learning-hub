@@ -3,3 +3,5 @@ dist/
 .angular/
 reports/
 coverage/
+
+/public/source/

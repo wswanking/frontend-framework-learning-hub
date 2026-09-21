@@ -1,0 +1,12 @@
+:host{display:block;font-family:Arial,sans-serif}
+.lab-candidate{min-height:440px;padding:12px;color:#ecf8ff;background:#122838}
+.lab-candidate.lab-light{color:#152e3e;background:#fff}
+.lab-controls,.lab-form{display:grid;gap:12px;margin-bottom:12px}
+.lab-controls{grid-template-columns:repeat(2,minmax(0,1fr))}
+label{display:grid;gap:5px}
+input,select{width:100%;min-height:38px;padding:7px;border:1px solid #68849a;border-radius:6px;background:#102433;color:#fff}
+.lab-light input,.lab-light select{background:#fff;color:#102536}
+.lab-table-wrap{overflow-x:auto}
+th,td{white-space:nowrap}
+.lab-success{color:#64eab6}.lab-light .lab-success{color:#12603e}
+@media(max-width:650px){.lab-controls{grid-template-columns:1fr}}

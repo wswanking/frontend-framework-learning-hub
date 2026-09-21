@@ -1,0 +1,17 @@
+<main class="lab-candidate" [class.lab-light]="theme === 'light'" [class.lab-dark]="theme === 'dark'" data-ui-library="bootstrap" [attr.data-bs-theme]="theme">
+  @if (example() === 'table') {
+    <div class="lab-controls"><label>搜索设备<input aria-label="实验搜索设备" [value]="keyword()" (input)="keyword.set(value($event))"></label><label>设备状态<select aria-label="实验设备状态" [value]="status()" (change)="setStatus(value($event))"><option value="all">全部</option><option value="online">在线</option><option value="offline">离线</option></select></label></div>
+    <div class="lab-table-wrap"><table class="table table-striped table-hover"><thead><tr><th>设备</th><th>状态</th><th>区域</th><th>最后上线</th></tr></thead><tbody>@for (row of rows(); track row.id) { <tr><td>{{row.name}}</td><td>{{row.status === 'online' ? '在线' : '离线'}}</td><td>{{row.region}}</td><td>{{row.lastSeen}}</td></tr> }</tbody></table></div><ngb-pagination [collectionSize]="rows().length" [page]="1" [pageSize]="3" aria-label="实验设备分页" />
+    <p>{{rows().length}} / {{total}} 台设备</p>
+  }
+  @if (example() === 'form') {
+    <form class="lab-form" (submit)="submit($event)"><label for="candidate-device-name">设备名称<input id="candidate-device-name" class="form-control" aria-label="实验设备名称" [ngbTypeahead]="suggestNames" [value]="name()" (input)="name.set(value($event))"></label><button class="btn btn-primary" type="submit">验证表单</button></form>
+  }
+  @if (example() === 'dialog') {
+    <p>打开对话框，确认操作只改变本页提示。</p><button class="btn btn-primary" (click)="openDialog(confirmDialog)">打开示例对话框</button><ng-template #confirmDialog let-modal><div class="modal-header"><h2 id="bootstrap-lab-dialog-title" class="modal-title fs-5">确认示例操作</h2><button type="button" class="btn-close" aria-label="关闭" (click)="modal.dismiss()"></button></div><div class="modal-body">这是一项本地组件实验，不会修改设备。</div><div class="modal-footer"><button class="btn btn-primary" (click)="confirm(); modal.close()">确认</button><button class="btn btn-secondary" (click)="modal.dismiss()">取消</button></div></ng-template>
+  }
+  @if (example() === 'nav') {
+    <nav ngbNav #candidateNav="ngbNav" [activeId]="'nav'" class="nav nav-tabs" aria-label="实验室示例导航">@for (key of examples; track key) { <div [ngbNavItem]="key"><button ngbNavLink (click)="choose(key)">{{labels[key]}}</button><ng-template ngbNavContent></ng-template></div> }</nav><div [ngbNavOutlet]="candidateNav"></div>
+  }
+  @if (message()) { <p role="status" class="lab-success">{{message()}}</p> }
+</main>

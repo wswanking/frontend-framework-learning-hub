@@ -1,0 +1,112 @@
+import { expect, test } from '@playwright/test';
+import AxeBuilder from '@axe-core/playwright';
+
+test('IOT-RULE-001 saves a dry-run sample and compares immutable rule versions', async ({ page }) => {
+  const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/rules');
+  await page.locator('.rule-list').getByRole('button', { name: '高温告警' }).click();
+  await page.getByRole('button', { name: '开始试运行' }).click();
+  await page.getByLabel('测试样例名称').fill('高温复验');
+  await page.getByRole('button', { name: '保存为测试样例' }).click();
+  await expect(page.locator('.dashboard-feedback [role="status"]')).toContainText('高温复验');
+  await expect(page.getByLabel('已保存测试样例')).toContainText('高温复验');
+  const originalSample = await page.getByLabel('报文 JSON').inputValue();
+  await page.getByLabel('报文 JSON').fill(`${originalSample} `);
+  await expect(page.getByRole('button', { name: '保存为测试样例' })).toHaveCount(0);
+  await page.getByLabel('版本备注').fill('复验后调整备注');
+  await page.getByRole('button', { name: '保存草稿' }).click();
+  await expect(page.locator('.rule-version-panel')).toContainText('v2');
+  await page.getByRole('button', { name: '比较版本' }).click();
+  await expect(page.locator('.rule-version-diff')).toContainText('versionNote');
+  await page.reload();
+  await page.locator('.rule-list').getByRole('button', { name: '高温告警' }).click();
+  await expect(page.getByLabel('已保存测试样例')).toContainText('高温复验');
+  await expect(page.locator('.rule-version-panel')).toContainText('v2');
+  expect(errors).toEqual([]);
+});
+
+test('IOT-RULE-001 lists seeded rules and traces a dry run before explicit log application', async ({ page }) => {
+  const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/rules');
+  await expect(page.getByRole('heading', { name: '规则引擎' })).toBeVisible();
+  await expect(page.locator('.rule-list h2')).toContainText('共 2 条');
+  await page.getByLabel('规则产品').selectOption('prod_as_001');
+  await page.getByRole('button', { name: '查询' }).click();
+  await expect(page.locator('.rule-list h2')).toContainText('共 1 条');
+  await page.locator('.rule-list').getByRole('button', { name: '高温告警' }).click();
+  await expect(page.locator('.rule-node')).toHaveCount(4);
+  await page.getByRole('button', { name: '开始试运行' }).click();
+  await expect(page.locator('.rule-bottom [role="status"]')).toContainText('回放中');
+  await expect(page.getByRole('button', { name: '应用模拟结果到演示日志' })).toBeDisabled();
+  await expect(page.locator('.dashboard-feedback [role="status"]')).toContainText('试运行完成');
+  await expect(page.locator('.rule-traces li')).toHaveCount(4);
+  await expect(page.locator('.rule-traces')).toContainText('告警通知');
+  await page.getByRole('button', { name: '查看日志' }).click();
+  await expect(page.locator('.rule-list h2')).toContainText('共 0 条');
+  await page.getByRole('button', { name: '编排画布' }).click();
+  await page.getByRole('button', { name: '应用模拟结果到演示日志' }).click();
+  await expect(page.getByRole('dialog', { name: '应用模拟结果确认' })).toBeVisible();
+  await page.getByRole('dialog').getByRole('button', { name: '确认' }).click();
+  await page.getByRole('button', { name: '查看日志' }).click();
+  await expect(page.locator('.rule-list h2')).toContainText('共 1 条');
+  await expect(page.locator('.rule-list tbody')).toContainText('dev_as_001');
+  await page.locator('.rule-list tbody').getByRole('link', { name: 'dev_as_001' }).click();
+  await expect(page.getByRole('dialog', { name: '设备详情' })).toContainText('dev_as_001');
+  await page.getByRole('tab', { name: '规则执行' }).click();
+  await expect(page.getByRole('tabpanel')).toContainText('rule_high_temp');
+  await expect(page.getByRole('tabpanel')).toContainText('已生成模拟告警');
+  expect(errors).toEqual([]);
+});
+
+test('IOT-RULE-001 creates and persists a connected rule and prevents a cycle', async ({ page }) => {
+  await page.goto('/rules');
+  await page.getByRole('button', { name: '新建规则' }).click();
+  await page.getByLabel('规则名称').fill('演示归档');
+  await page.locator('.rule-palette').getByRole('button', { name: '设备事件' }).click();
+  await page.locator('.rule-palette').getByRole('button', { name: '数据存储' }).click();
+  await page.locator('.rule-node.trigger').getByRole('button', { name: '从此连接' }).click();
+  await page.locator('.rule-node.storage').getByRole('button', { name: '接入' }).click();
+  await page.getByRole('button', { name: '校验', exact: true }).click();
+  await expect(page.locator('.dashboard-feedback [role="status"]')).toContainText('规则图校验通过');
+  await page.getByRole('button', { name: '保存草稿' }).click();
+  await expect(page.locator('.rule-actions')).toContainText('v1');
+  await page.reload();
+  await page.locator('.rule-list').getByRole('button', { name: '演示归档' }).click();
+  await expect(page.locator('.rule-node')).toHaveCount(2);
+  await page.getByRole('button', { name: '启用规则' }).click();
+  await expect(page.getByRole('dialog', { name: '启停规则确认' })).toContainText('6 台演示设备');
+  await page.getByRole('dialog').getByRole('button', { name: '确认' }).click();
+  await expect(page.locator('.rule-actions')).toContainText('已启用');
+  await page.getByRole('button', { name: '规则列表' }).click();
+  await page.locator('.rule-list').getByRole('button', { name: '高温告警' }).click();
+  await page.locator('.rule-palette').getByRole('button', { name: '数据转换' }).click();
+  await page.locator('.rule-node.condition').getByRole('button', { name: '从此连接' }).click();
+  await page.locator('.rule-node.transform').getByRole('button', { name: '接入' }).click();
+  await page.locator('.rule-node.transform').getByRole('button', { name: '从此连接' }).click();
+  await page.locator('.rule-node.condition').getByRole('button', { name: '接入' }).click();
+  await expect(page.locator('.dashboard-feedback [role="status"]')).toContainText('节点形成循环依赖');
+  await expect(page.locator('.rule-edge-list span')).toHaveCount(4);
+});
+
+test('IOT-RULE-001 enforces viewer and operator permissions in the page', async ({ page }) => {
+  await page.goto('/rules');
+  await page.getByLabel('演示身份').selectOption('viewer');
+  await page.locator('.rule-list').getByRole('button', { name: '高温告警' }).click();
+  await expect(page.getByRole('button', { name: '保存草稿' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '开始试运行' })).toBeDisabled();
+  await page.getByLabel('演示身份').selectOption('operator');
+  await page.locator('.rule-list').getByRole('button', { name: '高温告警' }).click();
+  await expect(page.getByRole('button', { name: '保存草稿' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '开始试运行' })).toBeEnabled();
+});
+
+test('IOT-RULE-001 stays accessible in light theme and narrow viewport', async ({ page }) => {
+  const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
+  await page.goto('/rules');
+  await page.getByLabel('主题').selectOption('light');
+  await page.locator('.rule-list').getByRole('button', { name: '高温告警' }).click();
+  await expect(page.locator('.rule-node')).toHaveCount(4);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+  expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations.map(item => ({ id: item.id, targets: item.nodes.map(node => node.target) }))).toEqual([]);
+  expect(errors).toEqual([]);
+});

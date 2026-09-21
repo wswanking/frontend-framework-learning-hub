@@ -1,0 +1,165 @@
+{
+  "framework": "vue",
+  "capturedAt": "2026-09-19T22:46:35.352Z",
+  "node": "v24.15.0",
+  "browser": "153.0.8010.12",
+  "conditions": "production build; local 127.0.0.1 preview; Chromium desktop 1440x900; fresh browser context per sample; 3 samples; median; UI timing starts after default chart is ready; chart timing from navigation for ECharts and selection for others; local JS/CSS resource bytes, gzip level 9",
+  "results": {
+    "chart:echarts": {
+      "medianMs": 412,
+      "medianRawBytes": 1897928,
+      "medianGzipBytes": 565551,
+      "medianAssetCount": 11,
+      "samples": [
+        {
+          "elapsedMs": 471,
+          "rawBytes": 1897928,
+          "gzipBytes": 565551,
+          "assetCount": 11
+        },
+        {
+          "elapsedMs": 382,
+          "rawBytes": 1897928,
+          "gzipBytes": 565551,
+          "assetCount": 11
+        },
+        {
+          "elapsedMs": 412,
+          "rawBytes": 1897928,
+          "gzipBytes": 565551,
+          "assetCount": 11
+        }
+      ]
+    },
+    "chart:chartjs": {
+      "medianMs": 90,
+      "medianRawBytes": 2100137,
+      "medianGzipBytes": 634066,
+      "medianAssetCount": 12,
+      "samples": [
+        {
+          "elapsedMs": 89,
+          "rawBytes": 2100137,
+          "gzipBytes": 634066,
+          "assetCount": 12
+        },
+        {
+          "elapsedMs": 120,
+          "rawBytes": 2100137,
+          "gzipBytes": 634066,
+          "assetCount": 12
+        },
+        {
+          "elapsedMs": 90,
+          "rawBytes": 2100137,
+          "gzipBytes": 634066,
+          "assetCount": 12
+        }
+      ]
+    },
+    "chart:d3": {
+      "medianMs": 97,
+      "medianRawBytes": 2177775,
+      "medianGzipBytes": 658091,
+      "medianAssetCount": 12,
+      "samples": [
+        {
+          "elapsedMs": 97,
+          "rawBytes": 2177775,
+          "gzipBytes": 658091,
+          "assetCount": 12
+        },
+        {
+          "elapsedMs": 104,
+          "rawBytes": 2177775,
+          "gzipBytes": 658091,
+          "assetCount": 12
+        },
+        {
+          "elapsedMs": 59,
+          "rawBytes": 2177775,
+          "gzipBytes": 658091,
+          "assetCount": 12
+        }
+      ]
+    },
+    "ui:element": {
+      "medianMs": 395,
+      "medianRawBytes": 1897928,
+      "medianGzipBytes": 565551,
+      "medianAssetCount": 11,
+      "samples": [
+        {
+          "elapsedMs": 395,
+          "rawBytes": 1897928,
+          "gzipBytes": 565551,
+          "assetCount": 11
+        },
+        {
+          "elapsedMs": 382,
+          "rawBytes": 1897928,
+          "gzipBytes": 565551,
+          "assetCount": 11
+        },
+        {
+          "elapsedMs": 398,
+          "rawBytes": 1897928,
+          "gzipBytes": 565551,
+          "assetCount": 11
+        }
+      ]
+    },
+    "ui:vuetify": {
+      "medianMs": 156,
+      "medianRawBytes": 2514644,
+      "medianGzipBytes": 709472,
+      "medianAssetCount": 14,
+      "samples": [
+        {
+          "elapsedMs": 160,
+          "rawBytes": 2514644,
+          "gzipBytes": 709472,
+          "assetCount": 14
+        },
+        {
+          "elapsedMs": 150,
+          "rawBytes": 2514644,
+          "gzipBytes": 709472,
+          "assetCount": 14
+        },
+        {
+          "elapsedMs": 156,
+          "rawBytes": 2514644,
+          "gzipBytes": 709472,
+          "assetCount": 14
+        }
+      ]
+    },
+    "ui:primevue": {
+      "medianMs": 224,
+      "medianRawBytes": 2573264,
+      "medianGzipBytes": 702639,
+      "medianAssetCount": 13,
+      "samples": [
+        {
+          "elapsedMs": 225,
+          "rawBytes": 2573264,
+          "gzipBytes": 702639,
+          "assetCount": 13
+        },
+        {
+          "elapsedMs": 213,
+          "rawBytes": 2573264,
+          "gzipBytes": 702639,
+          "assetCount": 13
+        },
+        {
+          "elapsedMs": 224,
+          "rawBytes": 2573264,
+          "gzipBytes": 702639,
+          "assetCount": 13
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,165 @@
+{
+  "framework": "angular",
+  "capturedAt": "2026-09-19T22:52:40.235Z",
+  "node": "v24.15.0",
+  "browser": "153.0.8010.12",
+  "conditions": "production build; local 127.0.0.1 preview; Chromium desktop 1440x900; fresh browser context per sample; 3 samples; median; UI timing starts after default chart is ready; chart timing from navigation for ECharts and selection for others; local JS/CSS resource bytes, gzip level 9",
+  "results": {
+    "chart:echarts": {
+      "medianMs": 445,
+      "medianRawBytes": 1891236,
+      "medianGzipBytes": 581807,
+      "medianAssetCount": 11,
+      "samples": [
+        {
+          "elapsedMs": 461,
+          "rawBytes": 1891236,
+          "gzipBytes": 581807,
+          "assetCount": 11
+        },
+        {
+          "elapsedMs": 445,
+          "rawBytes": 1891236,
+          "gzipBytes": 581807,
+          "assetCount": 11
+        },
+        {
+          "elapsedMs": 356,
+          "rawBytes": 1891236,
+          "gzipBytes": 581807,
+          "assetCount": 11
+        }
+      ]
+    },
+    "chart:chartjs": {
+      "medianMs": 83,
+      "medianRawBytes": 2095834,
+      "medianGzipBytes": 652248,
+      "medianAssetCount": 12,
+      "samples": [
+        {
+          "elapsedMs": 98,
+          "rawBytes": 2095834,
+          "gzipBytes": 652248,
+          "assetCount": 12
+        },
+        {
+          "elapsedMs": 83,
+          "rawBytes": 2095834,
+          "gzipBytes": 652248,
+          "assetCount": 12
+        },
+        {
+          "elapsedMs": 79,
+          "rawBytes": 2095834,
+          "gzipBytes": 652248,
+          "assetCount": 12
+        }
+      ]
+    },
+    "chart:d3": {
+      "medianMs": 69,
+      "medianRawBytes": 2033108,
+      "medianGzipBytes": 629419,
+      "medianAssetCount": 12,
+      "samples": [
+        {
+          "elapsedMs": 78,
+          "rawBytes": 2033108,
+          "gzipBytes": 629419,
+          "assetCount": 12
+        },
+        {
+          "elapsedMs": 69,
+          "rawBytes": 2033108,
+          "gzipBytes": 629419,
+          "assetCount": 12
+        },
+        {
+          "elapsedMs": 46,
+          "rawBytes": 2033108,
+          "gzipBytes": 629419,
+          "assetCount": 12
+        }
+      ]
+    },
+    "ui:material": {
+      "medianMs": 373,
+      "medianRawBytes": 1891236,
+      "medianGzipBytes": 581807,
+      "medianAssetCount": 11,
+      "samples": [
+        {
+          "elapsedMs": 372,
+          "rawBytes": 1891236,
+          "gzipBytes": 581807,
+          "assetCount": 11
+        },
+        {
+          "elapsedMs": 378,
+          "rawBytes": 1891236,
+          "gzipBytes": 581807,
+          "assetCount": 11
+        },
+        {
+          "elapsedMs": 373,
+          "rawBytes": 1891236,
+          "gzipBytes": 581807,
+          "assetCount": 11
+        }
+      ]
+    },
+    "ui:bootstrap": {
+      "medianMs": 165,
+      "medianRawBytes": 2202085,
+      "medianGzipBytes": 636590,
+      "medianAssetCount": 14,
+      "samples": [
+        {
+          "elapsedMs": 165,
+          "rawBytes": 2202085,
+          "gzipBytes": 636590,
+          "assetCount": 14
+        },
+        {
+          "elapsedMs": 165,
+          "rawBytes": 2202085,
+          "gzipBytes": 636590,
+          "assetCount": 14
+        },
+        {
+          "elapsedMs": 197,
+          "rawBytes": 2202085,
+          "gzipBytes": 636590,
+          "assetCount": 14
+        }
+      ]
+    },
+    "ui:zorro": {
+      "medianMs": 185,
+      "medianRawBytes": 2848212,
+      "medianGzipBytes": 749479,
+      "medianAssetCount": 14,
+      "samples": [
+        {
+          "elapsedMs": 181,
+          "rawBytes": 2848212,
+          "gzipBytes": 749479,
+          "assetCount": 14
+        },
+        {
+          "elapsedMs": 185,
+          "rawBytes": 2848212,
+          "gzipBytes": 749479,
+          "assetCount": 14
+        },
+        {
+          "elapsedMs": 209,
+          "rawBytes": 2848212,
+          "gzipBytes": 749479,
+          "assetCount": 14
+        }
+      ]
+    }
+  }
+}
