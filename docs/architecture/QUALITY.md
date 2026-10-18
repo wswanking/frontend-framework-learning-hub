@@ -1,5 +1,11 @@
 # 诊断与验收环境
 
+## 2026-10-18：M1 最终提交完整浏览器复核
+
+按后续指令，使用提交 `c88fe0f9b82eaddbcc5e8127d864956c3ddbd419` 的既有生产构建重新完成全部桌面与移动浏览器回归：React **182/182**、Vue **180/180**、Angular **180/180**，均零失败、零跳过。复核期间未替换这些构建，M2 源码尚未构建到被测产物中。这次补齐了上一轮最后修复后仅局部复测的缺口，不删除此前失败记录。
+
+使用已允许的 `/usr/bin/chromium` 154.0.8037.57；固定 Playwright Chromium 下载此前被 HTTP 403 拒绝，本轮没有重试或规避，也不声称固定版本验证通过。报告与日志独立保存在各端 `reports/m1/final-full/`（`browser/index.html`、`e2e.xml`、`run.log`、`summary.json`）。视觉基准、用户最终验收和远程 CI 状态不变。
+
 ## 2026-10-18：M1 持久壳层、路由与离开保护
 
 关联 IOT-DASH-001、IOT-PLATFORM-003、IOT-DEVICE-001。本轮开始时分支为 `work`，HEAD 为 `6ad62209c4a10843d5a61aebe2313649e73be436`，工作区干净，与先前只读审查基线一致。实施分支为 `feat/m1-persistent-shell`；授权范围仅本地修改、验证和 Git commit，未推送、创建 PR、合并或部署。
