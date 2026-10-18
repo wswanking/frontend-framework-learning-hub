@@ -1,3 +1,4 @@
+import { respondToDialog } from './dialog';
 import { test, expect, type Page } from '@playwright/test';
 async function navigate(page: Page, name: string) {
   const toggle = page.getByRole('button', { name: '导航菜单' });
@@ -48,19 +49,15 @@ test('M1 dirty metadata protects Back to unknown route and refresh; discard and 
   await openDevice(page);
   const input = page.getByLabel('编辑设备名称', { exact: true });
   await input.fill('未保存设备');
-  page.once('dialog', dialog => dialog.dismiss());
-  await page.evaluate(() => window.history.back());
+  await respondToDialog(page, 'dismiss', () => page.evaluate(() => window.history.back()));
   await expect(input).toHaveValue('未保存设备');
   await expect(page).toHaveURL(/device=/);
-  page.once('dialog', dialog => dialog.dismiss());
-  await page.reload({ timeout: 2000 }).catch(() => undefined);
+  await respondToDialog(page, 'dismiss', () => page.reload({ timeout: 2000 }).catch(() => undefined), 'beforeunload');
   await expect(input).toHaveValue('未保存设备');
-  page.once('dialog', dialog => dialog.dismiss());
-  await page.getByRole('button', { name: '关闭设备详情' }).click();
+  await respondToDialog(page, 'dismiss', () => page.getByRole('button', { name: '关闭设备详情' }).click());
   await expect(input).toHaveValue('未保存设备');
   await expect(page.getByRole('button', { name: '关闭设备详情' })).toBeFocused();
-  page.once('dialog', dialog => dialog.accept());
-  await page.evaluate(() => window.history.back());
+  await respondToDialog(page, 'accept', () => page.evaluate(() => window.history.back()));
   await expect(page.getByRole('dialog', { name: '设备详情', exact: true })).toHaveCount(0);
   await page.evaluate(() => window.history.back());
   await expect(page.getByRole('heading', { name: '页面不存在' })).toBeVisible();
@@ -70,14 +67,13 @@ test('M1 dirty products protect navigation and forward history', async ({ page }
   await expect(page.getByRole('button', { name: '新建产品', exact: true })).toBeVisible();
   await navigate(page, '设备中心');
   await page.evaluate(() => window.history.back());
+  if (page.viewportSize()!.width <= 800) await expect(page.locator('.atlas-sidebar')).toBeHidden();
   await page.getByRole('button', { name: '新建产品', exact: true }).click();
   await page.getByLabel('产品名称', { exact: true }).fill('未保存产品');
-  page.once('dialog', dialog => dialog.dismiss());
-  await page.evaluate(() => window.history.forward());
+  await respondToDialog(page, 'dismiss', () => page.evaluate(() => window.history.forward()));
   await expect(page.getByLabel('产品名称', { exact: true })).toHaveValue('未保存产品');
   // Main navigation remains available on desktop; close confirmation is separately covered by products tests.
-  page.once('dialog', dialog => dialog.accept());
-  await page.evaluate(() => window.history.forward());
+  await respondToDialog(page, 'accept', () => page.evaluate(() => window.history.forward()));
   await expect(page).toHaveURL(/\/devices$/);
 });
 test('M1 responsive navigation and fixed chrome', async ({ page }, testInfo) => {
@@ -110,18 +106,15 @@ test('M1 dirty unknown destination, route links and clean deep-link reload', asy
   await navigate(page, '产品与物模型');
   await page.getByRole('button', { name: '新建产品', exact: true }).click();
   await page.getByLabel('产品名称', { exact: true }).fill('保留草稿');
-  page.once('dialog', dialog => dialog.dismiss());
-  await page.evaluate(() => window.history.back());
+  await respondToDialog(page, 'dismiss', () => page.evaluate(() => window.history.back()));
   await expect(page.getByLabel('产品名称', { exact: true })).toHaveValue('保留草稿');
   await expect(page).toHaveURL(/products$/);
   if (page.viewportSize()!.width > 800) {
-    page.once('dialog', dialog => dialog.dismiss());
-    await page.getByRole('complementary', { name: '主导航' }).getByRole('link', { name: '交付看板', exact: true }).click();
+    await respondToDialog(page, 'dismiss', () => page.getByRole('complementary', { name: '主导航' }).getByRole('link', { name: '交付看板', exact: true }).click());
     await expect(page).toHaveURL(/products$/);
     await expect(page.getByLabel('产品名称', { exact: true })).toHaveValue('保留草稿');
   }
-  page.once('dialog', dialog => dialog.accept());
-  await page.evaluate(() => window.history.back());
+  await respondToDialog(page, 'accept', () => page.evaluate(() => window.history.back()));
   await expect(page.getByRole('heading', { name: '页面不存在' })).toBeVisible();
   await page.goto('/devices?device=dev_as_001');
   await expect(page.getByLabel('编辑设备名称', { exact: true })).not.toHaveValue('');
@@ -174,6 +167,10 @@ test('M1 navigation chrome stays mounted while the next route chunk is loading',
   await page.getByRole('complementary', { name: '主导航' }).getByRole('link', { name: '设备中心', exact: true }).click();
   try {
     await expect.poll(() => requested).toBe(true);
+    if (page.viewportSize()!.width <= 800) {
+      await expect(toggle).toHaveAttribute('aria-expanded', 'false');
+      await expect(page.locator('.atlas-sidebar')).toBeHidden();
+    }
     await expect(page.locator('.shell-topbar')).toBeVisible();
     expect(await shell!.evaluate(node => node.isConnected)).toBe(true);
   } finally { release(); }

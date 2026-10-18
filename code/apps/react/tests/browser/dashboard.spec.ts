@@ -316,6 +316,7 @@ test('IOT-DASH-001 and IOT-GEO-001 keep tenant, UTC range and node level across 
   await page.getByRole('dialog', { name: '中国节点详情' }).getByRole('button', { name: /node_cn_001/ }).click();
   await page.getByRole('dialog', { name: 'node_cn_001节点详情' }).getByRole('link', { name: '在地理页查看节点' }).click();
   await expect(page).toHaveURL(/\/geography\?tenant=ten_202609_001.*from=.*to=.*continent=AS.*country=CN.*node=node_cn_001/);
+  await expect(page.getByRole('heading', { name: '全球节点', exact: true })).toBeVisible();
   await expect(page.getByLabel('租户', { exact: true })).toHaveValue('ten_202609_001');
   await expect(page.getByLabel('时间范围')).toHaveValue('custom');
   await expect(page.getByLabel('开始时间')).toHaveValue('2026-09-16T08:00');

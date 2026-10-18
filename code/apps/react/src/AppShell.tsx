@@ -17,8 +17,8 @@ export default function AppShell() {
       <strong>IoT Atlas</strong><span>React · 独立应用</span>
     </header>
     <aside id="primary-navigation" className={`atlas-sidebar${open ? ' is-open' : ''}`} aria-label="主导航" onKeyDown={event => { if (event.key === 'Escape') close(); }}>
-      <nav>{items.map(([path, name]) => <NavLink end key={path} to={'/' + path} className={({ isActive }) => isActive ? 'active' : ''} onClick={() => { if (open) menu.current?.focus(); }}>{name}</NavLink>)}</nav>
-      <NavLink className="diagnostic-link" to="/">诊断页</NavLink>
+      <nav>{items.map(([path, name]) => <NavLink end key={path} to={'/' + path} className={({ isActive }) => isActive ? 'active' : ''} onClick={() => { if (open) close(); }}>{name}</NavLink>)}</nav>
+      <NavLink className="diagnostic-link" to="/" onClick={() => { if (open) close(); }}>诊断页</NavLink>
     </aside>
     <div className="shell-content"><Outlet /></div>
   </div>;

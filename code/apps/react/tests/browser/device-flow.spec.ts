@@ -1,3 +1,4 @@
+import { respondToDialog } from './dialog';
 import { expect, test } from '@playwright/test';
 
 test('M2 restores applied filters, pagination and edited detail through URL and history', async ({ page }) => {
@@ -148,11 +149,9 @@ test('M2 version conflicts keep the draft until explicit reload, then allow savi
   await expect(panel.getByRole('alert')).toContainText('设备版本冲突');
   await panel.getByRole('button', { name: '重试保存', exact: true }).click();
   await expect(panel.getByLabel('编辑设备名称')).toHaveValue('M2 preserved draft');
-  page.once('dialog', dialog => dialog.dismiss());
-  await panel.getByRole('button', { name: '重新加载设备' }).click();
+  await respondToDialog(page, 'dismiss', () => panel.getByRole('button', { name: '重新加载设备' }).click());
   await expect(panel.getByLabel('编辑设备名称')).toHaveValue('M2 preserved draft');
-  page.once('dialog', dialog => dialog.accept());
-  await panel.getByRole('button', { name: '重新加载设备' }).click();
+  await respondToDialog(page, 'accept', () => panel.getByRole('button', { name: '重新加载设备' }).click());
   await expect(panel.getByLabel('编辑设备名称')).toHaveValue('M2 concurrent update');
   await panel.getByLabel('编辑设备名称').fill('M2 resolved');
   await panel.getByRole('button', { name: '保存设备信息', exact: true }).click();
