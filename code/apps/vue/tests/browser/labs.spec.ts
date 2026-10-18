@@ -61,6 +61,9 @@ test('IOT-LEARNING-001 Vue candidate UI libraries render shared data in an isola
     await expect(frame.getByRole('navigation', { name: '实验室示例导航' })).toBeVisible();
     await page.getByLabel('实验室主题').selectOption('light');
     expect(await page.evaluate(() => document.documentElement.dataset.theme)).toBe(businessTheme);
+    // Element Plus animates card colors; audit the settled light theme, not its transition.
+    await expect(page.locator('.lab-grid .lab-card').first()).toHaveCSS('background-color', 'rgb(255, 255, 255)');
+    await expect(page.locator('.lab-grid .lab-card').first()).toHaveCSS('color', 'rgb(16, 37, 54)');
     expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations.map(item => ({ id: item.id, targets: item.nodes.map(node => node.target) }))).toEqual([]);
     await page.getByLabel('实验示例', { exact: true }).selectOption('table');
     await page.getByLabel('实验室主题').selectOption('dark');

@@ -1,3 +1,4 @@
+import { RouterLink } from '@angular/router';
 import { Component, HostListener, TemplateRef, computed, inject, signal } from '@angular/core';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,7 +13,7 @@ import { LabChartsComponent } from './lab-charts.component';
 
 type Example = 'table' | 'form' | 'dialog' | 'nav';
 
-@Component({ selector: 'app-labs', standalone: true, imports: [MatButtonModule, MatCardModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatTableModule, MatTabsModule, LabChartsComponent], templateUrl: './labs.component.html', styleUrls: ['./dashboard.css', './labs.css'] })
+@Component({ selector: 'app-labs', standalone: true, imports: [RouterLink, MatButtonModule, MatCardModule, MatDialogModule, MatFormFieldModule, MatInputModule, MatTableModule, MatTabsModule, LabChartsComponent], templateUrl: './labs.component.html', styleUrls: ['./dashboard.css', './labs.css'] })
 export class LabsComponent {
   private readonly sanitizer = inject(DomSanitizer);
   private readonly matDialog = inject(MatDialog);

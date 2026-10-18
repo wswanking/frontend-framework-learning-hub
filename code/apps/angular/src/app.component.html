@@ -7,5 +7,5 @@
     <button type="submit" [disabled]="busy()">{{ busy() ? '诊断中…' : '运行诊断' }}</button>
   </form>
   @if (result(); as current) { <p [attr.role]="current.ok ? 'status' : 'alert'">{{ current.message }}</p> }
-  <p><a href="/dashboard">进入数据大盘</a></p>
+  <p><a routerLink="/dashboard">进入数据大盘</a></p>
 </section></main>

@@ -1,3 +1,5 @@
+@import './dashboard.css';
+@import './shell.css';
 @import '@angular/material/prebuilt-themes/azure-blue.css';
 :root { font-family: Arial, "Microsoft YaHei", sans-serif; color: #172033; background: #f1f4f8; font-synthesis: none; --accent: #174bc4; --space: 1rem; }
 * { box-sizing: border-box; }

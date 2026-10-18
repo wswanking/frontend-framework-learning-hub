@@ -34,5 +34,10 @@ export class LabZorroCandidateComponent implements OnInit, OnDestroy {
   setStatus(value: string) { this.status.set(value as 'all' | LabDevice['status']); }
   choose(value: Example) { this.example.set(value); this.document.defaultView?.parent.postMessage({ type: 'lab-candidate-example', value }, this.document.location.origin); }
   submit(event: Event) { event.preventDefault(); this.message.set(this.name().trim() ? `本地表单示例：${this.name().trim()}` : '请输入设备名称'); }
+  openDialog() {
+    // Center this app's embedded viewport before opening a fixed-position modal.
+    this.document.defaultView?.frameElement?.scrollIntoView({ block: 'center' });
+    this.dialog.set(true);
+  }
   confirm() { this.dialog.set(false); this.message.set('已确认本地示例操作'); }
 }

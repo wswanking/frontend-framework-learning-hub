@@ -80,7 +80,7 @@ test('IOT-PRODUCT-001 confirmation dialogs support keyboard focus and Escape', a
   await page.locator('.product-table-wrap').getByRole('button', { name: '工业温湿度传感器' }).click();
   await page.getByRole('tab', { name: '物模型' }).click();
   await page.locator('tr').filter({ hasText: 'temperature' }).getByRole('button', { name: '编辑' }).click();
-  const type = page.getByLabel('数据类型');
+  const type = page.getByLabel('数据类型', { exact: true });
   await type.selectOption('enum');
   const confirmType = page.getByRole('dialog', { name: '数据类型切换确认' });
   await expect(confirmType).toBeFocused();
@@ -240,7 +240,7 @@ test('IOT-PRODUCT-001 validates edits, shows impact and guards unsaved changes',
   await expect(page.getByRole('dialog', { name: '未保存变更' })).toBeVisible();
   await page.getByRole('button', { name: '取消', exact: true }).click();
   await page.getByLabel('模型名称').fill('温度');
-  await page.getByLabel('数据类型').selectOption('int');
+  await page.getByLabel('数据类型', { exact: true }).selectOption('int');
   await page.getByRole('button', { name: '保存模型项' }).click();
   await expect(page.getByRole('dialog', { name: '影响确认' })).toContainText('6 台设备');
   await page.getByRole('button', { name: '确认影响并保存' }).click();
@@ -315,13 +315,13 @@ test('IOT-PRODUCT-001 confirms removal of incompatible model fields', async ({ p
   await page.locator('.product-table-wrap').getByRole('button', { name: '工业温湿度传感器' }).click();
   await page.getByRole('tab', { name: '物模型' }).click();
   await page.locator('tr').filter({ hasText: 'temperature' }).getByRole('button', { name: '编辑' }).click();
-  await page.getByLabel('数据类型').selectOption('enum');
+  await page.getByLabel('数据类型', { exact: true }).selectOption('enum');
   await expect(page.getByRole('dialog', { name: '数据类型切换确认' })).toBeVisible();
   await page.getByRole('dialog', { name: '数据类型切换确认' }).getByRole('button', { name: '取消' }).click();
-  await expect(page.getByLabel('数据类型')).toHaveValue('float');
-  await page.getByLabel('数据类型').selectOption('enum');
+  await expect(page.getByLabel('数据类型', { exact: true })).toHaveValue('float');
+  await page.getByLabel('数据类型', { exact: true }).selectOption('enum');
   await page.getByRole('button', { name: '确认清除并切换' }).click();
-  await expect(page.getByLabel('数据类型')).toHaveValue('enum');
+  await expect(page.getByLabel('数据类型', { exact: true })).toHaveValue('enum');
   await page.locator('.model-editor details').getByText('JSON 预览').click();
   const json = page.locator('.model-editor details pre');
   await expect(json).not.toContainText('"unit"');

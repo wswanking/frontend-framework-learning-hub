@@ -1,3 +1,5 @@
+import { RouterLink, Router as LinkRouter } from '@angular/router';
+import { inject as linkInject } from '@angular/core';
 import { Component, OnDestroy, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,8 +21,11 @@ const emptyFirmware = (tenantId: string): Omit<FirmwareInput, keyof FileInspecti
 const emptyOta = (tenantId: string): OtaInput => ({ tenantId, firmwareId: '', productId: tenantId === 'ten_202609_002' ? 'prod_as_002' : 'prod_as_001', targetSelector: { deviceIds: [], tags: [] }, batches: [10, 30, 60], failureThreshold: 0.2, failureModes: {} });
 const finished = (status: OtaTask['status']) => ['draft', 'paused', 'succeeded', 'failed', 'cancelled', 'rolledBack'].includes(status);
 
-@Component({ selector: 'app-firmware-ota', standalone: true, imports: [MatButtonModule, MatCardModule], templateUrl: './firmware-ota.component.html', styleUrls: ['./dashboard.css', './products.css', './firmware-ota.css'] })
+@Component({ selector: 'app-firmware-ota', standalone: true, imports: [RouterLink, MatButtonModule, MatCardModule], templateUrl: './firmware-ota.component.html', styleUrls: ['./dashboard.css', './products.css', './firmware-ota.css'] })
 export class FirmwareOtaComponent implements OnDestroy {
+  private readonly linkRouter = linkInject(LinkRouter);
+  routeUrl(url: string) { return this.linkRouter.parseUrl(url); }
+
   private readonly route = inject(ActivatedRoute);
   readonly Math = Math;
   readonly Object = Object;

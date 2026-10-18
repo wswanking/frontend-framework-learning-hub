@@ -31,3 +31,13 @@ React 主 UI 为 MUI，Vue 为 Element Plus，Angular 为 Angular Material；业
 ## 验收
 
 三端分别在脱离仓库后验证安装、运行与构建，检查无跨项目源码和资源引用，并逐端验证统一业务交互场景。所有实现证据须重新建立。
+
+## M1 持久 AppShell（2026-10-18）
+
+React 使用 `createBrowserRouter` 的父布局、`Outlet` 与内容内的 `Suspense`；Vue 根 `AppShell` 持有 `RouterView`；Angular 由 `RootComponent` 启动，业务父路由持有 `ShellComponent`，内部 `RouterOutlet` 只替换路由组件；实验室候选 iframe 使用壳层外的独立路由，避免嵌套导航。三端分别维护九项导航，站内采用 `Link/NavLink`、`RouterLink`、`RouterLink/RouterLinkActive`。源码下载与跨应用地址仍为普通资源链接。
+
+壳层只拥有导航展开状态与固定应用标识。业务标题、租户/身份/时间筛选、局部反馈仍由当前页面拥有；既有主题偏好和已保存 Mock 数据由本端 localStorage 保存。设备详情 ID 由路由 query 拥有，列表筛选与抽屉页签由设备页面拥有，同页开关详情保留列表状态；跨业务路由返回时重新查询，不保留无限页面实例。图表、订阅和媒体监听随页面销毁清理。
+
+React `useBlocker`、Vue `onBeforeRouteLeave/onBeforeRouteUpdate`、Angular `CanDeactivate` 与设备 query 激活守卫各自拦截脏草稿。Angular 使用 `canceledNavigationResolution: computed` 恢复被取消的历史位置。原有页内保存/放弃/取消流程保留；路由离开使用原生确认，刷新关闭使用 `beforeunload`。React 地图点击回调通过 Effect Event 读取最新闭包，普通回调身份变化不再销毁地图。
+
+锁文件中不可访问的 HTTP 镜像地址统一为官方 npm HTTPS 地址，保留依赖版本与 integrity。Playwright 可通过 `PLAYWRIGHT_EXECUTABLE_PATH` 显式指定环境已安装的浏览器；默认仍使用锁定 Playwright Chromium，报告须区分实际浏览器版本。

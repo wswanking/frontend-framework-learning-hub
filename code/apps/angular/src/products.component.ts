@@ -1,3 +1,5 @@
+import { RouterLink, Router as LinkRouter } from '@angular/router';
+import { inject as linkInject } from '@angular/core';
 import { Component, ElementRef, HostListener, OnDestroy, computed, effect, signal, viewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -17,8 +19,13 @@ function productInput(product: Product): ProductInput { return { tenantId: produ
 function emptyItem(): ThingModelItem { return { id: '', kind: 'property', identifier: '', name: '', dataType: 'float', accessMode: 'read', unit: '', min: 0, max: 100 }; }
 function emptyRule(itemId: string): DpRule { return { id: '', itemId, rawType: 'int16', scale: 1, offset: 0, precision: 1, enumMap: [], expression: 'x' }; }
 
-@Component({ selector: 'app-products', standalone: true, imports: [MatButtonModule, MatCardModule], templateUrl: './products.component.html', styleUrls: ['./dashboard.css', './products.css'] })
+@Component({ selector: 'app-products', standalone: true, imports: [RouterLink, MatButtonModule, MatCardModule], templateUrl: './products.component.html', styleUrls: ['./dashboard.css', './products.css'] })
 export class ProductsComponent implements OnDestroy {
+  private readonly linkRouter = linkInject(LinkRouter);
+  routeUrl(url: string) { return this.linkRouter.parseUrl(url); }
+
+  hasUnsavedChanges() { return this.dirty(); }
+
   readonly tenantNames: Record<string, string> = { all: '全部租户', ...Object.fromEntries(tenantOptions().map(item => [item.id, item.name])) };
   readonly tenants = Object.entries(this.tenantNames).map(([id, name]) => ({ id, name }));
   readonly statusNames: Record<string, string> = { draft: '草稿', published: '已发布', disabled: '已停用' };
@@ -27,7 +34,6 @@ export class ProductsComponent implements OnDestroy {
   readonly kinds: Record<string, string> = { property: '属性', event: '事件', service: '服务' };
   readonly accesses = Object.entries({ read: '只读', write: '只写', readWrite: '读写' }).map(([id, name]) => ({ id, name }));
   readonly categories = ['工业传感器', '能源设备', '水务设备', '安防设备'];
-  readonly nav = ['实验室'];
   readonly tabs: { id: Tab; name: string }[] = [{ id: 'basic', name: '基础信息' }, { id: 'access', name: '接入配置' }, { id: 'model', name: '物模型' }, { id: 'dp', name: 'DP 规则' }, { id: 'devices', name: '设备' }];
   readonly role = signal<Role>('platformAdmin');
   readonly scenario = signal<Scenario>('normal');

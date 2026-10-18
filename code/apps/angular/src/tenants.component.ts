@@ -1,3 +1,6 @@
+import { RouterLink, Router as LinkRouter } from '@angular/router';
+import { inject as linkInject } from '@angular/core';
+import { HostListener } from '@angular/core';
 import { Component, OnDestroy, computed, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -12,8 +15,15 @@ const emptyTenant = (): TenantInput => ({ name: '', key: '', status: 'active', p
 const emptyMember = (): MemberInput => ({ name: '', email: '', role: 'viewer', status: 'active' });
 const persistedTenant = () => { const id = localStorage.getItem('iot-atlas-current-tenant-v1'); return id && (id === 'all' || /^ten_202609_\d+$/.test(id)) ? id : 'all'; };
 
-@Component({ selector: 'app-tenants', standalone: true, imports: [MatButtonModule, MatCardModule], templateUrl: './tenants.component.html', styleUrls: ['./dashboard.css', './tenants.css'] })
+@Component({ selector: 'app-tenants', standalone: true, imports: [RouterLink, MatButtonModule, MatCardModule], templateUrl: './tenants.component.html', styleUrls: ['./dashboard.css', './tenants.css'] })
 export class TenantsComponent implements OnDestroy {
+  private readonly linkRouter = linkInject(LinkRouter);
+  routeUrl(url: string) { return this.linkRouter.parseUrl(url); }
+
+  @HostListener('window:beforeunload', ['$event']) protectDraft(event: BeforeUnloadEvent) { if (this.hasUnsavedChanges()) { event.preventDefault(); event.returnValue = ''; } }
+
+  hasUnsavedChanges() { return this.dirty(); }
+
   readonly Math = Math; readonly Object = Object; readonly encodeURIComponent = encodeURIComponent;
   readonly names: Record<string, string> = { all: '全部租户', ten_202609_001: '华东智联', ten_202609_002: '全球能源' };
   readonly statusNames = { active: '正常', suspended: '已停用' };

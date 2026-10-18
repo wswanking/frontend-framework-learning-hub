@@ -1,5 +1,40 @@
 # 诊断与验收环境
 
+## 2026-10-18：M1 持久壳层、路由与离开保护
+
+关联 IOT-DASH-001、IOT-PLATFORM-003、IOT-DEVICE-001。本轮开始时分支为 `work`，HEAD 为 `6ad62209c4a10843d5a61aebe2313649e73be436`，工作区干净，与先前只读审查基线一致。实施分支为 `feat/m1-persistent-shell`；授权范围仅本地修改、验证和 Git commit，未推送、创建 PR、合并或部署。
+
+**实现范围**：React 父布局/Outlet、Vue 根 AppShell/RouterView、Angular 父路由/ShellComponent 各自持有固定顶栏与九项业务导航。页面只渲染业务内容与本页上下文控件，移动菜单默认收起、Escape 回焦、成功导航收起；活动项来自路由。站内使用各自 Router Link，资源下载保留普通链接。Angular 产品页实验室与交付入口由完整导航修复，候选实验室 iframe 路由保持壳层外隔离。未知路由显示不存在页面，React 内容加载异常也保留壳层。
+
+设备详情 ID 进入 URL query，可直接打开、刷新、后退、前进和关闭回列表；同页列表状态保留、详情关闭回焦、订阅停止。产品/规则/租户/设备草稿由本端路由守卫保护，取消保留、放弃继续，刷新使用 beforeunload；保留既有页内保存/放弃/取消流程。页面实例不无限缓存，离开后释放订阅；已保存 Mock 数据与既有偏好仍在各端 localStorage。React 地图使用 Effect Event，回调身份变化不会销毁地图实例。三端没有新增跨端运行时共享。
+
+**环境与安装**：Linux Debian 13，Node 24.19.0、npm 11.9.0。初次安装遇到锁文件中 `http://mirrors.tencentyun.com/npm/…` 的 HTTP 403；改用官方 `https://registry.npmjs.org/` 并使用 `/tmp/m1-npm-cache` 后，各端独立 `npm ci` 成功。JSON 比较确认版本与 integrity 全部未变，只调整 resolved 下载地址。根目录及 code 根目录没有 node_modules。
+
+Playwright 固定的 Chromium headless shell 153.0.8010.12 下载被环境返回 `403 Domain forbidden`，没有绕过或声称下载成功。后续浏览器执行显式使用 `/usr/bin/chromium`（154.0.8037.57），通过新增的 `PLAYWRIGHT_EXECUTABLE_PATH` 配置注入；默认配置仍使用 Playwright 固定浏览器。因此以下是系统 Chromium 的真实结果，不能表述为锁定 Chromium 已验证。
+
+| 检查 | React | Vue | Angular |
+| --- | --- | --- | --- |
+| 独立 npm ci | 通过 | 通过 | 通过 |
+| 边界检查 + 4 项门禁负向测试 | 通过 | 通过 | 通过 |
+| 类型/模板、ESLint、Stylelint、生产构建 | 通过 | 通过 | 通过（AOT/strictTemplates） |
+| 单元/组件测试 | 113 通过 | 113 通过 | 113 通过 |
+| 桌面/移动完整浏览器回归 | 182/182 通过 | 179/180；1 项失败，见复测 | 178/180；2 项失败，见复测 |
+| M1 专项（包含在上述整套回归内） | 16/16 通过 | 14/14 通过 | 14/14 通过 |
+| 修复后产品、实验室及 M1 套件复测 | 54/54 通过 | 52/52 通过 | 52/52 通过 |
+| 视觉基准比较 | VISUAL_PENDING，退出 2 | VISUAL_PENDING，退出 2 | VISUAL_PENDING，退出 2 |
+
+外层 `node tools/check-contract-parity.mjs` 比较各应用独立导出的 180 个 DTO/错误场景，通过；摘要 SHA-256 为 `82ca0a276f5ee8b68ad3055086917fbda6e9d340c74bfea870d81150df42b7d4`。这只是契约结果比较，不引入共享运行时代码。文档链接与 `git diff --check` 通过。
+
+**浏览器覆盖与修复记录**：各端独立 `tests/browser/shell.spec.ts` 检查壳层 DOM 身份、站内 document 请求为零、九项菜单、慢加载、设备详情历史、脏编辑取消/放弃、前进/后退、刷新取消、未知路由、回焦、移动收起、深链接刷新、保存后退出与停止订阅；React 另检查地图实例身份。完整套件还覆盖所有既有业务路由、键盘、axe 和窄屏溢出。
+
+过程中出现的失败均保留为诊断记录，不能算通过：取消刷新时测试等待文档 load 超时，改为对取消行为设置有界等待；React 历史 key 导致菜单重新展开、Angular 同 query 重复确认与历史位置恢复、Angular 组件样式覆盖全局壳层布局、诊断页继承浅色文字导致对比度失败，均已修复。旧设备刷新测试改为验证 URL 恢复的详情与保存结果，避免再次点击被详情遮挡的移动列表；旧移动菜单测试改为先展开菜单，租户测试验证持久上下文实际产生 6 台设备结果；两项告警/遥测时间窗回归原先依赖九月种子日期，现仅在对应测试固定时钟，未修改业务时间过滤规则。Angular 产品类型切换测试曾因模糊标签命中尚在关闭的“数据类型切换确认”对话框而出现 Not an input element，测试改为精确匹配字段标签。最终完整回归还发现 Vue 在 Element Plus 颜色过渡中执行 axe 产生对比度失败，改为等待目标主题颜色稳定再扫描；Angular NG-ZORRO 候选 iframe 弹窗按钮在移动视口外，已在打开固定弹窗前将本应用 iframe 居中滚入可见区。修复前的部分全量运行主动中断，未将其记为完成或通过。
+
+**复测结论**：上述首次整套中的 Vue 1 项、Angular 2 项失败均已修复，随后三端再次通过完整 diagnose，并分别通过产品、实验室与 M1 套件复测（React 54、Vue/Angular 各 52 项）。最后这轮修复后没有再重跑其他业务套件；不将首次整套改写为零失败。当前没有已知未解决的 M1 功能失败。
+
+**证据与复现**：各应用 `reports/m1/` 保存安装、诊断、单测、完整回归与视觉门禁日志及 `full-browser/index.html`、`retest-browser/index.html` 报告（M1 专项包含在两份报告内），`summary.json` 保留首次失败和后续复测结果；`reports/visual-candidates/m1-*.png` 为候选截图。源码测试位于各端 `tests/browser/shell.spec.ts`，可在各应用目录执行 `npm run diagnose` 和 `PLAYWRIGHT_EXECUTABLE_PATH=/usr/bin/chromium npm run test:e2e -- --workers=1` 复现。报告、截图、依赖与产物均不提交。已查看三端桌面及 React 移动展开导航候选图；这不是视觉基准批准。
+
+**未运行/未完成**：锁定 Playwright Chromium、Firefox/WebKit、仓库外重装验证及远程 CI 本轮未运行；已做逐端安装、边界检查和独立构建。V2 人工视觉审核、REVIEW-001–005、最终用户验收均未完成。M2 完整设备对齐、M3 源码教学、M4 构建部署闭环留待后续，不把本轮 M1 或 Mock 中的审核/发布操作当作产品最终完成。
+
 ## 2026-09-20：当前构建本地交互验收复核
 
 用户授权对当前工作区进行本地验收。三端重新生产构建成功，独立候选产物校验通过（React/Vue/Angular 分别 45/55/49 个文件）。Playwright 桌面与移动完整套件：React **166/166**、Vue **166/166** 通过；Angular 首次运行 **165/166**，唯一失败为移动端实验室 NG-ZORRO iframe 对话框“取消”按钮点击时序/视口外超时，失败截图和 trace 已保留。随后单独重跑该用例 **1/1** 通过，记录为一次不稳定测试，不据此宣称零失败。三端 `test:visual` 均返回 `VISUAL_PENDING`（Linux 视觉基准尚未人工审核）。因此本轮确认自动化交互覆盖通过并发现一项需稳定性修复的候选问题；V2 正式视觉审核、REVIEW-001–005 与最终人工验收仍未完成。

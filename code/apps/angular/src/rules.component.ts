@@ -1,3 +1,5 @@
+import { RouterLink, Router as LinkRouter } from '@angular/router';
+import { inject as linkInject } from '@angular/core';
 import { Component, ElementRef, OnDestroy, ViewChild, computed, effect, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -14,8 +16,13 @@ const defaults: Record<RuleNodeKind, RuleNode['config']> = {
   delay: { durationMs: 1000 }, alarm: { severity: 'major', message: '设备告警' }, storage: { target: 'iot_atlas' }, notification: { channel: 'email', message: '模拟通知' },
 };
 
-@Component({ selector: 'app-rules', standalone: true, imports: [MatButtonModule, MatCardModule], templateUrl: './rules.component.html', styleUrls: ['./dashboard.css', './products.css', './rules.css'] })
+@Component({ selector: 'app-rules', standalone: true, imports: [RouterLink, MatButtonModule, MatCardModule], templateUrl: './rules.component.html', styleUrls: ['./dashboard.css', './products.css', './rules.css'] })
 export class RulesComponent implements OnDestroy {
+  private readonly linkRouter = linkInject(LinkRouter);
+  routeUrl(url: string) { return this.linkRouter.parseUrl(url); }
+
+  hasUnsavedChanges() { return this.view() === 'editor' && this.dirty(); }
+
   readonly Math = Math;
   @ViewChild('canvas') canvas?: ElementRef<HTMLDivElement>;
   readonly tenants = [{ id: 'all', name: '全部租户' }, { id: 'ten_202609_001', name: '华东智联' }, { id: 'ten_202609_002', name: '全球能源' }];
@@ -23,7 +30,6 @@ export class RulesComponent implements OnDestroy {
   readonly productNames: Record<string, string> = { prod_as_001: '工业温湿度传感器', prod_as_002: '能源网关' };
   readonly kinds: Record<RuleNodeKind, string> = { trigger: '设备事件', condition: '条件判断', transform: '数据转换', delay: '延迟', alarm: '告警通知', storage: '数据存储', notification: '模拟通知' };
   readonly palette: RuleNodeKind[] = ['trigger', 'condition', 'transform', 'delay', 'alarm', 'storage', 'notification'];
-  readonly nav = ['实验室'];
   readonly operators = ['>', '>=', '<', '<=', '==', '!='];
   readonly samples = rules.samples();
   readonly role = signal<Role>('platformAdmin');

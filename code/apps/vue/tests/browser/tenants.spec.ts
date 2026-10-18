@@ -16,8 +16,12 @@ test('IOT-TENANT-001 filters tenants and carries the selected tenant to the dash
   await page.getByLabel('当前租户').selectOption('ten_202609_002');
   await expect(page.getByRole('heading', { name: '租户列表 · 共 1 条' })).toBeVisible();
   await expect(page.locator('.tenant-table tbody')).not.toContainText('华东智联');
+  const menu = page.getByRole('button', { name: '导航菜单' });
+  if (await menu.isVisible()) await menu.click();
   await page.getByRole('link', { name: /数据大盘/ }).click();
-  await expect(page).toHaveURL(/tenant=ten_202609_002/);
+  await expect(page).toHaveURL(/dashboard/);
+  // The persistent shell uses the standard route; Dashboard reads the saved tenant context.
+  await expect(page.locator('.metric-card').first().locator('strong')).toHaveText('6');
   await expect(page.getByRole('heading', { name: '全球设备运行态势' })).toBeVisible({ timeout: 10_000 });
   expect(errors).toEqual([]);
 });

@@ -1,6 +1,7 @@
-import { createApp, h } from 'vue';
-import { RouterView, createRouter, createWebHistory } from 'vue-router';
+import { createApp } from 'vue';
+import { createRouter, createWebHistory } from 'vue-router';
 import App from './App.vue';
+import AppShell from './AppShell.vue';
 import './styles.css';
 import 'element-plus/dist/index.css';
 const router = createRouter({ history: createWebHistory(), routes: [
@@ -14,5 +15,6 @@ const router = createRouter({ history: createWebHistory(), routes: [
   { path: '/tenants', component: () => import('./Tenants.vue') },
   { path: '/delivery', component: () => import('./Delivery.vue') },
   { path: '/labs', component: () => import('./Labs.vue') },
+  { path: '/:pathMatch(.*)*', component: () => import('./NotFound.vue') },
 ] });
-createApp({ render: () => h(RouterView) }).use(router).mount('#app');
+createApp(AppShell).use(router).mount('#app');

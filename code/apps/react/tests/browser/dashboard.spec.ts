@@ -55,7 +55,7 @@ test('IOT-QUALITY-001 keeps key data readable at a tablet viewport', async ({ pa
   await expect(page.getByRole('heading', { name: '全球设备运行态势' })).toBeVisible();
   await expect(page.locator('.metric-card')).toHaveCount(5);
   await expect(page.locator('.world-chart')).toBeVisible();
-  expect(await page.locator('.atlas-sidebar nav').evaluate(nav => getComputedStyle(nav).display)).toBe('flex');
+  expect(await page.locator('.atlas-sidebar nav').evaluate(nav => getComputedStyle(nav).display)).toBe('grid');
   for (const route of ['/dashboard', '/geography', '/products', '/devices', '/rules', '/firmware', '/tenants', '/labs', '/delivery']) {
     await page.goto(route);
     await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible();
@@ -66,6 +66,8 @@ test('IOT-QUALITY-001 keeps key data readable at a tablet viewport', async ({ pa
 test('IOT-DASH-001 opens the lab from the shared navigation', async ({ page }) => {
   await page.goto('/dashboard');
   await openMobileFilters(page);
+  const menu = page.getByRole('button', { name: '导航菜单' });
+  if (await menu.isVisible()) await menu.click();
   await page.getByRole('navigation').getByRole('link', { name: '实验室' }).click();
   await expect(page).toHaveURL(/\/labs$/);
   await expect(page.getByRole('heading', { name: '组件与图表实验室' })).toBeVisible();
@@ -201,6 +203,8 @@ test('IOT-DASH-001 partial failure, stale data, theme and narrow layout', async 
 });
 
 test('IOT-DASH-001 reflects device alarm acknowledgement across pages', async ({ page }) => {
+  // Seed alarms occurred in September; keep this time-window assertion deterministic.
+  await page.clock.setFixedTime(new Date('2026-09-20T12:00:00.000Z'));
   await page.goto('/dashboard');
   await openMobileFilters(page);
   await page.getByRole('combobox', { name: '时间范围' }).click();
@@ -223,6 +227,7 @@ test('IOT-DASH-001 reflects device alarm acknowledgement across pages', async ({
 });
 
 test('IOT-DASH-001 includes a live device message in the event stream', async ({ page }) => {
+  await page.clock.setFixedTime(new Date('2026-09-20T12:00:00.000Z'));
   await page.goto('/devices');
   await page.locator('.device-list').getByRole('button', { name: '上海温湿度一号' }).click();
   await page.getByRole('tab', { name: '时序数据' }).click();
