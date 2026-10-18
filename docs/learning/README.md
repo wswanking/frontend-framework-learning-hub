@@ -43,3 +43,5 @@ npm run dev
 ## 可复现的检查
 
 在所选应用目录先执行 `npm run diagnose`，再执行 `npm run test:e2e -- device-flow.spec.ts --workers=1`。后者只跑设备教学链，不能代替完整 `npm run test:e2e`。报告在各端 `reports/playwright/index.html`，失败 trace 用 `npm run trace -- <trace.zip>` 打开。当前结果及浏览器限制以 [QUALITY](../architecture/QUALITY.md) 为准，不把教程中的预期当成已执行的验收结果。
+
+- [构建候选、本地部署与回滚](deployment.md)：验证同一批文件，区分本地证据、CI 和正式发布。

@@ -47,3 +47,7 @@ React `useBlocker`、Vue `onBeforeRouteLeave/onBeforeRouteUpdate`、Angular `Can
 已应用列表查询提升至 URL；筛选输入草稿、勾选、页签及未保存元数据仍由页面持有，不引入全局页面缓存。React 从 search params 派生查询并通过 router setter 提交；Vue 通过可写 computed 对接 route query；Angular 的 queryParamMap 订阅更新 signals，用户操作通过 Router 提交查询。各端独立的 device-route 模块负责同一字段规范，不跨应用导入。
 
 列表请求与详情请求独立显示反馈，过期请求不能覆盖新详情。保存成功只刷新列表与当前详情数据，不重新初始化详情草稿；失败保留输入与版本。Mock 的 slow 场景也覆盖详情与元数据保存，便于确定性检查 pending 状态。设备抽屉 DOM 焦点适配器由各框架生命周期注册和释放，每个应用独立维护。
+
+## M4 构建与部署边界
+
+基础拓扑为三独立 origin 的根站点。tools 只做外层编排与本地静态验证，不被任一应用运行时引用。v2 候选由各端隔离构建、快照、完整浏览器检查、同字节封装后汇总；CI 汇总不重建。v1 build-only 包不等价于 v2。详细状态、缓存、SPA 回退与回滚边界见 [部署教学](../learning/deployment.md)，真实结果见 QUALITY。
