@@ -1,8 +1,10 @@
+import { enterDeviceDetail } from './device-detail-focus';
+import { readDeviceQuery, writeDeviceQuery } from './device-route';
 import { DeviceDraftGuard } from './unsaved-changes';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink, Router as LinkRouter } from '@angular/router';
 import { inject as linkInject } from '@angular/core';
-import { Component, HostListener, OnDestroy, computed, effect, inject, signal } from '@angular/core';
+import { Component, HostListener, Injector, OnDestroy, afterNextRender, computed, effect, inject, signal } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -32,8 +34,9 @@ export class DevicesComponent implements OnDestroy {
   hasUnsavedChanges() { return !!this.selected() && !!this.detail() && (this.nameDraft() !== this.detail()!.name || this.tagsDraft() !== this.detail()!.tags.join(',')) || this.creating() && !!this.createInput().name || this.importing() && this.importRows().length > 0; }
 
   private readonly router = inject(Router);
+  private readonly injector = inject(Injector);
   private readonly draftGuard = inject(DeviceDraftGuard);
-  private detailTrigger: HTMLElement | null = null;
+  private releaseDetailFocus?: () => void;
   private readonly route = inject(ActivatedRoute);
   readonly encodeURIComponent = encodeURIComponent;
   readonly statuses: Record<DeviceStatus, string> = { unactivated: '未激活', online: '在线', offline: '离线', fault: '故障', maintenance: '维护' };
@@ -55,12 +58,13 @@ export class DevicesComponent implements OnDestroy {
   readonly themeChoice = signal(localStorage.getItem('iot-atlas-theme') || 'dark');
   readonly systemDark = signal(matchMedia('(prefers-color-scheme: dark)').matches);
   readonly dark = computed(() => this.themeChoice() === 'dark' || (this.themeChoice() === 'system' && this.systemDark()));
-  readonly draft = signal<DeviceListQuery>(baseQuery());
-  readonly query = signal<DeviceListQuery>(baseQuery());
+  readonly draft = signal<DeviceListQuery>(readDeviceQuery(new URLSearchParams(location.search)));
+  readonly query = signal<DeviceListQuery>(readDeviceQuery(new URLSearchParams(location.search)));
   readonly rows = signal<Device[]>([]);
   readonly total = signal(0);
   readonly loading = signal(false);
   readonly selected = signal<string | null>(null);
+  readonly detailLoading = signal(false); readonly detailError = signal(''); readonly saving = signal(false); readonly saveError = signal(''); readonly saveStatus = signal('');
   readonly detail = signal<Device | null>(null);
   readonly tab = signal<Tab>('overview');
   readonly selectedRows = signal<string[]>([]);
@@ -121,10 +125,16 @@ export class DevicesComponent implements OnDestroy {
   private entryWasOpen = false;
   private entryOverflow = '';
   constructor() {
-    const routeTenant = this.route.snapshot.queryParamMap.get('tenant');
-    if (routeTenant) { this.draft.update(current => ({ ...current, tenantId: routeTenant })); this.query.update(current => ({ ...current, tenantId: routeTenant })); }
-    this.media.addEventListener('change', this.updateSystem); this.setTheme(this.themeChoice()); void this.loadList(); this.draftGuard.check = () => this.hasUnsavedChanges();
-    this.route.queryParamMap.pipe(takeUntilDestroyed()).subscribe(params => { const id = params.get('device'); if (id) { this.detailTrigger = document.activeElement instanceof HTMLElement ? document.activeElement : null; void this.loadDevice(id); requestAnimationFrame(() => document.querySelector<HTMLElement>('.device-drawer')?.focus()); } else { this.resetDetail(); if (this.detailTrigger?.isConnected) this.detailTrigger.focus(); this.detailTrigger = null; } });
+    this.media.addEventListener('change', this.updateSystem); this.setTheme(this.themeChoice()); this.draftGuard.check = () => this.hasUnsavedChanges();
+    this.route.queryParamMap.pipe(takeUntilDestroyed()).subscribe(params => {
+      const query = readDeviceQuery(new URLSearchParams(this.router.url.split('?')[1] || ''));
+      if (JSON.stringify(query) !== JSON.stringify(this.query()) || !this.listRequest) { this.query.set(query); this.draft.set({ ...query }); void this.loadList(); }
+      const id = params.get('device');
+      if (id === this.selected()) return;
+      const release = this.releaseDetailFocus; this.releaseDetailFocus = undefined;
+      if (id) { release?.(); this.releaseDetailFocus = enterDeviceDetail(() => this.close()); void this.loadDevice(id); }
+      else { this.resetDetail(); afterNextRender(() => release?.(), { injector: this.injector }); }
+    });
     effect(() => {
       const open = this.commandPreview();
       if (open && !this.previewWasOpen) { this.previewTrigger = document.activeElement instanceof HTMLElement ? document.activeElement : null; this.previewOverflow = document.documentElement.style.overflow; document.documentElement.style.overflow = 'hidden'; }
@@ -140,7 +150,7 @@ export class DevicesComponent implements OnDestroy {
       this.entryWasOpen = open;
     });
   }
-  ngOnDestroy() { this.draftGuard.check = () => false; this.media.removeEventListener('change', this.updateSystem); this.stopTimers(); cancelAnimationFrame(this.previewFrame); cancelAnimationFrame(this.entryFrame); if (this.previewWasOpen) document.documentElement.style.overflow = this.previewOverflow; if (this.entryWasOpen) document.documentElement.style.overflow = this.entryOverflow; }
+  ngOnDestroy() { this.detailRequest++; this.listRequest++; this.draftGuard.check = () => false; this.media.removeEventListener('change', this.updateSystem); this.stopTimers(); cancelAnimationFrame(this.previewFrame); cancelAnimationFrame(this.entryFrame); if (this.previewWasOpen) document.documentElement.style.overflow = this.previewOverflow; if (this.entryWasOpen) document.documentElement.style.overflow = this.entryOverflow; this.releaseDetailFocus?.(); }
   @HostListener('window:keydown', ['$event']) onCommandKeydown(event: KeyboardEvent) {
     if (this.entryDialogOpen()) {
       const entry = document.querySelector<HTMLElement>('.device-entry-dialog[role="dialog"]');
@@ -168,20 +178,21 @@ export class DevicesComponent implements OnDestroy {
   private stopTimers() { if (this.commandTimer) clearInterval(this.commandTimer); if (this.shadowTimer) clearInterval(this.shadowTimer); this.stopLive?.(); this.stopLive = undefined; }
   private context(): Context { return { actorId: 'usr_202609_001', role: this.role(), tenantId: this.role() === 'platformAdmin' ? 'all' : 'ten_202609_001', seed: 42, scenario: this.scenario() }; }
   setTheme(value: string) { this.themeChoice.set(value); document.documentElement.dataset['theme'] = value === 'dark' || (value === 'system' && this.systemDark()) ? 'dark' : 'light'; localStorage.setItem('iot-atlas-theme', value); }
-  setRole(value: Role) { this.role.set(value); const tenantId = value === 'platformAdmin' ? 'all' : 'ten_202609_001'; this.draft.update(current => ({ ...current, tenantId, page: 1 })); this.query.update(current => ({ ...current, tenantId, page: 1 })); this.close(); void this.loadList(); }
-  setScenario(value: Scenario) { this.scenario.set(value); void this.loadList(); if (this.selected()) void this.loadDevice(this.selected()!); }
+  setRole(value: Role) { if (this.hasUnsavedChanges() && !window.confirm('当前编辑尚未保存，放弃修改并切换身份吗？')) return; this.detail.set(null); this.role.set(value); const tenantId = value === 'platformAdmin' ? 'all' : 'ten_202609_001'; const params = writeDeviceQuery({ ...this.query(), tenantId, page: 1 }, new URLSearchParams(this.router.url.split('?')[1] || '')); params.delete('device'); void this.router.navigate([], { relativeTo: this.route, queryParams: Object.fromEntries(params) }); }
+  setScenario(value: Scenario) { if (this.hasUnsavedChanges() && !window.confirm('当前编辑尚未保存，放弃修改并切换场景吗？')) return; this.scenario.set(value); void this.loadList(); if (this.selected()) void this.loadDevice(this.selected()!); }
   setDraft(key: keyof DeviceListQuery, value: unknown) { this.draft.update(current => ({ ...current, [key]: value })); }
   async loadList() { const request = ++this.listRequest; this.loading.set(true); const result = await devices.list(this.context(), this.query()); if (request !== this.listRequest) return; if ('error' in result) { this.message.set(result.error.message); this.rows.set([]); this.total.set(0); } else { this.rows.set(result.data.items); this.total.set(result.data.total); this.message.set(''); } this.loading.set(false); }
   open(id: string) { void this.router.navigate([], { relativeTo: this.route, queryParams: { device: id }, queryParamsHandling: 'merge' }); }
-  async loadDevice(id: string) { this.stopTimers(); const request = ++this.detailRequest; this.selected.set(id); const [result, writable] = await Promise.all([devices.get(this.context(), id), devices.writableItems(this.context(), id)]); if (request !== this.detailRequest) return; if ('error' in result) { this.message.set(result.error.message); this.detail.set(null); return; } this.detail.set(result.data); this.nameDraft.set(result.data.name); this.tagsDraft.set(result.data.tags.join(',')); this.metrics.set(Object.keys(result.data.attributes).slice(0, 2)); this.tab.set('overview'); if ('data' in writable) { this.capabilities.set(writable.data); this.commandItem.set(writable.data[0]?.id ?? ''); } }
+  async loadDevice(id: string) { this.stopTimers(); const request = ++this.detailRequest; this.selected.set(id); this.detail.set(null); this.detailLoading.set(true); this.detailError.set(''); this.saveError.set(''); this.saveStatus.set(''); const [result, writable] = await Promise.all([devices.get(this.context(), id), devices.writableItems(this.context(), id)]); if (request !== this.detailRequest) return; this.detailLoading.set(false); if ('error' in result) { this.detailError.set(result.error.message); this.detail.set(null); return; } this.detail.set(result.data); this.nameDraft.set(result.data.name); this.tagsDraft.set(result.data.tags.join(',')); this.metrics.set(Object.keys(result.data.attributes).slice(0, 2)); this.tab.set('overview'); if ('data' in writable) { this.capabilities.set(writable.data); this.commandItem.set(writable.data[0]?.id ?? ''); } }
   close() { void this.router.navigate([], { relativeTo: this.route, queryParams: { device: null }, queryParamsHandling: 'merge' }); }
   resetDetail() { this.detailRequest++; this.selected.set(null); this.detail.set(null); this.live.set(false); this.commandPreview.set(false); this.stopTimers(); }
-  apply() { this.query.set({ ...this.draft(), page: 1 }); this.selectedRows.set([]); void this.loadList(); }
-  reset() { const next = { ...baseQuery(), tenantId: this.role() === 'platformAdmin' ? baseQuery().tenantId : 'ten_202609_001' }; this.draft.set(next); this.query.set(next); this.selectedRows.set([]); void this.loadList(); }
-  removeChip(key: string) { const field = ({ 产品: 'productId', 状态: 'status', 地域: 'region', 标签: 'tag', 最后活跃: 'lastActiveFrom', 关键词: 'keyword' } as Record<string, keyof DeviceListQuery>)[key]; const next = { ...this.query(), [field]: undefined, page: 1 }; this.query.set(next); this.draft.set(next); void this.loadList(); }
-  sort(by: DeviceListQuery['sortBy']) { this.query.update(current => ({ ...current, sortBy: by, sortDirection: current.sortBy === by && current.sortDirection === 'asc' ? 'desc' : 'asc' })); void this.loadList(); }
-  setPageSize(value: number) { this.query.update(current => ({ ...current, page: 1, pageSize: value })); this.draft.set(this.query()); void this.loadList(); }
-  changePage(delta: number) { this.query.update(current => ({ ...current, page: current.page + delta })); void this.loadList(); }
+  setQuery(query: DeviceListQuery) { void this.router.navigate([], { relativeTo: this.route, queryParams: Object.fromEntries(writeDeviceQuery(query, new URLSearchParams(this.router.url.split('?')[1] || ''))) }); }
+  apply() { this.setQuery({ ...this.draft(), page: 1 }); this.selectedRows.set([]); }
+  reset() { const next = { ...baseQuery(), tenantId: this.role() === 'platformAdmin' ? baseQuery().tenantId : 'ten_202609_001' }; this.draft.set(next); this.setQuery(next); this.selectedRows.set([]); }
+  removeChip(key: string) { const field = ({ 产品: 'productId', 状态: 'status', 地域: 'region', 标签: 'tag', 最后活跃: 'lastActiveFrom', 关键词: 'keyword' } as Record<string, keyof DeviceListQuery>)[key]; const next = { ...this.query(), [field]: undefined, page: 1 }; this.setQuery(next); this.draft.set(next); }
+  sort(by: DeviceListQuery['sortBy']) { this.setQuery({ ...this.query(), sortBy: by, sortDirection: this.query().sortBy === by && this.query().sortDirection === 'asc' ? 'desc' : 'asc' }); }
+  setPageSize(value: number) { this.setQuery({ ...this.query(), page: 1, pageSize: value }); }
+  changePage(delta: number) { this.setQuery({ ...this.query(), page: this.query().page + delta }); }
   maxPage() { return Math.max(1, Math.ceil(this.total() / this.query().pageSize)); }
   everySelected() { return this.rows().every(item => this.selectedRows().includes(item.id)); }
   date(value: string) { return new Date(value).toLocaleString('zh-CN'); }
@@ -196,7 +207,8 @@ export class DevicesComponent implements OnDestroy {
   private cell(value: unknown) { return `"${String(value ?? '').replaceAll('"', '""')}"`; }
   async exportRows() { const results = await Promise.all(this.selectedRows().map(id => devices.get(this.context(), id))); const failure = results.find(result => 'error' in result); if (failure && 'error' in failure) { this.message.set(`设备导出失败：${failure.error.message}`); return; } const selectedDevices = results.flatMap(result => 'data' in result ? [result.data] : []); this.download('devices.csv', ['id,name,status,product,region', ...selectedDevices.map(item => [item.id, item.name, item.status, item.productId, item.region].map(value => this.cell(value)).join(','))].join('\n')); }
   exportTelemetry() { const view = this.telemetry(); if (view) this.download('telemetry.csv', ['timestamp,metric,value,unit,quality', ...view.points.map(point => [point.timestamp, point.metric, point.value, point.unit, point.quality].map(value => this.cell(value)).join(','))].join('\n')); }
-  async saveMetadata() { const detail = this.detail(); if (!detail) return; const result = await devices.updateMetadata(this.context(), detail.id, { name: this.nameDraft(), tags: this.tagsDraft().split(',').map(value => value.trim()).filter(Boolean) }, detail.version); if ('error' in result) this.message.set(result.error.message); else { this.detail.set(result.data); this.nameDraft.set(result.data.name); this.tagsDraft.set(result.data.tags.join(',')); this.message.set('设备信息已保存'); void this.loadList(); } }
+  reloadMetadata() { if (window.confirm('重新加载将放弃当前未保存修改，继续吗？') && this.selected()) void this.loadDevice(this.selected()!); }
+  async saveMetadata() { const detail = this.detail(); if (!detail || this.saving()) return; this.saving.set(true); this.saveError.set(''); this.saveStatus.set(''); const result = await devices.updateMetadata(this.context(), detail.id, { name: this.nameDraft(), tags: this.tagsDraft().split(',').map(value => value.trim()).filter(Boolean) }, detail.version); this.saving.set(false); if (this.selected() !== detail.id) return; if ('error' in result) this.saveError.set(`${result.error.message}。${Object.values(result.error.fieldErrors ?? {}).join('；')}`); else { this.detail.set(result.data); this.nameDraft.set(result.data.name); this.tagsDraft.set(result.data.tags.join(',')); this.saveStatus.set('设备信息已保存'); void this.loadList(); } }
   async loadDeviceCapacity(tenantId: string) { const request = ++this.capacityRequest; this.capacityNote.set('正在查询设备配额…'); const result = await tenants.checkCapacity(this.context(), tenantId, 'devices'); if (request !== this.capacityRequest) return; this.capacityNote.set('error' in result ? result.error.message : `设备配额已用 ${result.data.used}/${result.data.limit}${(result.data.used + 1) / result.data.limit * 100 >= result.data.warningAt ? `；登记后达到 ${result.data.warningAt}% 预警阈值` : ''}`); }
   newDevice() { const tenantId = this.query().tenantId === 'all' ? 'ten_202609_001' : this.query().tenantId; this.createInput.set({ tenantId, productId: this.firstProduct(tenantId), name: '', region: 'AS', countryCode: tenantId === 'ten_202609_002' ? 'JP' : 'CN', location: null, tags: [] }); this.createError.set(''); this.creating.set(true); void this.loadDeviceCapacity(tenantId); }
   setCreate(key: keyof DeviceInput, value: unknown) { this.createInput.update(current => ({ ...current, [key]: value })); }

@@ -111,6 +111,7 @@ export class DeviceService {
     return ok(context, { items: rows.slice((query.page - 1) * query.pageSize, query.page * query.pageSize), total: rows.length, page: query.page, pageSize: query.pageSize }, `devices_${query.page}`);
   }
   async get(context: Context, id: string): Promise<DeviceResult<Device>> {
+    if (context.scenario === 'slow') await new Promise(resolve => setTimeout(resolve, 80));
     this.sync();
     const device = this.devices.find(item => item.id === id);
     const denied = access(context, device?.tenantId ?? (context.role === 'platformAdmin' ? 'all' : context.tenantId)); if (denied) return denied;
@@ -188,6 +189,7 @@ export class DeviceService {
     return ok(context, { deleted: [...ids] }, 'delete_batch');
   }
   async updateMetadata(context: Context, id: string, input: { name: string; tags: string[] }, version: number): Promise<DeviceResult<Device>> {
+    if (context.scenario === 'slow') await new Promise(resolve => setTimeout(resolve, 80));
     this.sync();
     const device = this.devices.find(item => item.id === id);
     const denied = access(context, device?.tenantId ?? context.tenantId, true); if (denied) return denied;

@@ -289,7 +289,7 @@ test('IOT-DEVICE-001 previews and records model driven control, with offline and
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog', { name: '控制预览' })).toHaveCount(0);
   await expect(page.getByRole('button', { name: '预览命令' })).toBeFocused();
-  await expect.poll(() => page.evaluate(() => document.documentElement.style.overflow)).toBe('');
+  await expect.poll(() => page.evaluate(() => document.documentElement.style.overflow)).toBe(page.viewportSize()!.width <= 1024 ? 'hidden' : '');
   await page.getByRole('button', { name: '预览命令' }).click();
   await page.getByRole('button', { name: '发送命令' }).click();
   await expect(page.getByRole('tab', { name: '命令记录' })).toHaveAttribute('aria-selected', 'true');
