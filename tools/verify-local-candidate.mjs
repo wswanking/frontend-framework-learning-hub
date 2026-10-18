@@ -1,15 +1,31 @@
 import assert from 'node:assert/strict';
-import { mkdir, writeFile } from 'node:fs/promises';
+import { spawn } from 'node:child_process';
+import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
 import { createSite } from './static-site.mjs';
 import { frameworks, repository, verifyCandidate } from './artifacts.mjs';
-const [candidateArg, reportArg, appParentArg = join(repository, 'code/apps')] = process.argv.slice(2);
+const [candidateArg, reportArg, appParentArg = join(repository, 'code/apps'), onlyFramework] = process.argv.slice(2);
 if (!candidateArg || !reportArg) throw new Error('Usage: verify-local-candidate.mjs <candidate> <new-report-directory> [independent-app-parent]');
 const candidate = resolve(candidateArg), report = resolve(reportArg), appParent = resolve(appParentArg);
 const manifest = await verifyCandidate(candidate); await mkdir(report, { recursive: true });
 const result = { origin: manifest.origin, scope: 'Local independent root-site smoke, not visual approval or remote deployment', browser: null, apps: {} };
-for (const framework of frameworks) {
+if (!onlyFramework) {
+  for (const framework of frameworks) {
+    await new Promise((resolve, reject) => {
+      const child = spawn(process.execPath, [process.argv[1], candidate, report, appParent, framework], { stdio: 'inherit', env: process.env });
+      child.on('error', reject); child.on('close', code => code === 0 ? resolve() : reject(new Error(`${framework} static hosting smoke failed (${code})`)));
+    });
+    const checked = JSON.parse(await readFile(join(report, `local-hosting-${framework}.json`), 'utf8'));
+    result.apps[framework] = checked.apps[framework]; result.browser = checked.browser;
+  }
+  await verifyCandidate(candidate);
+  await writeFile(join(report, 'local-hosting.json'), JSON.stringify(result, null, 2) + '\n');
+  console.log(JSON.stringify(result, null, 2));
+  process.exit(0);
+}
+if (!frameworks.includes(onlyFramework)) throw new Error('Unknown framework');
+for (const framework of [onlyFramework]) {
   const server = await createSite(join(candidate, 'apps', framework));
   await new Promise(resolve => server.listen(0, '127.0.0.1', resolve));
   const url = `http://127.0.0.1:${server.address().port}`;
@@ -46,5 +62,5 @@ for (const framework of frameworks) {
   } finally { await browser?.close(); await new Promise(resolve => server.close(resolve)); }
 }
 await verifyCandidate(candidate);
-await writeFile(join(report, 'local-hosting.json'), JSON.stringify(result, null, 2) + '\n');
+await writeFile(join(report, `local-hosting-${onlyFramework}.json`), JSON.stringify(result, null, 2) + '\n');
 console.log(JSON.stringify(result, null, 2));

@@ -25,7 +25,7 @@ export PLAYWRIGHT_EXECUTABLE_PATH=/usr/bin/chromium
 node tools/validate-local.mjs reports/m4-run-001
 ```
 
-输出目录必须不存在。脚本将每端已跟踪文件复制到系统临时目录，各自 `npm ci`、边界负向检查、边界/类型/lint/unit/build；再构建一次比较全部文件字节。其后记录快照，执行完整桌面/移动浏览器套件，核验构建未改变，再封装。最后直接托管封包内的文件完成浏览器与 HTTP 检查，不从源码再次构建。
+输出目录必须不存在。脚本将每端已跟踪文件复制到系统临时目录，各自 `npm ci`、边界负向检查、边界/类型/lint/unit/build；再构建一次比较全部文件字节。其后记录快照，执行完整桌面/移动浏览器套件，核验构建未改变，再封装。最后直接托管封包内的文件完成浏览器与 HTTP 检查，不从源码再次构建。托管检查为每端启动独立子进程并加载本端 Playwright，避免多个安装在同一进程相互干扰。
 
 `ATLAS_NPM_CACHE=/path/to/cache` 只配置 npm 下载缓存，不共享 node_modules 或应用运行时。独立目录、原始日志和失败证据保留在 `isolated-directory.txt` 指向的位置；清理前先归档所需报告。两次构建一致仅证明本次相同输入、同一安装和工具链下的可重复性，不声称跨操作系统或未来依赖源的完全可复现。
 

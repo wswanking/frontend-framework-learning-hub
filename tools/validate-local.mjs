@@ -8,7 +8,7 @@ import { assemble, frameworks, inventory, outputPath, repository, seal, snapshot
 // Outer orchestration only. Each exported project installs, builds and tests its own code.
 const [destinationArg] = process.argv.slice(2);
 if (!destinationArg) throw new Error('Usage: validate-local.mjs <new-evidence-directory>');
-const destination = resolve(destinationArg); await mkdir(destination, { recursive: false });
+const destination = resolve(destinationArg); await mkdir(dirname(destination), { recursive: true }); await mkdir(destination, { recursive: false });
 const isolated = await mkdtemp(join(tmpdir(), 'atlas-m4-isolated-'));
 await writeFile(join(destination, 'isolated-directory.txt'), isolated + '\n');
 const npm = process.platform === 'win32' ? 'npm.cmd' : 'npm';
