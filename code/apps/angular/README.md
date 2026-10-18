@@ -1,12 +1,16 @@
-# IoT Atlas angular 诊断与验收基座
+# IoT Atlas angular 独立教学应用
 
-IOT-QUALITY-001 / IOT-PLATFORM-003。仅诊断页面，业务功能待实现。本目录可独立复制使用，不依赖父目录。
+IOT-QUALITY-001 / IOT-PLATFORM-003 / IOT-LEARNING-001。已有大盘、设备、产品、规则、固件/OTA、租户、实验室与交付 Mock；M1/M2 已有本地验证，产品最终验收仍待完成。本目录可独立复制使用，不依赖父目录。
+
+从[本框架设备源码教程](../../../docs/learning/angular.md)开始，或先读[三端共同操作](../../../docs/learning/README.md)。教程位于仓库 docs；单独复制应用不影响运行，阅读跨框架教程需保留仓库文档。
+
+开发：`npm ci` 后运行 `npm run dev`，访问 `http://127.0.0.1:14103/dashboard`。根路径 `/` 为诊断页。
 
 Node 24.15+（24.x）。先 npm ci，再运行：
 
 - npm run diagnose：无浏览器，边界/类型/模板/Lint/组件测试/构建。
 - npm run browser:install：安装 Chromium。
-- npm run test:e2e：先 build，启动 14103 生产预览，检查桌面/窄屏实际交互及无障碍。
+- npm run test:e2e：须先另行执行 build；本命令启动 14103 生产预览，检查桌面/窄屏实际交互及无障碍。
 - npm run visual:capture：生成 reports/visual-candidates 中的候选图，不自动批准。
 - npm run test:visual：没有审核当前系统基准时以 VISUAL_PENDING 退出 2。
 - npm run verify：完整门禁，必须包含已审核视觉比较。
