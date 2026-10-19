@@ -1,5 +1,14 @@
 # 诊断与验收环境
 
+## 2026-10-19：React 按钮加载状态的对比度过渡修复
+
+`a808a6a` 的三端 PR 浏览器步骤成功，但 [push 运行39178987367](https://github.com/wswanking/frontend-framework-learning-hub/actions/runs/39178987367) 的 React 大盘亮色用例首轮和重试均失败，目标为 `.MuiButton-contained`。本地检查确认刷新后按钮从 disabled 变为 enabled 时，白色前景已经生效，背景却仍在0.25秒渐变（可读到 rgba(0,0,0,0.12)），与 Vue 卡片类似形成低对比度中间态。
+
+React 壳内 MUI 按钮现在只保留阴影过渡，减少动画模式下禁用过渡，不更改终态主题颜色或无障碍规则。回归用例等待刷新后按钮可用，并检查没有前景/背景颜色动画。首次本地补充断言遗漏移动端刷新后筛选默认收起的交互步骤，27/30通过；补齐通过既有 helper 展开筛选后，主题与无障碍场景桌面/移动各重复三次、零重试30/30通过，初始失败报告保存在 reports/ci-button-first。reduce 与 no-preference 两种模式的生产构建探测均确认按钮启用时即为目标背景 rgb(8,100,123)，无颜色渐变。
+
+本地 React 4项边界负向检查、边界、类型、lint、116/116单测和生产构建通过；日志及探测在 React reports/ci-button-*.log/json。远端下一轮完整结果尚待执行；不将上一提交的 PR 成功步骤或本地专项结果充当新提交最终 CI 结论。
+
+
 ## 2026-10-19：Vue 卡片主题过渡修复
 
 `beb6362` 的 React 远端浏览器步骤已通过；[PR 运行39178516172](https://github.com/wswanking/frontend-framework-learning-hub/actions/runs/39178516172) 的 Vue 产品移动端亮色对比度用例却首轮及重试均失败，而同提交 push 检查中的 Vue 通过。继续诊断确认 Element Plus `.el-card` 默认对所有属性执行0.3秒过渡，即使 prefers-reduced-motion 为 reduce 仍对前景与背景插值；本地读取到切换后约110ms卡片背景 rgb(174,184,190)、前景 rgb(92,115,128)，而子文本已切换为亮色主题，形成低对比度中间态。此前交付页的同类波动由相同卡片机制解释。

@@ -197,6 +197,12 @@ test('IOT-DASH-001 partial failure, stale data, theme and narrow layout', async 
   await expect(page.locator('.metric-card')).toHaveCount(0);
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await openMobileFilters(page);
+  const apply = page.getByRole('button', { name: '应用', exact: true });
+  await expect(apply).toBeEnabled();
+  expect(await apply.evaluate(button => button.getAnimations().every(animation =>
+    !(animation instanceof CSSTransition) || !['color', 'background-color'].includes(animation.transitionProperty)
+  ))).toBe(true);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations.map(item => ({ id: item.id, targets: item.nodes.map(node => node.target) }))).toEqual([]);
   expect(errors).toEqual([]);

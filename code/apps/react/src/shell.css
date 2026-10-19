@@ -18,3 +18,10 @@
 .app-shell > .atlas-sidebar .diagnostic-link { display: block; margin-top: 1rem; }
 
 .shell-content .diagnostic-page { color: #172033; }
+
+/* Keep button foreground/background contrast atomic across theme and disabled-state changes. */
+.app-shell .MuiButton-root { transition-property: box-shadow; }
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .MuiButton-root { transition: none; }
+}
