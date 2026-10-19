@@ -18,3 +18,10 @@
 .app-shell > .atlas-sidebar .diagnostic-link { display: block; margin-top: 1rem; }
 
 .shell-content .diagnostic-page { color: #172033; }
+
+/* Theme foregrounds and card backgrounds must switch together, without low-contrast intermediate colors. */
+.app-shell .el-card { transition-property: box-shadow; }
+
+@media (prefers-reduced-motion: reduce) {
+  .app-shell .el-card { transition: none; }
+}

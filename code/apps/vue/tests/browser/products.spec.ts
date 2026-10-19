@@ -305,6 +305,11 @@ test('IOT-PRODUCT-001 read-only role, theme, accessibility and narrow layout', a
   await expect(page.locator('.conversion')).toContainText('45');
   await page.getByLabel('主题').selectOption('light');
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  // Card foreground/background colors must change atomically, including reduced-motion mode.
+  expect(await page.locator('.el-card').evaluateAll(cards => cards.every(card =>
+    getComputedStyle(card).backgroundColor === 'rgb(255, 255, 255)' &&
+    card.getAnimations().every(animation => !(animation instanceof CSSTransition) || !['color', 'background-color'].includes(animation.transitionProperty))
+  ))).toBe(true);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
   expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations.map(item => ({ id: item.id, targets: item.nodes.map(node => node.target) }))).toEqual([]);
   expect(errors).toEqual([]);

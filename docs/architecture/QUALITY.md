@@ -1,5 +1,12 @@
 # 诊断与验收环境
 
+## 2026-10-19：Vue 卡片主题过渡修复
+
+`beb6362` 的 React 远端浏览器步骤已通过；[PR 运行39178516172](https://github.com/wswanking/frontend-framework-learning-hub/actions/runs/39178516172) 的 Vue 产品移动端亮色对比度用例却首轮及重试均失败，而同提交 push 检查中的 Vue 通过。继续诊断确认 Element Plus `.el-card` 默认对所有属性执行0.3秒过渡，即使 prefers-reduced-motion 为 reduce 仍对前景与背景插值；本地读取到切换后约110ms卡片背景 rgb(174,184,190)、前景 rgb(92,115,128)，而子文本已切换为亮色主题，形成低对比度中间态。此前交付页的同类波动由相同卡片机制解释。
+
+本端持久壳内卡片现仅对 box-shadow 过渡，并在减少动画模式下禁用卡片过渡；不更改主题终态颜色、对比度阈值、axe 规则、CI重试次数或视觉批准状态。产品无障碍用例增加立即切换白色背景、无前景/背景颜色动画的断言。本地诊断、4项边界负向检查、类型/lint、116/116单测和构建通过；产品/交付/设备/租户主题与无障碍场景在桌面及移动端各重复5次、零重试通过。另以 reduce 和 no-preference 两种设置直接核对真实生产构建的即时颜色与动画状态，均通过。具体数量与日志见 Vue `reports/ci-theme-browser.log`，探测记录见 `reports/ci-theme-probe.json`。新 HEAD 的远端完整检查待推送后执行。
+
+
 ## 2026-10-18：PR #1 首轮 CI 诊断与修复
 
 用户已明确授权推送功能分支并创建面向 main 的草稿 PR，仍不合并或部署。`a608b96` 的 [PR 检查](https://github.com/wswanking/frontend-framework-learning-hub/actions/runs/39177824763) 与 [push 检查](https://github.com/wswanking/frontend-framework-learning-hub/actions/runs/39177786620) 均完成但失败：工具、Vue、Angular 成功，React 浏览器失败导致证据门禁失败、候选汇总跳过。远端固定 Chromium 安装成功，不沿用本地下载受限作为远端结果。
