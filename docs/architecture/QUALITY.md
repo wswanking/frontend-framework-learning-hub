@@ -1,5 +1,12 @@
 # 诊断与验收环境
 
+## 2026-10-19：分页回归等待实际数据
+
+`c97f348` 的 [PR检查39179706424](https://github.com/wswanking/frontend-framework-learning-hub/actions/runs/39179706424) 与 [push检查39179703140](https://github.com/wswanking/frontend-framework-learning-hub/actions/runs/39179703140) 均已完成成功，三端任务、tooling及同文件候选汇总均成功。但 push React 为201 passed、1 flaky：设备分页用例在URL已提交时读取了上一页的圣保罗行，点击时第二页悉尼行刚好替换，造成名称比较失败；重试通过。
+
+三端独立的设备流用例现在先断言确定性筛选/分页场景的第二页首行ID为 `dev_oc_001`，再读取名称并打开详情。新增的是实际分页结果断言，不降低原有筛选、保存、刷新、历史或焦点断言，也不增加重试或固定等待。三端各自桌面/移动场景重复5次、禁用重试，均10/10通过，日志为各端 reports/ci-pagination-browser.log。此增量仅修改测试及本文，运行时代码与c97f348一致；新HEAD的完整CI结果待执行。
+
+
 ## 2026-10-19：React 按钮加载状态的对比度过渡修复
 
 `a808a6a` 的三端 PR 浏览器步骤成功，但 [push 运行39178987367](https://github.com/wswanking/frontend-framework-learning-hub/actions/runs/39178987367) 的 React 大盘亮色用例首轮和重试均失败，目标为 `.MuiButton-contained`。本地检查确认刷新后按钮从 disabled 变为 enabled 时，白色前景已经生效，背景却仍在0.25秒渐变（可读到 rgba(0,0,0,0.12)），与 Vue 卡片类似形成低对比度中间态。

@@ -10,6 +10,8 @@ test('M2 restores applied filters, pagination and edited detail through URL and 
   await expect(page).toHaveURL(/page=2/);
   const listUrl = page.url();
   const row = page.locator('.device-list tbody tr').first();
+  // A committed URL does not mean the asynchronous page of rows has arrived.
+  await expect(row.locator('td').nth(2)).toHaveText('dev_oc_001');
   const id = await row.locator('td').nth(2).innerText();
   const name = await row.locator('td').nth(1).innerText();
   await row.getByRole('button').click();
