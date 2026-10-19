@@ -1,3 +1,4 @@
+import { provideRouter } from '@angular/router';
 import { afterEach, expect, it } from 'vitest';
 import { screen } from '@testing-library/dom';
 import { TestBed } from '@angular/core/testing';
@@ -6,7 +7,7 @@ import { AppComponent } from './app.component';
 afterEach(() => TestBed.resetTestingModule());
 it('IOT-QUALITY-001 validation, failed input retention and retry', async () => {
   const user = userEvent.setup();
-  await TestBed.configureTestingModule({ imports: [AppComponent] }).compileComponents();
+  await TestBed.configureTestingModule({ imports: [AppComponent], providers: [provideRouter([])] }).compileComponents();
   const fixture = TestBed.createComponent(AppComponent);
   document.body.appendChild(fixture.nativeElement);
   await fixture.whenStable();

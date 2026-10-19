@@ -1,3 +1,4 @@
+import { createRouter, createMemoryHistory } from 'vue-router';
 import { afterEach, expect, it } from 'vitest';
 import { screen, cleanup, render } from '@testing-library/vue';
 import userEvent from '@testing-library/user-event';
@@ -5,7 +6,8 @@ import App from './App.vue';
 afterEach(cleanup);
 it('IOT-QUALITY-001 validation, failed input retention and retry', async () => {
   const user = userEvent.setup();
-  render(App);
+  const router = createRouter({ history: createMemoryHistory(), routes: [{ path: '/', component: App }, { path: '/dashboard', component: App }] });
+  render(App, { global: { plugins: [router] } });
   await user.click(screen.getByRole('button', { name: '运行诊断' }));
   expect(screen.getByRole('alert')).toHaveTextContent('请输入诊断名称');
   await user.type(screen.getByLabelText('诊断名称'), '链路检查');

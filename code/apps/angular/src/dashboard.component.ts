@@ -1,3 +1,5 @@
+import { RouterLink, Router as LinkRouter } from '@angular/router';
+import { inject as linkInject } from '@angular/core';
 import { Component, OnDestroy, computed, inject, signal } from '@angular/core';
 import { Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,18 +28,20 @@ function initialQuery(): DashboardQuery {
 }
 
 @Component({
-  selector: 'app-dashboard', standalone: true, imports: [MatButtonModule, MatCardModule, MatProgressSpinnerModule, DashboardChartComponent],
+  selector: 'app-dashboard', standalone: true, imports: [RouterLink, MatButtonModule, MatCardModule, MatProgressSpinnerModule, DashboardChartComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.css',
 })
 export class DashboardComponent implements OnDestroy {
+  private readonly linkRouter = linkInject(LinkRouter);
+  routeUrl(url: string) { return this.linkRouter.parseUrl(url); }
+
   readonly tenantNames: Record<string, string> = { all: '全部租户', ten_202609_001: '华东智联', ten_202609_002: '全球能源' };
   readonly continentNames: Partial<Record<string, string>> = { AS: '亚洲', EU: '欧洲', NA: '北美洲', SA: '南美洲', AF: '非洲', OC: '大洋洲' };
   readonly countryNames: Partial<Record<string, string>> = { CN: '中国', DE: '德国', US: '美国', BR: '巴西', ZA: '南非', AU: '澳大利亚', JP: '日本', FR: '法国', CA: '加拿大', AR: '阿根廷', EG: '埃及', NZ: '新西兰' };
   readonly countryContinent: Record<string, string> = { CN: 'AS', JP: 'AS', DE: 'EU', FR: 'EU', US: 'NA', CA: 'NA', BR: 'SA', AR: 'SA', ZA: 'AF', EG: 'AF', AU: 'OC', NZ: 'OC' };
   geographyUrl(query: DashboardQuery, continent?: string, country?: string, node?: string) { const params = new URLSearchParams({ tenant: query.tenantId, from: query.from, to: query.to }); if (continent) params.set('continent', continent); if (country) params.set('country', country); if (node) params.set('node', node); return `/geography?${params}`; }
   deviceUrl(id: string) { return `/devices?device=${encodeURIComponent(id)}`; }
-  readonly nav = ['数据大盘', '全球节点', '产品与物模型', '设备中心', '规则引擎', '固件与 OTA', '租户管理', '实验室', '交付看板'];
   readonly eventLabels = { info: '● 遥测', minor: '⚠ 一般告警', major: '⚠ 重要告警', critical: '⛔ 紧急告警' };
   readonly tenants = Object.entries(this.tenantNames).map(([id, name]) => ({ id, name }));
   readonly continents = Object.entries(this.continentNames).map(([id, name]) => ({ id, name }));

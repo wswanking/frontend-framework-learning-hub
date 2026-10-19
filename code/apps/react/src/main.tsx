@@ -1,6 +1,7 @@
 import { createRoot } from 'react-dom/client';
 import { lazy, Suspense } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import AppShell from './AppShell';
 import App from './App';
 import './styles.css';
 const Dashboard = lazy(() => import('./Dashboard'));
@@ -12,17 +13,17 @@ const FirmwareOta = lazy(() => import('./FirmwareOta'));
 const Tenants = lazy(() => import('./Tenants'));
 const Delivery = lazy(() => import('./Delivery'));
 const Labs = lazy(() => import('./Labs'));
-createRoot(document.getElementById('app')!).render(
-  <BrowserRouter><Suspense fallback={<p role="status">页面加载中…</p>}><Routes>
-    <Route path="/" element={<App />} />
-    <Route path="/dashboard" element={<Dashboard />} />
-    <Route path="/geography" element={<Geography />} />
-    <Route path="/products" element={<Products />} />
-    <Route path="/devices" element={<Devices />} />
-    <Route path="/rules" element={<Rules />} />
-    <Route path="/firmware" element={<FirmwareOta />} />
-    <Route path="/tenants" element={<Tenants />} />
-    <Route path="/delivery" element={<Delivery />} />
-    <Route path="/labs" element={<Labs />} />
-  </Routes></Suspense></BrowserRouter>,
-);
+const router = createBrowserRouter([{ element: <AppShell />, children: [
+  { path: '/', element: <Suspense fallback={<p role="status">页面加载中…</p>}><App /></Suspense> },
+  { path: '/dashboard', element: <Suspense fallback={<p role="status">页面加载中…</p>}><Dashboard /></Suspense> },
+  { path: '/geography', element: <Suspense fallback={<p role="status">页面加载中…</p>}><Geography /></Suspense> },
+  { path: '/products', element: <Suspense fallback={<p role="status">页面加载中…</p>}><Products /></Suspense> },
+  { path: '/devices', element: <Suspense fallback={<p role="status">页面加载中…</p>}><Devices /></Suspense> },
+  { path: '/rules', element: <Suspense fallback={<p role="status">页面加载中…</p>}><Rules /></Suspense> },
+  { path: '/firmware', element: <Suspense fallback={<p role="status">页面加载中…</p>}><FirmwareOta /></Suspense> },
+  { path: '/tenants', element: <Suspense fallback={<p role="status">页面加载中…</p>}><Tenants /></Suspense> },
+  { path: '/labs', element: <Suspense fallback={<p role="status">页面加载中…</p>}><Labs /></Suspense> },
+  { path: '/delivery', element: <Suspense fallback={<p role="status">页面加载中…</p>}><Delivery /></Suspense> },
+  { path: '*', element: <section className="shell-not-found"><h1>页面不存在</h1><p>请从主导航选择页面。</p></section> },
+].map(route => ({ ...route, errorElement: <section className="shell-not-found" role="alert"><h1>页面加载失败</h1><p>请从主导航选择其他页面，或刷新后重试。</p></section> })) }]);
+createRoot(document.getElementById('app')!).render(<RouterProvider router={router} />);

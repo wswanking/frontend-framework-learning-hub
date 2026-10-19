@@ -21,6 +21,6 @@ async function submit() {
       <button type="submit" :disabled="busy">{{ busy ? '诊断中…' : '运行诊断' }}</button>
     </form>
     <p v-if="result" :role="result.ok ? 'status' : 'alert'">{{ result.message }}</p>
-    <p><a href="/dashboard">进入数据大盘</a></p>
+    <p><RouterLink to="/dashboard">进入数据大盘</RouterLink></p>
   </section></main>
 </template>

@@ -1,3 +1,4 @@
+import { respondToDialog } from './dialog';
 import { expect, test } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 
@@ -16,8 +17,12 @@ test('IOT-TENANT-001 filters tenants and carries the selected tenant to the dash
   await page.getByLabel('当前租户').selectOption('ten_202609_002');
   await expect(page.getByRole('heading', { name: '租户列表 · 共 1 条' })).toBeVisible();
   await expect(page.locator('.tenant-table tbody')).not.toContainText('华东智联');
+  const menu = page.getByRole('button', { name: '导航菜单' });
+  if (await menu.isVisible()) await menu.click();
   await page.getByRole('link', { name: /数据大盘/ }).click();
-  await expect(page).toHaveURL(/tenant=ten_202609_002/);
+  await expect(page).toHaveURL(/dashboard/);
+  // The persistent shell uses the standard route; Dashboard reads the saved tenant context.
+  await expect(page.locator('.metric-card').first().locator('strong')).toHaveText('6');
   await expect(page.getByRole('heading', { name: '全球设备运行态势' })).toBeVisible({ timeout: 10_000 });
   expect(errors).toEqual([]);
 });
@@ -75,11 +80,9 @@ test('IOT-TENANT-001 routes blocked quota use to the correct tenant resources', 
   const dialog = page.getByRole('dialog', { name: '编辑配额' });
   const deviceLink = dialog.getByRole('link', { name: '前往设备处理占用' });
   await expect(deviceLink).toHaveAttribute('href', '/devices?tenant=ten_202609_001');
-  page.once('dialog', prompt => void prompt.dismiss());
-  await deviceLink.click();
+  await respondToDialog(page, 'dismiss', () => deviceLink.click());
   await expect(dialog).toBeVisible();
-  page.once('dialog', prompt => void prompt.accept());
-  await deviceLink.click();
+  await respondToDialog(page, 'accept', () => deviceLink.click());
   await expect(page).toHaveURL(/\/devices\?tenant=ten_202609_001$/);
   await expect(page.getByLabel('设备租户')).toHaveValue('ten_202609_001');
 
@@ -91,8 +94,7 @@ test('IOT-TENANT-001 routes blocked quota use to the correct tenant resources', 
   await page.getByRole('button', { name: '预览影响' }).click();
   const storageLink = page.getByRole('dialog', { name: '编辑配额' }).getByRole('link', { name: '前往存储（MiB）处理占用' });
   await expect(storageLink).toHaveAttribute('href', '/firmware?tenant=ten_202609_001');
-  page.once('dialog', prompt => void prompt.accept());
-  await storageLink.click();
+  await respondToDialog(page, 'accept', () => storageLink.click());
   await expect(page).toHaveURL(/\/firmware\?tenant=ten_202609_001$/);
   await expect(page.getByLabel('固件租户')).toHaveValue('ten_202609_001');
   await page.goto('/firmware?tab=ota&tenant=ten_202609_001');

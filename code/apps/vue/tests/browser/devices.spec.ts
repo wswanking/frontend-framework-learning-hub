@@ -201,7 +201,8 @@ test('IOT-DEVICE-001 shows raw messages and persists fault alarm acknowledgement
   await page.getByRole('button', { name: '确认告警' }).click();
   await expect(page.getByRole('tabpanel')).toContainText('已由 usr_202609_001 确认');
   await page.reload();
-  await page.locator('.device-list').getByRole('button', { name: '纽约温湿度三号' }).click();
+  // Detail is URL-owned in M1 and must remain open after a document reload.
+  await expect(page.getByRole('dialog', { name: '设备详情' })).toContainText('纽约温湿度三号');
   await page.getByRole('tab', { name: '告警' }).click();
   await expect(page.getByRole('tabpanel')).toContainText('已由 usr_202609_001 确认');
 });
@@ -288,7 +289,7 @@ test('IOT-DEVICE-001 previews and records model driven control, with offline and
   await page.keyboard.press('Escape');
   await expect(page.getByRole('dialog', { name: '控制预览' })).toHaveCount(0);
   await expect(page.getByRole('button', { name: '预览命令' })).toBeFocused();
-  await expect.poll(() => page.evaluate(() => document.documentElement.style.overflow)).toBe('');
+  await expect.poll(() => page.evaluate(() => document.documentElement.style.overflow)).toBe(page.viewportSize()!.width <= 1024 ? 'hidden' : '');
   await page.getByRole('button', { name: '预览命令' }).click();
   await page.getByRole('button', { name: '发送命令' }).click();
   await expect(page.getByRole('tab', { name: '命令记录' })).toHaveAttribute('aria-selected', 'true');
@@ -330,7 +331,8 @@ test('IOT-DEVICE-001 live telemetry updates and persists the reported shadow', a
   await page.getByRole('tab', { name: '设备影子' }).click();
   await expect(page.getByRole('tabpanel').getByRole('row').filter({ hasText: 'humidity' }).locator('td').nth(1)).toHaveText(liveHumidity!);
   await page.reload();
-  await page.locator('.device-list').getByRole('button', { name: '上海温湿度一号' }).click();
+  // Detail is URL-owned in M1 and must remain open after a document reload.
+  await expect(page.getByRole('dialog', { name: '设备详情' })).toContainText('上海温湿度一号');
   await page.getByRole('tab', { name: '设备影子' }).click();
   await expect(page.getByRole('tabpanel').getByRole('row').filter({ hasText: 'humidity' }).locator('td').nth(1)).toHaveText(liveHumidity!);
 });
@@ -354,7 +356,8 @@ test('IOT-DEVICE-001 displays and reconciles the device shadow after a command',
   await page.getByRole('tab', { name: '实时属性' }).click();
   await expect(page.getByRole('tabpanel').getByRole('row').filter({ hasText: 'sampling_interval' })).toContainText('100');
   await page.reload();
-  await page.locator('.device-list').getByRole('button', { name: '上海温湿度一号' }).click();
+  // Detail is URL-owned in M1 and must remain open after a document reload.
+  await expect(page.getByRole('dialog', { name: '设备详情' })).toContainText('上海温湿度一号');
   await page.getByRole('tab', { name: '设备影子' }).click();
   await expect(page.getByRole('tabpanel').getByRole('row').filter({ hasText: 'sampling_interval' })).toContainText('100');
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
@@ -381,6 +384,7 @@ test('IOT-DEVICE-001 keeps edited metadata after reload', async ({ page }) => {
   await page.getByRole('button', { name: '保存设备信息' }).click();
   await expect(page.getByRole('dialog', { name: '设备详情' })).toContainText('上海演示设备');
   await page.reload();
-  await page.locator('.device-list').getByRole('button', { name: '上海演示设备' }).click();
+  // Detail is URL-owned in M1 and must remain open after a document reload.
+  await expect(page.getByRole('dialog', { name: '设备详情' })).toContainText('上海演示设备');
   await expect(page.getByRole('tabpanel')).toContainText('演示');
 });

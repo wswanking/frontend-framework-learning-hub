@@ -1,6 +1,7 @@
+import { RouterLink } from '@angular/router';
 import { Component, signal } from '@angular/core';
 import { runDiagnostic, validateName, type DiagnosticResult } from './diagnostic';
-@Component({ selector: 'app-root', standalone: true, templateUrl: './app.component.html' })
+@Component({ selector: 'app-root', standalone: true, imports: [RouterLink], templateUrl: './app.component.html' })
 export class AppComponent {
   name = signal(''); fail = signal(false); busy = signal(false);
   result = signal<DiagnosticResult | null>(null);

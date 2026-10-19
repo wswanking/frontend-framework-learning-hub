@@ -1,3 +1,5 @@
+import { RouterLink, Router as LinkRouter } from '@angular/router';
+import { inject as linkInject } from '@angular/core';
 import { Component, OnDestroy, computed, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -26,8 +28,11 @@ function initialLocation(): { filters: Filters; crumbs: Crumb[] } {
   return { filters, crumbs };
 }
 function queryFor(filters: Filters, crumbs: Crumb[]): GeoQuery { const to = filters.range === 'custom' ? new Date(filters.to) : new Date(), from = filters.range === 'custom' ? new Date(filters.from) : new Date(to.getTime() - ({ '24h': 1, '7d': 7, '30d': 30 }[filters.range] ?? 1) * 86_400_000); const parent = crumbs.at(-1); return { tenantId: filters.tenantId, productId: filters.productId || undefined, status: filters.status as DeviceStatus || undefined, continent: filters.continent || undefined, countryCode: filters.countryCode || undefined, nodeId: filters.nodeId || undefined, from: from.toISOString(), to: to.toISOString(), seed: 42, level: parent?.level ?? 'global', parentId: parent?.id }; }
-@Component({ selector: 'app-geography', standalone: true, imports: [MatButtonModule, MatCardModule, GeoChartComponent], templateUrl: './geography.component.html', styleUrls: ['./dashboard.css', './geography.css'] })
+@Component({ selector: 'app-geography', standalone: true, imports: [RouterLink, MatButtonModule, MatCardModule, GeoChartComponent], templateUrl: './geography.component.html', styleUrls: ['./dashboard.css', './geography.css'] })
 export class GeographyComponent implements OnDestroy {
+  private readonly linkRouter = linkInject(LinkRouter);
+  routeUrl(url: string) { return this.linkRouter.parseUrl(url); }
+
   private readonly initial = initialLocation();
   readonly encodeURIComponent = encodeURIComponent;
   readonly tenants = Object.entries({ all: '全部租户', ten_202609_001: '华东智联', ten_202609_002: '全球能源' }).map(([id, name]) => ({ id, name }));
@@ -39,7 +44,6 @@ export class GeographyComponent implements OnDestroy {
   readonly countries = geoNames.countries;
   readonly countryOptions = Object.entries(geoNames.countries).map(([id, name]) => ({ id, name }));
   readonly nodes = Object.entries(geoNames.countries).map(([id, name]) => ({ id: `node_${id.toLowerCase()}_001`, name: `${name}节点` }));
-  readonly nav = ['实验室'];
   readonly draft = signal<Filters>(this.initial.filters);
   readonly applied = signal<Filters>(this.initial.filters);
   readonly crumbs = signal<Crumb[]>(this.initial.crumbs);

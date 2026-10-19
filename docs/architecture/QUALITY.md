@@ -1,5 +1,141 @@
 # 诊断与验收环境
 
+## 2026-10-19：分页回归等待实际数据
+
+`c97f348` 的 [PR检查39179706424](https://github.com/wswanking/frontend-framework-learning-hub/actions/runs/39179706424) 与 [push检查39179703140](https://github.com/wswanking/frontend-framework-learning-hub/actions/runs/39179703140) 均已完成成功，三端任务、tooling及同文件候选汇总均成功。但 push React 为201 passed、1 flaky：设备分页用例在URL已提交时读取了上一页的圣保罗行，点击时第二页悉尼行刚好替换，造成名称比较失败；重试通过。
+
+三端独立的设备流用例现在先断言确定性筛选/分页场景的第二页首行ID为 `dev_oc_001`，再读取名称并打开详情。新增的是实际分页结果断言，不降低原有筛选、保存、刷新、历史或焦点断言，也不增加重试或固定等待。三端各自桌面/移动场景重复5次、禁用重试，均10/10通过，日志为各端 reports/ci-pagination-browser.log。此增量仅修改测试及本文，运行时代码与c97f348一致；新HEAD的完整CI结果待执行。
+
+
+## 2026-10-19：React 按钮加载状态的对比度过渡修复
+
+`a808a6a` 的三端 PR 浏览器步骤成功，但 [push 运行39178987367](https://github.com/wswanking/frontend-framework-learning-hub/actions/runs/39178987367) 的 React 大盘亮色用例首轮和重试均失败，目标为 `.MuiButton-contained`。本地检查确认刷新后按钮从 disabled 变为 enabled 时，白色前景已经生效，背景却仍在0.25秒渐变（可读到 rgba(0,0,0,0.12)），与 Vue 卡片类似形成低对比度中间态。
+
+React 壳内 MUI 按钮现在只保留阴影过渡，减少动画模式下禁用过渡，不更改终态主题颜色或无障碍规则。回归用例等待刷新后按钮可用，并检查没有前景/背景颜色动画。首次本地补充断言遗漏移动端刷新后筛选默认收起的交互步骤，27/30通过；补齐通过既有 helper 展开筛选后，主题与无障碍场景桌面/移动各重复三次、零重试30/30通过，初始失败报告保存在 reports/ci-button-first。reduce 与 no-preference 两种模式的生产构建探测均确认按钮启用时即为目标背景 rgb(8,100,123)，无颜色渐变。
+
+本地 React 4项边界负向检查、边界、类型、lint、116/116单测和生产构建通过；日志及探测在 React reports/ci-button-*.log/json。远端下一轮完整结果尚待执行；不将上一提交的 PR 成功步骤或本地专项结果充当新提交最终 CI 结论。
+
+
+## 2026-10-19：Vue 卡片主题过渡修复
+
+`beb6362` 的 React 远端浏览器步骤已通过；[PR 运行39178516172](https://github.com/wswanking/frontend-framework-learning-hub/actions/runs/39178516172) 的 Vue 产品移动端亮色对比度用例却首轮及重试均失败，而同提交 push 检查中的 Vue 通过。继续诊断确认 Element Plus `.el-card` 默认对所有属性执行0.3秒过渡，即使 prefers-reduced-motion 为 reduce 仍对前景与背景插值；本地读取到切换后约110ms卡片背景 rgb(174,184,190)、前景 rgb(92,115,128)，而子文本已切换为亮色主题，形成低对比度中间态。此前交付页的同类波动由相同卡片机制解释。
+
+本端持久壳内卡片现仅对 box-shadow 过渡，并在减少动画模式下禁用卡片过渡；不更改主题终态颜色、对比度阈值、axe 规则、CI重试次数或视觉批准状态。产品无障碍用例增加立即切换白色背景、无前景/背景颜色动画的断言。本地诊断、4项边界负向检查、类型/lint、116/116单测和构建通过；产品/交付/设备/租户主题与无障碍场景在桌面及移动端各重复5次、零重试通过。另以 reduce 和 no-preference 两种设置直接核对真实生产构建的即时颜色与动画状态，均通过。具体数量与日志见 Vue `reports/ci-theme-browser.log`，探测记录见 `reports/ci-theme-probe.json`。新 HEAD 的远端完整检查待推送后执行。
+
+
+## 2026-10-18：PR #1 首轮 CI 诊断与修复
+
+用户已明确授权推送功能分支并创建面向 main 的草稿 PR，仍不合并或部署。`a608b96` 的 [PR 检查](https://github.com/wswanking/frontend-framework-learning-hub/actions/runs/39177824763) 与 [push 检查](https://github.com/wswanking/frontend-framework-learning-hub/actions/runs/39177786620) 均完成但失败：工具、Vue、Angular 成功，React 浏览器失败导致证据门禁失败、候选汇总跳过。远端固定 Chromium 安装成功，不沿用本地下载受限作为远端结果。
+
+React 的移动菜单在点击导航后仅依赖路由提交才收起；延迟加载与快速返回可让旧菜单继续遮挡产品按钮。现点击业务/诊断链接即关闭菜单并回焦，保留历史路由变化时的清理。慢加载测试增加菜单确已关闭的断言。React 离开确认由 effect 异步触发，原测试在弹窗发生前即可满足“草稿仍在”的负向断言，随后注册的多个 once 处理器可能处理同一弹窗。现明确等待弹窗并核对 confirm/beforeunload 类型，再检查取消与离开结果；保留全部原断言。跨大盘/地理页测试等待目标标题，防止 URL 先改变、旧页面同名控件尚在时误读。
+
+修复后的本地检查：React 4 项边界负向检查、边界、类型、lint、116/116 单测和生产构建通过；受影响的壳层/历史/租户跨页等场景桌面与移动各重复两次、禁用重试，44/44 通过；M2 设备流完整专项另行 20/20 通过。使用系统 Chromium154；新提交远端全套结果等待 GitHub Actions，不将这些专项数量或旧提交完整回归冒充新 HEAD 的完整验证。日志保存在 React reports/ci-fix-*.log，首次远端失败日志保留在上述运行。
+
+Vue 的 PR 检查有一个既有移动亮色对比度用例首轮失败、自动重试通过（199 passed、1 flaky），不能记为200项首轮通过。相关测试与 delivery.css 在本 PR 中未改动；本轮未跳过或降低无障碍断言。视觉仍待人工批准。
+
+
+## 2026-10-18：M4 隔离实测与最终候选
+
+三端均从已跟踪源码复制到仓库外，各自安装自己的锁文件依赖；根目录未安装共享依赖。构建/浏览器证据绑定干净提交 `058a26ce9730b3605492db46fcf102e9f21c39d8`。随后只修复外层托管检查进程隔离和新输出父目录创建，并补充本文；三端应用源码指纹与原快照逐项复核一致，没有重建或修改已测试候选。
+
+| M4 实际检查 | React | Vue | Angular |
+| --- | --- | --- | --- |
+| 仓库外独立 npm ci | 通过 | 通过 | 通过 |
+| 4 项边界负向测试、边界、类型/模板、lint、build | 通过 | 通过 | 通过 |
+| unit | 116/116 | 116/116 | 116/116 |
+| 完整桌面/移动浏览器 | 202/202 | 200/200 | 200/200 |
+| 同一安装连续两次构建逐文件字节比较 | 45 文件一致 | 54 文件一致 | 49 文件一致 |
+| 浏览器前后文件核验、封包、最终候选复核 | 通过 | 通过 | 通过 |
+| 同一候选静态托管专项复测 | 通过 | 通过 | 通过 |
+
+浏览器均零失败、零跳过，Node 24.19.0、npm 11.9.0、Linux x64、系统 Chromium 154.0.8037.57。三端 180 项领域 DTO/错误导出一致，SHA-256 为 `82ca0a276f5ee8b68ad3055086917fbda6e9d340c74bfea870d81150df42b7d4`。外层工具测试复测 12/12；脚本语法、教程链接、工作流 YAML 解析和 Git 空白检查通过。Vite 大块体积提示及 Angular animations 弃用提示仍保留，未冒充失败或消除提示。
+
+**真实失败及修复**：首次完整编排已完成三端诊断、双构建、浏览器及封包，但托管检查在同一进程加载第二份 Playwright 时失败（`Requiring @playwright/test second time`）。现改为每端独立子进程、使用各自安装，再直接检查同一候选，三端均通过。修复后未从 npm ci 开始重复整条编排；针对修改部分执行了托管复测、工具测试和候选/源码摘要复核。没有覆盖失败日志或重写候选来源提交。期间控制连接短暂中断，恢复后确认原进程、提交及文件完好，继续原任务。
+
+**本地证据**：根目录 `reports/m4/summary.json` 为精简结果；`reports/m4/independent-final/{react,vue,angular}/` 保留 install/diagnose/rebuild/browser 日志、reproducibility.json 和完整 HTML 报告 `browser/index.html`；`tested-*/` 为各端快照和封包；`candidate/manifest.json` 为最终同构建候选，内含三端静态文件及 unit/e2e/contract 证据。`reports/m4/hosting-final/local-hosting.json` 与分端报告/截图为最终托管检查，`independent-final/hosting.log` 保留首次失败。`reports/m4/tool-tests.log` 为工具测试记录。报告、依赖、候选和源码导出均不提交 Git。
+
+**未运行与待批准**：固定 Playwright Chromium 下载此前遭 HTTP 403 拒绝，本轮未重试或规避；Firefox/WebKit、跨操作系统重现、远程 CI、远端域名/CDN/原子发布及线上回滚未运行。子路径仅有服务器夹具，不表示三端已支持子路径部署。视觉门禁沿用 M2 的 VISUAL_PENDING，本轮未修改视觉基线、未重新执行视觉比较，也没有取得 REVIEW-003/最终人工验收。源码仅本地提交与导出，无 push、PR、合并或远程部署。
+
+
+## 2026-10-18：M4 实现检查点（完整候选验证尚待下条实测记录）
+
+新增外层构建快照/封包/汇总工具、本地静态站点服务器、隔离验证编排及候选托管检查；CI 改为接收三个矩阵已测试包，汇总不重建。部署教程说明三个独立根站点、子路径尚需配置、SPA 回退/资源 404、缓存、公开配置、版本回退及远程授权边界。没有修改三端运行时代码或应用依赖。
+
+工具单元测试 12/12 通过：篡改/陈旧/部分/失败/跳过证据拒绝、来源/领域一致性、源码复制隔离、符号链接、深链、HTTP 缓存、前缀与本地版本切换。已针对实际 Vitest 根节点不提供 skipped 属性的格式补充兼容测试。脚本语法和 Git 空白检查通过。当前记录只表示工具夹具通过；隔离应用完整运行、构建重现及真实候选托管将在实现提交后运行并另记结果。远程 CI、远端部署与视觉/最终批准未运行或未取得。
+
+
+## 2026-10-18：M3 源码对应教学
+
+新增 docs/learning 中文教程入口、React/Vue/Angular 实操分支和工程阶段说明；以 M2 设备链关联真实源码、断点、URL、表单、错误重试、逻辑取消/实际订阅清理、守卫和浏览器测试。修正三端 README 的“仅诊断页面”及 test:e2e 自动构建歧义。明确 Angular 输入输出实际使用装饰器/EventEmitter、设备服务不是 DI HTTP 服务，未声称使用未接入的表单或状态库。
+
+验证：8 份教程/应用 README 的相对链接全部可达，函数与命令对照当前源码和 package.json 核对，Git 差异空白检查通过。此提交只改文档，未重复执行应用自动化；设备链既有运行证据见 M2，未把教程预期记为新验收通过。M4 本地部署文档与工具随后单独实施，远程部署和视觉批准仍未进行。
+
+## 2026-10-18：M2 设备列表、编辑与返回链
+
+关联 IOT-DEVICE-001、IOT-PLATFORM-003。用户授权在 M1 复核后继续 M2，本轮仍仅修改、验证和本地提交，没有推送、PR、合并、部署或视觉批准。既有权限和浏览器 Mock 复用，没有新增后端或跨应用运行时共享。
+
+**交付范围**：三端分别将已应用筛选、排序、页码、每页数量与详情 ID 放入 URL；刷新、前进/后退及跨业务返回恢复查询。筛选输入和未保存元数据仍属本页草稿。详情拥有独立加载/错误/重试反馈，列表失败不再误显示空结果；只读身份有明确说明。保存中禁用重复提交与字段编辑，成功使用服务返回值，失败保留草稿并可重试，版本冲突通过明确确认重新加载处理。占满视口的手机/平板详情支持焦点循环、Escape 脏状态确认、关闭回焦和滚动锁恢复，嵌套控制预览不吞掉外层生命周期。框架实现分别使用 React search params、Vue route/computed、Angular queryParamMap/signals；Angular 通过 afterNextRender 安排关闭后的清理。
+
+| 最终检查 | React | Vue | Angular |
+| --- | --- | --- | --- |
+| 边界检查及 4 项门禁负向测试 | 通过 | 通过 | 通过 |
+| 类型/模板、ESLint、Stylelint、生产构建 | 通过 | 通过 | 通过（AOT/strictTemplates） |
+| 单元/组件测试 | 116/116 | 116/116 | 116/116 |
+| 最后修复后的完整桌面/移动浏览器回归 | 202/202 | 200/200 | 200/200 |
+| M2 专项（已包含在完整回归） | 20/20 | 20/20 | 20/20 |
+| 视觉门禁 | VISUAL_PENDING（退出 2） | VISUAL_PENDING（退出 2） | VISUAL_PENDING（退出 2） |
+
+最终完整回归均零失败、零跳过，使用与最后修复一致的生产构建。外层 180 项 DTO/错误契约比较通过，摘要仍为 `82ca0a276f5ee8b68ad3055086917fbda6e9d340c74bfea870d81150df42b7d4`。文档相对链接与 Git 差异空白检查通过。
+
+**覆盖与失败记录**：各端独立的 `device-route.spec.ts` 检查查询编码、字段清除及无效分页/枚举；`tests/browser/device-flow.spec.ts` 以同一确定性场景检查产品+状态筛选、分页、详情、失败重试、规范化保存、刷新/历史/跨页返回、空与服务拒绝、无权限详情、只读身份、脏状态 Escape、慢加载/保存、版本冲突和嵌套弹窗返回。初始专项 React 15/16、Vue 16/16、Angular 12/16；React 的测试未等待异步离开确认已修正，Angular 的动态选项刷新回显已修复，暂停测试时钟后补足渲染帧。中途完整运行发现 Vue 的同一次 Escape 被内外弹窗重复处理，加入 defaultPrevented 检查；移动详情滚动锁的旧测试预期同步更新。新增历史关闭嵌套预览用例又发现 Angular 恢复顺序问题（相关套件曾 65/66），通过渲染后清理修复。另将全宽详情的焦点断点与 64rem 抽屉宽度对齐，加入 768px→1440px 的缩放用例。中途主动中断的运行不记为完整通过，原始失败、截图与 trace 保留。最终结果以上表为准，不删除此前失败记录。
+
+**证据与复现**：每端 `reports/m2/final-full/` 包含完整 HTML 报告（`browser/index.html`）、JUnit、诊断/浏览器/视觉/契约日志与 `summary.json`；M2 专项报告在 `reports/m2/flow-final/`，此前设备与导航相关复测报告在 `reports/m2/affected-final/`，首轮及中断记录在同级独立目录。各端 `reports/m2/candidates/device-desktop.png`、`device-mobile.png` 为本地候选截图，已查看 React/Vue 移动及 Angular 桌面图，不构成视觉批准。报告、候选图、依赖与构建产物均不提交。可在每个应用独立运行 `npm run diagnose`，再执行 `PLAYWRIGHT_EXECUTABLE_PATH=/usr/bin/chromium npm run test:e2e -- --workers=1`。
+
+**环境恢复**：本轮云端控制连接曾短暂断开；恢复后确认提交、暂存文件、源码差异校验值、原测试进程及报告均保留，继续原测试链，未重建或覆盖工作区。
+
+**限制与未运行**：使用已允许的系统 Chromium 154.0.8037.57；固定 Playwright Chromium 之前下载被 HTTP 403 拒绝，本轮未重试、未规避，锁定版本没有验证通过的结论。Firefox/WebKit、仓库外重新安装及远程 CI 本轮未运行；没有依赖变更，已分别完成边界与独立构建检查。视觉基准、REVIEW-003、最终人工验收仍待完成。M3 源码教学与 M4 构建部署闭环未在本轮实施，当前没有已知未解决的 M2 自动化功能失败。
+
+## 2026-10-18：M1 最终提交完整浏览器复核
+
+按后续指令，使用提交 `c88fe0f9b82eaddbcc5e8127d864956c3ddbd419` 的既有生产构建重新完成全部桌面与移动浏览器回归：React **182/182**、Vue **180/180**、Angular **180/180**，均零失败、零跳过。复核期间未替换这些构建，M2 源码尚未构建到被测产物中。这次补齐了上一轮最后修复后仅局部复测的缺口，不删除此前失败记录。
+
+使用已允许的 `/usr/bin/chromium` 154.0.8037.57；固定 Playwright Chromium 下载此前被 HTTP 403 拒绝，本轮没有重试或规避，也不声称固定版本验证通过。报告与日志独立保存在各端 `reports/m1/final-full/`（`browser/index.html`、`e2e.xml`、`run.log`、`summary.json`）。视觉基准、用户最终验收和远程 CI 状态不变。
+
+## 2026-10-18：M1 持久壳层、路由与离开保护
+
+关联 IOT-DASH-001、IOT-PLATFORM-003、IOT-DEVICE-001。本轮开始时分支为 `work`，HEAD 为 `6ad62209c4a10843d5a61aebe2313649e73be436`，工作区干净，与先前只读审查基线一致。实施分支为 `feat/m1-persistent-shell`；授权范围仅本地修改、验证和 Git commit，未推送、创建 PR、合并或部署。
+
+**实现范围**：React 父布局/Outlet、Vue 根 AppShell/RouterView、Angular 父路由/ShellComponent 各自持有固定顶栏与九项业务导航。页面只渲染业务内容与本页上下文控件，移动菜单默认收起、Escape 回焦、成功导航收起；活动项来自路由。站内使用各自 Router Link，资源下载保留普通链接。Angular 产品页实验室与交付入口由完整导航修复，候选实验室 iframe 路由保持壳层外隔离。未知路由显示不存在页面，React 内容加载异常也保留壳层。
+
+设备详情 ID 进入 URL query，可直接打开、刷新、后退、前进和关闭回列表；同页列表状态保留、详情关闭回焦、订阅停止。产品/规则/租户/设备草稿由本端路由守卫保护，取消保留、放弃继续，刷新使用 beforeunload；保留既有页内保存/放弃/取消流程。页面实例不无限缓存，离开后释放订阅；已保存 Mock 数据与既有偏好仍在各端 localStorage。React 地图使用 Effect Event，回调身份变化不会销毁地图实例。三端没有新增跨端运行时共享。
+
+**环境与安装**：Linux Debian 13，Node 24.19.0、npm 11.9.0。初次安装遇到锁文件中 `http://mirrors.tencentyun.com/npm/…` 的 HTTP 403；改用官方 `https://registry.npmjs.org/` 并使用 `/tmp/m1-npm-cache` 后，各端独立 `npm ci` 成功。JSON 比较确认版本与 integrity 全部未变，只调整 resolved 下载地址。根目录及 code 根目录没有 node_modules。
+
+Playwright 固定的 Chromium headless shell 153.0.8010.12 下载被环境返回 `403 Domain forbidden`，没有绕过或声称下载成功。后续浏览器执行显式使用 `/usr/bin/chromium`（154.0.8037.57），通过新增的 `PLAYWRIGHT_EXECUTABLE_PATH` 配置注入；默认配置仍使用 Playwright 固定浏览器。因此以下是系统 Chromium 的真实结果，不能表述为锁定 Chromium 已验证。
+
+| 检查 | React | Vue | Angular |
+| --- | --- | --- | --- |
+| 独立 npm ci | 通过 | 通过 | 通过 |
+| 边界检查 + 4 项门禁负向测试 | 通过 | 通过 | 通过 |
+| 类型/模板、ESLint、Stylelint、生产构建 | 通过 | 通过 | 通过（AOT/strictTemplates） |
+| 单元/组件测试 | 113 通过 | 113 通过 | 113 通过 |
+| 桌面/移动完整浏览器回归 | 182/182 通过 | 179/180；1 项失败，见复测 | 178/180；2 项失败，见复测 |
+| M1 专项（包含在上述整套回归内） | 16/16 通过 | 14/14 通过 | 14/14 通过 |
+| 修复后产品、实验室及 M1 套件复测 | 54/54 通过 | 52/52 通过 | 52/52 通过 |
+| 视觉基准比较 | VISUAL_PENDING，退出 2 | VISUAL_PENDING，退出 2 | VISUAL_PENDING，退出 2 |
+
+外层 `node tools/check-contract-parity.mjs` 比较各应用独立导出的 180 个 DTO/错误场景，通过；摘要 SHA-256 为 `82ca0a276f5ee8b68ad3055086917fbda6e9d340c74bfea870d81150df42b7d4`。这只是契约结果比较，不引入共享运行时代码。文档链接与 `git diff --check` 通过。
+
+**浏览器覆盖与修复记录**：各端独立 `tests/browser/shell.spec.ts` 检查壳层 DOM 身份、站内 document 请求为零、九项菜单、慢加载、设备详情历史、脏编辑取消/放弃、前进/后退、刷新取消、未知路由、回焦、移动收起、深链接刷新、保存后退出与停止订阅；React 另检查地图实例身份。完整套件还覆盖所有既有业务路由、键盘、axe 和窄屏溢出。
+
+过程中出现的失败均保留为诊断记录，不能算通过：取消刷新时测试等待文档 load 超时，改为对取消行为设置有界等待；React 历史 key 导致菜单重新展开、Angular 同 query 重复确认与历史位置恢复、Angular 组件样式覆盖全局壳层布局、诊断页继承浅色文字导致对比度失败，均已修复。旧设备刷新测试改为验证 URL 恢复的详情与保存结果，避免再次点击被详情遮挡的移动列表；旧移动菜单测试改为先展开菜单，租户测试验证持久上下文实际产生 6 台设备结果；两项告警/遥测时间窗回归原先依赖九月种子日期，现仅在对应测试固定时钟，未修改业务时间过滤规则。Angular 产品类型切换测试曾因模糊标签命中尚在关闭的“数据类型切换确认”对话框而出现 Not an input element，测试改为精确匹配字段标签。最终完整回归还发现 Vue 在 Element Plus 颜色过渡中执行 axe 产生对比度失败，改为等待目标主题颜色稳定再扫描；Angular NG-ZORRO 候选 iframe 弹窗按钮在移动视口外，已在打开固定弹窗前将本应用 iframe 居中滚入可见区。修复前的部分全量运行主动中断，未将其记为完成或通过。
+
+**复测结论**：上述首次整套中的 Vue 1 项、Angular 2 项失败均已修复，随后三端再次通过完整 diagnose，并分别通过产品、实验室与 M1 套件复测（React 54、Vue/Angular 各 52 项）。最后这轮修复后没有再重跑其他业务套件；不将首次整套改写为零失败。当前没有已知未解决的 M1 功能失败。
+
+**证据与复现**：各应用 `reports/m1/` 保存安装、诊断、单测、完整回归与视觉门禁日志及 `full-browser/index.html`、`retest-browser/index.html` 报告（M1 专项包含在两份报告内），`summary.json` 保留首次失败和后续复测结果；`reports/visual-candidates/m1-*.png` 为候选截图。源码测试位于各端 `tests/browser/shell.spec.ts`，可在各应用目录执行 `npm run diagnose` 和 `PLAYWRIGHT_EXECUTABLE_PATH=/usr/bin/chromium npm run test:e2e -- --workers=1` 复现。报告、截图、依赖与产物均不提交。已查看三端桌面及 React 移动展开导航候选图；这不是视觉基准批准。
+
+**未运行/未完成**：锁定 Playwright Chromium、Firefox/WebKit、仓库外重装验证及远程 CI 本轮未运行；已做逐端安装、边界检查和独立构建。V2 人工视觉审核、REVIEW-001–005、最终用户验收均未完成。M2 完整设备对齐、M3 源码教学、M4 构建部署闭环留待后续，不把本轮 M1 或 Mock 中的审核/发布操作当作产品最终完成。
+
 ## 2026-09-20：当前构建本地交互验收复核
 
 用户授权对当前工作区进行本地验收。三端重新生产构建成功，独立候选产物校验通过（React/Vue/Angular 分别 45/55/49 个文件）。Playwright 桌面与移动完整套件：React **166/166**、Vue **166/166** 通过；Angular 首次运行 **165/166**，唯一失败为移动端实验室 NG-ZORRO iframe 对话框“取消”按钮点击时序/视口外超时，失败截图和 trace 已保留。随后单独重跑该用例 **1/1** 通过，记录为一次不稳定测试，不据此宣称零失败。三端 `test:visual` 均返回 `VISUAL_PENDING`（Linux 视觉基准尚未人工审核）。因此本轮确认自动化交互覆盖通过并发现一项需稳定性修复的候选问题；V2 正式视觉审核、REVIEW-001–005 与最终人工验收仍未完成。

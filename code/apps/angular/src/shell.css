@@ -1,0 +1,20 @@
+/* Persistent application chrome; page state remains owned by routed components. */
+.app-shell { min-height: 100vh; padding-top: 3.5rem; padding-left: 11rem; color: #effbff; background: #061b2a; }
+.shell-topbar { position: fixed; z-index: 5; top: 0; left: 0; right: 0; height: 3.5rem; display: flex; align-items: center; gap: 1rem; padding: 0 1rem; background: #082235; color: #effbff; border-bottom: 1px solid #21485e; }
+.shell-topbar a { color: #55dbf3; }
+.app-shell > .atlas-sidebar { position: fixed; z-index: 6; top: 3.5rem; bottom: 0; left: 0; width: 11rem; min-height: 0; overflow-y: auto; box-sizing: border-box; }
+.shell-content { min-width: 0; }
+.app-shell .shell-content .atlas-dashboard { display: block; min-height: calc(100vh - 3.5rem); }
+.shell-menu { display: none; }
+.shell-not-found { padding: 2rem; }
+@media (width <= 800px) {
+  .app-shell { padding-left: 0; }
+  .shell-menu { display: inline-block; color: #effbff; background: #145075; border: 1px solid #55dbf3; padding: 0.4rem; }
+  .app-shell > .atlas-sidebar { display: none; width: min(20rem, 85vw); }
+  .app-shell > .atlas-sidebar.is-open { display: flex; }
+}
+
+.app-shell > .atlas-sidebar nav { display: grid; overflow: visible; }
+.app-shell > .atlas-sidebar .diagnostic-link { display: block; margin-top: 1rem; }
+
+.shell-content .diagnostic-page { color: #172033; }

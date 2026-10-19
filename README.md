@@ -2,6 +2,7 @@
 
 旧业务代码已清理。React、Vue、Angular 现各有独立的诊断基座、数据大盘（`/dashboard`）、全球节点（`/geography`）、产品与物模型（`/products`）、设备中心（`/devices`）、规则引擎（`/rules`）、固件与 OTA（`/firmware`）、租户与配额（`/tenants`）、组件及图表实验室（`/labs`）和交付治理 Mock（`/delivery`）页面。业务与候选库仍处在增量实施阶段；正式选型、完整交互和产品最终验收尚未完成。
 
+- [从设备业务链学习三个框架](docs/learning/README.md)。
 - [需求](docs/prd/PRD.md)、[架构](docs/architecture/CONTEXT.md)、[统一交互 V2](docs/interaction/UNIFIED-V2.md)。
 - [诊断环境与验证记录](docs/architecture/QUALITY.md)。
 - 三端独立工程：[React](code/apps/react/README.md)、[Vue](code/apps/vue/README.md)、[Angular](code/apps/angular/README.md)。

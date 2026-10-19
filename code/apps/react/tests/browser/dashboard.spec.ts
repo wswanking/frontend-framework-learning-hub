@@ -55,7 +55,7 @@ test('IOT-QUALITY-001 keeps key data readable at a tablet viewport', async ({ pa
   await expect(page.getByRole('heading', { name: '全球设备运行态势' })).toBeVisible();
   await expect(page.locator('.metric-card')).toHaveCount(5);
   await expect(page.locator('.world-chart')).toBeVisible();
-  expect(await page.locator('.atlas-sidebar nav').evaluate(nav => getComputedStyle(nav).display)).toBe('flex');
+  expect(await page.locator('.atlas-sidebar nav').evaluate(nav => getComputedStyle(nav).display)).toBe('grid');
   for (const route of ['/dashboard', '/geography', '/products', '/devices', '/rules', '/firmware', '/tenants', '/labs', '/delivery']) {
     await page.goto(route);
     await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible();
@@ -66,6 +66,8 @@ test('IOT-QUALITY-001 keeps key data readable at a tablet viewport', async ({ pa
 test('IOT-DASH-001 opens the lab from the shared navigation', async ({ page }) => {
   await page.goto('/dashboard');
   await openMobileFilters(page);
+  const menu = page.getByRole('button', { name: '导航菜单' });
+  if (await menu.isVisible()) await menu.click();
   await page.getByRole('navigation').getByRole('link', { name: '实验室' }).click();
   await expect(page).toHaveURL(/\/labs$/);
   await expect(page.getByRole('heading', { name: '组件与图表实验室' })).toBeVisible();
@@ -195,12 +197,20 @@ test('IOT-DASH-001 partial failure, stale data, theme and narrow layout', async 
   await expect(page.locator('.metric-card')).toHaveCount(0);
   await page.reload();
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+  await openMobileFilters(page);
+  const apply = page.getByRole('button', { name: '应用', exact: true });
+  await expect(apply).toBeEnabled();
+  expect(await apply.evaluate(button => button.getAnimations().every(animation =>
+    !(animation instanceof CSSTransition) || !['color', 'background-color'].includes(animation.transitionProperty)
+  ))).toBe(true);
   expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
   expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations.map(item => ({ id: item.id, targets: item.nodes.map(node => node.target) }))).toEqual([]);
   expect(errors).toEqual([]);
 });
 
 test('IOT-DASH-001 reflects device alarm acknowledgement across pages', async ({ page }) => {
+  // Seed alarms occurred in September; keep this time-window assertion deterministic.
+  await page.clock.setFixedTime(new Date('2026-09-20T12:00:00.000Z'));
   await page.goto('/dashboard');
   await openMobileFilters(page);
   await page.getByRole('combobox', { name: '时间范围' }).click();
@@ -223,6 +233,7 @@ test('IOT-DASH-001 reflects device alarm acknowledgement across pages', async ({
 });
 
 test('IOT-DASH-001 includes a live device message in the event stream', async ({ page }) => {
+  await page.clock.setFixedTime(new Date('2026-09-20T12:00:00.000Z'));
   await page.goto('/devices');
   await page.locator('.device-list').getByRole('button', { name: '上海温湿度一号' }).click();
   await page.getByRole('tab', { name: '时序数据' }).click();
@@ -311,6 +322,7 @@ test('IOT-DASH-001 and IOT-GEO-001 keep tenant, UTC range and node level across 
   await page.getByRole('dialog', { name: '中国节点详情' }).getByRole('button', { name: /node_cn_001/ }).click();
   await page.getByRole('dialog', { name: 'node_cn_001节点详情' }).getByRole('link', { name: '在地理页查看节点' }).click();
   await expect(page).toHaveURL(/\/geography\?tenant=ten_202609_001.*from=.*to=.*continent=AS.*country=CN.*node=node_cn_001/);
+  await expect(page.getByRole('heading', { name: '全球节点', exact: true })).toBeVisible();
   await expect(page.getByLabel('租户', { exact: true })).toHaveValue('ten_202609_001');
   await expect(page.getByLabel('时间范围')).toHaveValue('custom');
   await expect(page.getByLabel('开始时间')).toHaveValue('2026-09-16T08:00');

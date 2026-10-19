@@ -13,6 +13,14 @@ on:
 permissions:
   contents: read
 jobs:
+  tooling:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24.19.0'
+      - run: node --test tools/tests/*.test.mjs
   diagnostics:
     name: ${{ matrix.framework }} — isolated build and behavior
     runs-on: ubuntu-latest
@@ -24,7 +32,7 @@ jobs:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '24'
+          node-version: '24.19.0'
           cache: npm
           cache-dependency-path: code/apps/${{ matrix.framework }}/package-lock.json
       - name: Copy only this project outside the repository
@@ -35,12 +43,16 @@ jobs:
         id: diagnose
         run: npm run diagnose
         working-directory: ${{ runner.temp }}/atlas-app
+      - name: Fingerprint build before browser execution
+        run: node tools/artifacts.mjs snapshot ${{ matrix.framework }} "$RUNNER_TEMP/atlas-app" "$RUNNER_TEMP/tested-app"
       - run: npx playwright install --with-deps chromium
         working-directory: ${{ runner.temp }}/atlas-app
       - name: Browser behavior and accessibility
         id: browser
         run: npm run test:e2e
         working-directory: ${{ runner.temp }}/atlas-app
+      - name: Seal the exact browser-tested files
+        run: node tools/artifacts.mjs seal "$RUNNER_TEMP/atlas-app" "$RUNNER_TEMP/tested-app"
       - name: Candidate screenshots (not design approval)
         id: candidate
         run: npm run visual:capture
@@ -59,6 +71,13 @@ jobs:
         if: ${{ steps.visual.outputs.approved == 'true' || (github.event_name == 'workflow_dispatch' && inputs.visual) }}
         run: npm run test:visual
         working-directory: ${{ runner.temp }}/atlas-app
+      - name: Upload independently tested package
+        uses: actions/upload-artifact@v4
+        with:
+          name: tested-${{ matrix.framework }}
+          path: ${{ runner.temp }}/tested-app/
+          if-no-files-found: error
+          retention-days: 14
       - name: Record commit-linked diagnostic evidence
         if: always()
         working-directory: ${{ runner.temp }}/atlas-app
@@ -79,42 +98,29 @@ jobs:
           path: ${{ runner.temp }}/atlas-app/reports/
           if-no-files-found: warn
           retention-days: 14
-  contract-parity:
-    name: Three independent domains and build candidate
+  tested-candidate:
+    name: Assemble tested bytes without rebuilding
+    needs: [tooling, diagnostics]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: '24'
-          cache: npm
-          cache-dependency-path: |
-            code/apps/react/package-lock.json
-            code/apps/vue/package-lock.json
-            code/apps/angular/package-lock.json
-      - name: Install each app from its own lockfile
-        run: |
-          set -e
-          for framework in react vue angular; do
-            (cd "code/apps/$framework" && npm ci)
-          done
-      - name: Compare independent domain DTOs and errors
-        run: node tools/diagnose-all.mjs parity
-      - name: Build and collect independent app artifacts
-        run: node tools/diagnose-all.mjs build
-      - name: Upload contract evidence
-        if: always()
+          node-version: '24.19.0'
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: tested-*
+          path: ${{ runner.temp }}/packages
+      - name: Verify provenance, compare domain exports and assemble
+        run: >-
+          node tools/artifacts.mjs assemble "$RUNNER_TEMP/candidate"
+          "$RUNNER_TEMP/packages/tested-react"
+          "$RUNNER_TEMP/packages/tested-vue"
+          "$RUNNER_TEMP/packages/tested-angular"
+      - name: Upload same-build candidate (no release approval)
         uses: actions/upload-artifact@v4
         with:
-          name: contract-parity-${{ runner.os }}
-          path: code/apps/*/reports/contract-parity.json
-          if-no-files-found: warn
-          retention-days: 14
-      - name: Upload build candidate
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: build-candidate-${{ runner.os }}
-          path: reports/build-candidate-*/
-          if-no-files-found: warn
+          name: browser-tested-candidate
+          path: ${{ runner.temp }}/candidate/
+          if-no-files-found: error
           retention-days: 14

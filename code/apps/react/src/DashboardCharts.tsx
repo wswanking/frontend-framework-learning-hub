@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import { useEffect, useEffectEvent, useRef } from 'react';
 import * as echarts from 'echarts';
 import type { DashboardData } from './dashboard';
 import { countryNames, world } from './world';
@@ -8,6 +8,7 @@ echarts.registerMap('iot-world', world as unknown as Parameters<typeof echarts.r
 export function WorldChart({ data, onCountry }: { data: DashboardData; onCountry: (code: string) => void }) {
   const element = useRef<HTMLDivElement>(null);
   const chartRef = useRef<echarts.ECharts | null>(null);
+  const selectCountry = useEffectEvent(onCountry);
   const zoom = (factor: number) => {
     const chart = chartRef.current;
     if (!chart) return;
@@ -28,12 +29,12 @@ export function WorldChart({ data, onCountry }: { data: DashboardData; onCountry
     chart.on('click', event => {
       const row = event.data as { countryCode?: string } | undefined;
       const code = row?.countryCode ?? countryNames[event.name];
-      if (code) onCountry(code);
+      if (code) selectCountry(code);
     });
     const resize = new ResizeObserver(() => { if (!chart.isDisposed() && element.current?.clientWidth && element.current.clientHeight) chart.resize(); });
     resize.observe(element.current);
     return () => { resize.disconnect(); chartRef.current = null; chart.dispose(); };
-  }, [data, onCountry]);
+  }, [data]);
   return <div className="dashboard-map"><div className="world-chart" ref={element} role="img" aria-label="全球节点地图；可在下方国家排行中键盘选择国家" /><div className="dashboard-map-controls" role="group" aria-label="地图控件"><button type="button" aria-label="放大地图" onClick={() => zoom(1.5)}>＋</button><button type="button" aria-label="缩小地图" onClick={() => zoom(1 / 1.5)}>－</button><button type="button" aria-label="定位到全球" onClick={reset}>全球</button></div></div>;
 }
 
