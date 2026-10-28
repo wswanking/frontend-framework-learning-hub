@@ -114,8 +114,9 @@ test('M2 Escape protects a dirty draft and restores focus after discard', async 
 
 test('M2 slow detail and save expose pending state and prevent duplicate writes', async ({ page }) => {
   await page.goto('/devices');
-  await page.clock.install();
-  await page.clock.pauseAt(new Date());
+  // A fixed epoch avoids racing the installed browser clock under concurrent load.
+  await page.clock.install({ time: new Date('2026-10-28T10:00:00Z') });
+  await page.clock.pauseAt(new Date('2026-10-28T10:00:10Z'));
   await page.locator('.scenario-control summary').click();
   await page.getByLabel('Mock 场景').selectOption('slow');
   await page.clock.runFor(20);

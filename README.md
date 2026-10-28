@@ -1,9 +1,9 @@
 # IoT Atlas · 三框架独立实现
 
-旧业务代码已清理。React、Vue、Angular 现各有独立的诊断基座、数据大盘（`/dashboard`）、全球节点（`/geography`）、产品与物模型（`/products`）、设备中心（`/devices`）、规则引擎（`/rules`）、固件与 OTA（`/firmware`）、租户与配额（`/tenants`）、组件及图表实验室（`/labs`）和交付治理 Mock（`/delivery`）页面。业务与候选库仍处在增量实施阶段；正式选型、完整交互和产品最终验收尚未完成。
+2026-10-28 起根据已批准 V3 设计重新实施三端工作区，默认入口为 `/v3/workspace`，14 个模块覆盖四条本地 Mock 流程。React、Vue、Angular 的源码、领域规则、资源、依赖和测试分别独立。旧 `/dashboard`、`/devices`、`/labs` 等路径保留为教学兼容区，诊断入口迁至 `/diagnostics`。阶段与实际验证结果见 QUALITY；不沿用遗失版本的通过数字，真实后端与最终人工验收尚未完成。
 
 - [从设备业务链学习三个框架](docs/learning/README.md)。
-- [需求](docs/prd/PRD.md)、[架构](docs/architecture/CONTEXT.md)、[统一交互 V2](docs/interaction/UNIFIED-V2.md)。
+- [需求](docs/prd/PRD.md)、[架构](docs/architecture/CONTEXT.md)、[已批准 V3](交互/README.md)、[V3 实施契约](docs/interaction/V3-IMPLEMENTATION.md)。
 - [诊断环境与验证记录](docs/architecture/QUALITY.md)。
 - 三端独立工程：[React](code/apps/react/README.md)、[Vue](code/apps/vue/README.md)、[Angular](code/apps/angular/README.md)。
 
@@ -24,7 +24,7 @@ npm run capture:v2
 
 外层用 `node tools/diagnose-all.mjs diagnose` 调度三端并比较固定场景下八个功能域的实际 DTO 与错误；也可单独运行 `node tools/diagnose-all.mjs parity`。不需要根 package.json 或根 node_modules。各端源码、依赖、锁文件、配置、测试和资源均独立维护。
 
-本地三应用入口：分别在三个应用目录执行 `npm run preview`（先构建），然后在仓库根运行 `node tools/serve-portal.mjs`，访问 `http://127.0.0.1:14100/`。入口分别指向三端独立运行的 `/dashboard`。
+本地三应用入口：分别在三个应用目录执行 `npm run preview`（先构建），然后在仓库根运行 `node tools/serve-portal.mjs`，访问 `http://127.0.0.1:14100/`。入口分别指向三端独立运行的 `/v3/workspace`，跨框架跳转是独立文档导航。
 
 ## 清理记录
 

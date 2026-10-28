@@ -255,7 +255,7 @@ test('IOT-DASH-001 receives Mock messages live and holds new events while paused
   await expect(page.getByRole('heading', { name: '实时事件' })).toBeVisible({ timeout: 10_000 });
   await page.getByRole('button', { name: '暂停事件' }).click();
   const source = await context.newPage();
-  await source.goto('/');
+  await source.goto('/diagnostics');
   await source.evaluate(() => {
     const message = { id: 'msg_live_dashboard_1', tenantId: 'ten_202609_001', deviceId: 'dev_as_001', productId: 'prod_as_001', occurredAt: '2026-09-16T13:01:00.000Z', kind: 'property', payload: { temperature: 31 } };
     localStorage.setItem('iot-atlas-device-messages-v1', JSON.stringify([message]));

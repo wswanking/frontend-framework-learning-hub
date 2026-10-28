@@ -1,5 +1,9 @@
 # 诊断与验收环境
 
+## 2026-10-28：三端领域阶段已推送
+
+React `cdbf010`（9项新领域单测）、Angular `1dac231`（31项新领域单测）、Vue `3433394`（12项新领域/存储单测）均已普通推送至独立分支。最新远端核验 SHA 为 `3433394224f7b2dbcf7f1301c88c59b272595174`。各端独立 `npm ci` 成功；React/Vue整端typecheck也已通过。Angular UI编译仍在推进，以上不代表完整界面已验证。新发现并修复Vue混合温控/电表快照结构校验问题，新增保存恢复与存储拒绝测试；独立审阅继续检查字段、权限、OTA失败重试范围和错误事务。
+
 ## 2026-10-28：重建第一源码阶段
 
 设计/契约提交 `1c405591b7c446e1d64c4be8c4f480a0e476f139` 已推送 `feat/v3-approved-workspace`，远端SHA核验一致。React 首批独立类型、种子、领域事务与单测已形成：本端 `npm ci` 成功，新增领域9/9单测与整端typecheck通过，日志在 `code/apps/react/reports/v3-rebuild/domain-first.log`、`typecheck-stage1.log`。外层工具12/12通过，日志 `reports/v3-rebuild/tool-tests.log`。本条仅表示领域源码检查点，UI、完整浏览器与最终CI尚未完成；Vue/Angular仍在实现，不沿用旧通过数字。

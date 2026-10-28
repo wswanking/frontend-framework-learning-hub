@@ -24,14 +24,14 @@
     <h1>IoT Atlas</h1>
     <p>选择一个框架进入应用。</p>
     <nav aria-label="框架应用入口">
-      <a id="react" href="http://127.0.0.1:14101/dashboard"><strong>React</strong><small>进入 React 应用</small></a>
-      <a id="vue" href="http://127.0.0.1:14102/dashboard"><strong>Vue</strong><small>进入 Vue 应用</small></a>
-      <a id="angular" href="http://127.0.0.1:14103/dashboard"><strong>Angular</strong><small>进入 Angular 应用</small></a>
+      <a id="react" href="http://127.0.0.1:14101/v3/workspace"><strong>React</strong><small>进入 React 应用</small></a>
+      <a id="vue" href="http://127.0.0.1:14102/v3/workspace"><strong>Vue</strong><small>进入 Vue 应用</small></a>
+      <a id="angular" href="http://127.0.0.1:14103/v3/workspace"><strong>Angular</strong><small>进入 Angular 应用</small></a>
     </nav>
   </main>
   <script>
     for (const [name, port] of [['react', 14101], ['vue', 14102], ['angular', 14103]]) {
-      document.getElementById(name).href = `${location.protocol}//${location.hostname}:${port}/dashboard`;
+      document.getElementById(name).href = `${location.protocol}//${location.hostname}:${port}/v3/workspace`;
     }
   </script>
 </body>

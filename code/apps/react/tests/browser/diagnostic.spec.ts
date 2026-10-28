@@ -3,7 +3,7 @@ import AxeBuilder from '@axe-core/playwright';
 test('IOT-QUALITY-001 invalid input, failure and retry', async ({ page }) => {
   const errors: string[] = [];
   page.on('pageerror', error => errors.push(error.message));
-  await page.goto('/');
+  await page.goto('/diagnostics');
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('诊断与验收环境');
   await page.getByRole('button', { name: '运行诊断' }).click();
   await expect(page.getByRole('alert')).toHaveText('请输入诊断名称');
@@ -18,7 +18,7 @@ test('IOT-QUALITY-001 invalid input, failure and retry', async ({ page }) => {
   expect(errors).toEqual([]);
 });
 test('IOT-QUALITY-001 accessible states and responsive layout', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/diagnostics');
   for (const state of ['initial', 'error', 'success']) {
     if (state === 'error') await page.getByRole('button', { name: '运行诊断' }).click();
     if (state === 'success') {

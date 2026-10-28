@@ -18,7 +18,7 @@ export default function AppShell() {
     </header>
     <aside id="primary-navigation" className={`atlas-sidebar${open ? ' is-open' : ''}`} aria-label="主导航" onKeyDown={event => { if (event.key === 'Escape') close(); }}>
       <nav>{items.map(([path, name]) => <NavLink end key={path} to={'/' + path} className={({ isActive }) => isActive ? 'active' : ''} onClick={() => { if (open) close(); }}>{name}</NavLink>)}</nav>
-      <NavLink className="diagnostic-link" to="/" onClick={() => { if (open) close(); }}>诊断页</NavLink>
+      <NavLink className="diagnostic-link" to="/diagnostics" onClick={() => { if (open) close(); }}>诊断页</NavLink>
     </aside>
     <div className="shell-content"><Outlet /></div>
   </div>;
