@@ -1219,3 +1219,18 @@
     display: block;
   }
 }
+
+/* Technical shadow keys must not run into their values on a phone. */
+.v3 .kv.shadow-values {
+  grid-template-columns: minmax(0, 155px) minmax(0, 1fr);
+}
+.v3 .kv.shadow-values dt,
+.v3 .kv.shadow-values dd {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* Route/skip focus targets the non-interactive main landmark; keep control outlines intact. */
+.v3 .main:focus-visible {
+  outline: none;
+}

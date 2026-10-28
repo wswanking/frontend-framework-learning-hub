@@ -339,7 +339,7 @@ export function DeviceDetail() {
             ) : tab === "shadow" ? (
               <Panel title="期望与上报状态">
                 <div className="panel-body">
-                  <dl className="kv">
+                  <dl className="kv shadow-values">
                     <dt>desired.targetTemp</dt>
                     <dd>{d.desired} °C</dd>
                     <dt>reported.targetTemp</dt>
