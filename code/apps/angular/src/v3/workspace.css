@@ -1242,3 +1242,10 @@ input[type="checkbox"] {
 .global-search {
   margin-left: 16px;
 }
+
+.nav .glyph {
+  height: 17px;
+  line-height: 17px;
+  display: grid;
+  place-items: center;
+}

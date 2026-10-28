@@ -19,11 +19,15 @@
           @if (item.group === group) {
             <a
               [routerLink]="['/v3', item.path]"
+              [attr.aria-label]="item.title"
               routerLinkActive="active"
               ariaCurrentWhenActive="page"
               ><span class="glyph" aria-hidden="true">{{ item.icon }}</span
-              >{{ item.title }}</a
-            >
+              >{{ item.title }}
+              @if (item.path === "alarms") {
+                <span class="nav-count">{{ openAlarms() }}</span>
+              }
+            </a>
           }
         }
       }

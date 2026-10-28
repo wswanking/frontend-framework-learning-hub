@@ -36,6 +36,10 @@
                 class="checkbox"
                 type="checkbox"
                 aria-label="选择当前结果全部设备"
+                [indeterminate]="
+                  ui.selected().length > 0 &&
+                  ui.selected().length < ui.devices().length
+                "
                 [checked]="
                   ui.selected().length === ui.devices().length &&
                   ui.devices().length > 0

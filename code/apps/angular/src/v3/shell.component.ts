@@ -1,6 +1,13 @@
-import { Component, HostListener, inject, signal } from "@angular/core";
+import {
+  Component,
+  computed,
+  HostListener,
+  inject,
+  signal,
+} from "@angular/core";
 import {
   NavigationEnd,
+  NavigationSkipped,
   Router,
   RouterLink,
   RouterLinkActive,
@@ -23,12 +30,19 @@ export class WorkspaceShell {
   readonly menu = signal(false);
   readonly mobile = signal(innerWidth <= 1050);
   readonly items = modules;
+  readonly openAlarms = computed(
+    () => this.store.state().alarms.filter((a) => a.status !== "已解决").length,
+  );
   readonly groups = [...new Set(modules.map((m) => m.group))];
   readonly roles = roles;
   readonly roleKeys = Object.keys(roles) as Role[];
   constructor() {
     this.router.events.pipe(takeUntilDestroyed()).subscribe((e) => {
-      if (e instanceof NavigationEnd && this.menu()) this.closeMenu();
+      if (
+        (e instanceof NavigationEnd || e instanceof NavigationSkipped) &&
+        this.menu()
+      )
+        this.closeMenu();
     });
   }
   openMenu() {

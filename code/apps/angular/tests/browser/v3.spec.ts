@@ -29,39 +29,37 @@ const modal = (p: Page) => p.getByRole("dialog");
 test.beforeEach(async ({ page }) => {
   await page.goto("/");
 });
-test("14 native routes, persistent shell, recoverable exceptions and desktop/mobile rendering", async ({
+test("14 native routes preserve shell, current-route mobile close and rendering", async ({
   page,
 }, info) => {
-  test.setTimeout(90000);
   await expect(page.locator(".toast")).toHaveCount(0);
   const shell = await page.getByTestId("v3-shell").elementHandle();
+  const menu = page.getByRole("button", { name: "导航菜单" });
+  if (await menu.isVisible()) {
+    await menu.click();
+    await expect(page.getByRole("button", { name: "关闭导航" })).toBeFocused();
+    await page.keyboard.press("Shift+Tab");
+    await expect(
+      page
+        .getByRole("navigation", { name: "主导航" })
+        .getByRole("link", { name: "学习与交付", exact: true }),
+    ).toBeFocused();
+    await page.keyboard.press("Tab");
+    await expect(page.getByRole("button", { name: "关闭导航" })).toBeFocused();
+    await page.keyboard.press("Escape");
+    await expect(menu).toBeFocused();
+  }
   for (const name of names) {
     await nav(page, name);
     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-    for (const state of ["loading", "empty", "error", "forbidden"]) {
-      await page.getByLabel("页面状态").selectOption(state);
-      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
-      expect(await shell?.evaluate((el) => el.isConnected)).toBe(true);
-      await page
-        .getByRole("button", {
-          name: state === "error" ? "重试" : "返回正常数据",
-          exact: true,
-        })
-        .click();
-    }
+    expect(await shell?.evaluate((el) => el.isConnected)).toBe(true);
+    if (await menu.isVisible())
+      await expect(menu).toHaveAttribute("aria-expanded", "false");
     expect(
       await page.evaluate(
         () => document.documentElement.scrollWidth <= innerWidth,
       ),
     ).toBe(true);
-    expect(
-      (
-        await new AxeBuilder({ page })
-          .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
-          .analyze()
-      ).violations,
-      name,
-    ).toEqual([]);
   }
   await nav(page, "工作区");
   await page.screenshot({
@@ -74,6 +72,32 @@ test("14 native routes, persistent shell, recoverable exceptions and desktop/mob
     fullPage: true,
   });
 });
+for (const name of names) {
+  test(`recoverable exception states and accessibility: ${name}`, async ({
+    page,
+  }) => {
+    await nav(page, name);
+    const shell = await page.getByTestId("v3-shell").elementHandle();
+    for (const state of ["loading", "empty", "error", "forbidden"]) {
+      await page.getByLabel("页面状态").selectOption(state);
+      await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+      expect(await shell?.evaluate((el) => el.isConnected)).toBe(true);
+      await page
+        .getByRole("button", {
+          name: state === "error" ? "重试" : "返回正常数据",
+          exact: true,
+        })
+        .click();
+    }
+    expect(
+      (
+        await new AxeBuilder({ page })
+          .withTags(["wcag2a", "wcag2aa", "wcag21aa"])
+          .analyze()
+      ).violations,
+    ).toEqual([]);
+  });
+}
 test("register, ingest, shadow, command, URL restoration and return focus", async ({
   page,
 }) => {

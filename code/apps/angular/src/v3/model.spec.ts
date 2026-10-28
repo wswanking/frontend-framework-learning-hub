@@ -188,3 +188,53 @@ describe("V3 isolated command transactions", () => {
       expect(restore(raw)).toEqual(seed());
   });
 });
+
+it("rejects oversized fields without committing partially edited values", () => {
+  const s = seed();
+  const cases: [Action, Record<string, string>, string][] = [
+    ["edit", { name: "x".repeat(49), group: "华东冷链", tags: "" }, "DEV-1001"],
+    [
+      "edit",
+      { name: "valid", group: "华东冷链", tags: "x".repeat(81) },
+      "DEV-1001",
+    ],
+    ["rule", { name: "x".repeat(51), threshold: "30" }, ""],
+    ["batch", { name: "x".repeat(51), targets: "DEV-1001" }, ""],
+    [
+      "invite",
+      {
+        name: "x".repeat(31),
+        email: "test@example.invalid",
+        role: "数据观察员",
+      },
+      "",
+    ],
+    [
+      "field",
+      { name: "batteryLevel", type: "float", unit: "x".repeat(13) },
+      "PRD-001",
+    ],
+  ];
+  for (const [action, f, id] of cases) {
+    const before = structuredClone(s);
+    expect(() => command(s, action, f, id)).toThrow("最多");
+    expect(s).toEqual(before);
+  }
+});
+
+it("trims valid tags and units before length checks and saving", () => {
+  const edited = command(
+    seed(),
+    "edit",
+    { name: "冷链", group: "华东冷链", tags: "  冷库,重点  " },
+    "DEV-1001",
+  );
+  expect(edited.state.devices[0].tags).toBe("冷库,重点");
+  const field = command(
+    edited.state,
+    "field",
+    { name: "batteryLevel", type: "float", unit: "  %  " },
+    "PRD-001",
+  );
+  expect(field.state.products[0].fields.at(-1)?.unit).toBe("%");
+});
