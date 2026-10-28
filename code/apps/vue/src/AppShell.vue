@@ -18,7 +18,7 @@ watch(() => route.fullPath, () => { if (open.value) close(); });
       <nav>
         <RouterLink v-for="[path, name] in items" :key="path" :to="'/' + path" active-class="active">{{ name }}</RouterLink>
       </nav>
-      <RouterLink class="diagnostic-link" to="/">诊断页</RouterLink>
+      <RouterLink class="diagnostic-link" to="/diagnostics">诊断页</RouterLink>
     </aside>
     <div class="shell-content"><RouterView /></div>
   </div>
