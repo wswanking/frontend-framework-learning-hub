@@ -254,10 +254,11 @@ export class WorkspaceUI {
     return false;
   }
   open(kind: ModalKind, title: string, id = "", note = "") {
-    this.opener =
-      document.activeElement instanceof HTMLElement
-        ? document.activeElement
-        : null;
+    if (!this.modal())
+      this.opener =
+        document.activeElement instanceof HTMLElement
+          ? document.activeElement
+          : null;
     this.modal.set(kind);
     this.title.set(title);
     this.targetId.set(id);
@@ -277,6 +278,7 @@ export class WorkspaceUI {
     this.form.markAsPristine();
     this.modalEvents.next("close");
     if (this.opener?.isConnected) this.opener.focus();
+    else if (this.opener) document.getElementById("v3-main")?.focus();
   }
   field(
     name: string,

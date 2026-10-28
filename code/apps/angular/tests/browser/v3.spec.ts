@@ -161,6 +161,9 @@ test("rule input produces assigned and resolved alarm with audit", async ({
   await modal(page).getByRole("button", { name: "确认解决" }).click();
   await expect(modal(page).getByText("已解决", { exact: true })).toBeVisible();
   await modal(page).getByRole("button", { name: "关闭对话框" }).click();
+  await expect(
+    page.getByRole("row").filter({ hasText: "E2E高温" }).getByRole("button"),
+  ).toBeFocused();
   await nav(page, "审计与运维");
   await expect(
     page.getByRole("cell", { name: "解决告警", exact: true }),
@@ -332,6 +335,12 @@ test("product attributes, connector and node details, settings notifications and
     modal(page).getByRole("cell", { name: "batteryLevel" }),
   ).toBeVisible();
   await modal(page).getByRole("button", { name: "关闭对话框" }).click();
+  await expect(
+    page
+      .getByRole("row")
+      .filter({ hasText: "ColdSense T200" })
+      .getByRole("button"),
+  ).toBeFocused();
   await nav(page, "连接与转发");
   await page.getByRole("button", { name: "测试连接" }).first().click();
   await expect(modal(page).getByText(/未发起真实网络/)).toBeVisible();
