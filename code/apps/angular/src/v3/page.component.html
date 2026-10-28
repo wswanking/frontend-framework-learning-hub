@@ -1,0 +1,118 @@
+<div class="review">
+  <b>ANGULAR / V3</b><span>已批准交互 · 数据与操作均为本地模拟</span
+  ><label class="state-control"
+    >页面状态
+    <select
+      aria-label="页面状态"
+      [value]="ui.scenario()"
+      (change)="ui.setScenario($event)"
+    >
+      <option value="normal">正常</option>
+      <option value="loading">加载</option>
+      <option value="empty">空数据</option>
+      <option value="error">请求失败</option>
+      <option value="forbidden">无权限</option>
+    </select></label
+  ><button class="small" (click)="ui.reset()">重置演示</button>
+</div>
+@if (ui.scenario() !== "normal") {
+  <section class="panel empty" role="status">
+    <h1>
+      {{
+        ui.scenario() === "loading"
+          ? "正在加载工作区"
+          : ui.scenario() === "empty"
+            ? "这里还没有数据"
+            : ui.scenario() === "error"
+              ? "数据暂时不可用"
+              : "没有查看权限"
+      }}
+    </h1>
+    <p>
+      {{
+        ui.scenario() === "error"
+          ? "模拟请求失败 DEMO_TIMEOUT；已保存数据仍保留。"
+          : "此状态为本地交互演示，壳层保持可用。"
+      }}
+    </p>
+    <button class="primary" (click)="ui.scenario.set('normal')">
+      {{ ui.scenario() === "error" ? "重试" : "返回正常数据" }}
+    </button>
+  </section>
+} @else if (ui.denied()) {
+  <div class="page-head">
+    <h1>{{ ui.current()?.title }}</h1>
+  </div>
+  <section class="panel empty">
+    <h2>没有治理权限</h2>
+    <p>仅平台管理员可以管理成员、角色与配额；不展示受限资源信息。</p>
+    <a routerLink="/v3/workspace">返回工作区</a>
+  </section>
+} @else if (ui.id()) {
+  <atlas-v3-detail />
+} @else {
+  @if (ui.page() === "workspace") {
+    <div class="breadcrumb">运行视图 / WORKSPACE</div>
+  }
+  <div class="page-head">
+    <div>
+      <h1>
+        {{
+          ui.page() === "workspace"
+            ? "早上好，开始今天的运行巡检"
+            : ui.current()?.title || "页面不存在"
+        }}
+      </h1>
+      <p>{{ ui.current()?.description || "这个地址不在当前工作区中。" }}</p>
+    </div>
+    <div class="actions">
+      @switch (ui.page()) {
+        @case ("workspace") {
+          <button class="primary" (click)="ui.register()">＋ 注册设备</button>
+        }
+        @case ("devices") {
+          <button class="primary" (click)="ui.register()">＋ 注册设备</button>
+        }
+        @case ("rules") {
+          <button class="primary" (click)="ui.newRule()">＋ 创建规则</button>
+        }
+        @case ("ota") {
+          <button class="primary" (click)="ui.newBatch()">
+            ＋ 创建升级批次
+          </button>
+        }
+        @case ("tenants") {
+          <button class="primary" (click)="ui.invite()">＋ 邀请成员</button>
+        }
+        @case ("telemetry") {
+          <button (click)="ui.download()">导出 CSV</button>
+        }
+      }
+    </div>
+  </div>
+  @if (ui.page() === "workspace") {
+    <atlas-v3-home />
+  } @else if (["devices", "products"].includes(ui.page())) {
+    <atlas-v3-assets />
+  } @else if (
+    ["telemetry", "rules", "alarms", "ota", "connectors", "nodes"].includes(
+      ui.page()
+    )
+  ) {
+    <atlas-v3-operations />
+  } @else if (
+    ["tenants", "access", "audit", "settings", "learning"].includes(ui.page())
+  ) {
+    <atlas-v3-governance />
+  } @else {
+    <section class="panel empty">
+      <p>当前地址不存在，可恢复到工作区或设备列表。</p>
+      <a routerLink="/v3/workspace">返回工作区</a>
+    </section>
+  }
+}
+<footer class="page-footer">
+  <span>IoT Atlas / 澄海智联 · Angular 独立实现</span
+  ><span>本地模拟 · 不代表生产后端或最终验收</span>
+</footer>
+<atlas-v3-dialog />

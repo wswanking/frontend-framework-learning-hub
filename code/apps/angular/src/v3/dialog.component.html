@@ -1,0 +1,265 @@
+<dialog
+  #dialog
+  class="modal"
+  tabindex="-1"
+  [class.drawer]="
+    ['product', 'alarm', 'batch', 'notifications'].includes(ui.modal() || '')
+  "
+  aria-labelledby="v3-dialog-title"
+  (cancel)="cancel($event)"
+  (keydown)="trap($event)"
+>
+  <div class="modal-head">
+    <h2 id="v3-dialog-title">{{ ui.title() }}</h2>
+    <button aria-label="关闭对话框" (click)="ui.close()">×</button>
+  </div>
+  @switch (ui.modal()) {
+    @case ("form") {
+      <form [formGroup]="ui.form" (ngSubmit)="ui.submit()">
+        <div class="modal-body">
+          @if (ui.note()) {
+            <div class="note">{{ ui.note() }}</div>
+          }
+          @for (f of ui.fields(); track f.name) {
+            <label class="field" [attr.for]="'v3-field-' + f.name"
+              >{{ f.label }}
+              @if (f.type === "select") {
+                <select [id]="'v3-field-' + f.name" [formControlName]="f.name">
+                  @for (o of f.options; track o.value) {
+                    <option [value]="o.value">{{ o.label }}</option>
+                  }
+                </select>
+              } @else if (f.type === "textarea") {
+                <textarea
+                  [id]="'v3-field-' + f.name"
+                  [formControlName]="f.name"
+                  [required]="f.required"
+                  rows="3"
+                  [maxLength]="ui.maxLength(f)"
+                ></textarea>
+              } @else {
+                <input
+                  [id]="'v3-field-' + f.name"
+                  [type]="f.type"
+                  [formControlName]="f.name"
+                  [required]="f.required"
+                  step="any"
+                  [maxLength]="ui.maxLength(f)"
+                />
+              }
+            </label>
+          }
+          @if (ui.action === "batch") {
+            <fieldset>
+              <legend>兼容在线设备 · 发布范围</legend>
+              @for (d of ui.targetOptions(); track d.id) {
+                <label class="field-check"
+                  ><input
+                    type="checkbox"
+                    checked
+                    (change)="ui.target(d.id, $event)"
+                  />{{ d.name }} · {{ d.version }}</label
+                >
+              } @empty {
+                <p>没有在线兼容设备，请先注册并上报。</p>
+              }
+            </fieldset>
+          }
+          <p class="error" role="alert">{{ ui.error() }}</p>
+        </div>
+        <div class="modal-foot">
+          <button type="button" (click)="ui.close()">取消</button
+          ><button class="primary">
+            {{ labels[ui.action || ""] || "确认保存" }}
+          </button>
+        </div>
+      </form>
+    }
+    @case ("product") {
+      @if (ui.product(); as p) {
+        <div class="modal-body">
+          <p>{{ p.protocol }} · 固定演示规格，不发布至真实设备。</p>
+          <div
+            class="table-wrap"
+            tabindex="0"
+            role="region"
+            aria-label="物模型属性"
+          >
+            <table>
+              <thead>
+                <tr>
+                  <th>属性标识符</th>
+                  <th>类型</th>
+                  <th>单位</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (f of p.fields; track f.name) {
+                  <tr>
+                    <td>{{ f.name }}</td>
+                    <td>{{ f.type }}</td>
+                    <td>{{ f.unit }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          <button class="primary spaced" (click)="ui.addField(p)">
+            新增属性
+          </button>
+        </div>
+      }
+    }
+    @case ("alarm") {
+      @if (ui.alarm(); as a) {
+        <div class="modal-body">
+          <div class="pill-line">
+            <span class="tag" [class.ok]="a.status === '已解决'">{{
+              a.status
+            }}</span
+            ><span class="mono">{{ a.id }}</span>
+          </div>
+          <p>{{ a.note }}</p>
+          <dl class="kv">
+            <dt>设备</dt>
+            <dd>
+              <button
+                class="row-link"
+                (click)="ui.follow('/v3/devices/' + a.device)"
+              >
+                {{ a.device }}
+              </button>
+            </dd>
+            <dt>负责人</dt>
+            <dd>{{ a.owner }}</dd>
+          </dl>
+          <h3>处置时间线</h3>
+          <ul class="timeline">
+            @for (h of a.history; track $index) {
+              <li>{{ h }}</li>
+            }
+          </ul>
+          @if (a.status === "待确认") {
+            <button class="primary" (click)="ui.ack(a)">确认并分派</button>
+          } @else if (a.status === "已确认") {
+            <button class="primary" (click)="ui.resolve(a)">解决告警</button>
+          } @else {
+            <p>此事件已解决，记录只读保留。</p>
+          }
+        </div>
+      }
+    }
+    @case ("batch") {
+      @if (ui.batch(); as b) {
+        <div class="modal-body">
+          <div class="pill-line">
+            <span class="tag">{{ b.status }}</span
+            ><span class="mono">{{ b.id }}</span>
+          </div>
+          <p>ColdSense T200 · 固件 {{ b.version }}</p>
+          <strong>{{ ui.count(b) }} / {{ b.targets.length }} 完成</strong>
+          <div class="progress">
+            <span
+              [style.width.%]="(ui.count(b) / b.targets.length) * 100"
+            ></span>
+          </div>
+          <div
+            class="table-wrap"
+            tabindex="0"
+            role="region"
+            aria-label="升级目标"
+          >
+            <table>
+              <thead>
+                <tr>
+                  <th>设备</th>
+                  <th>结果 / 原因</th>
+                  <th>尝试</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (t of b.targets; track t.device) {
+                  <tr>
+                    <td>{{ t.device }}</td>
+                    <td>
+                      <span
+                        class="tag"
+                        [class.bad]="t.status === '失败'"
+                        [class.ok]="t.status === '成功'"
+                        >{{ t.status }}</span
+                      ><small>{{ t.reason }}</small>
+                    </td>
+                    <td>{{ t.attempts }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+          <div class="actions spaced">
+            @if (["待执行", "运行中", "重试中"].includes(b.status)) {
+              <button class="primary" (click)="ui.direct('advance', b.id)">
+                {{ b.status === "待执行" ? "开始模拟升级" : "推进模拟进度" }}
+              </button>
+            }
+            @if (b.status === "部分失败") {
+              <button class="primary" (click)="ui.retry(b)">
+                仅重试失败设备
+              </button>
+            }
+          </div>
+          <h3>执行记录</h3>
+          <ul class="timeline">
+            @for (h of b.history; track $index) {
+              <li>{{ h }}</li>
+            }
+          </ul>
+          <div class="note">
+            由审核者显式推进，不代表后台实时任务；成功设备不重复执行。
+          </div>
+        </div>
+      }
+    }
+    @case ("search") {
+      <div class="modal-body">
+        <label class="field"
+          >搜索页面、设备或规则<input
+            [formControl]="ui.search"
+            placeholder="例如：冷链或 DEV-1001"
+        /></label>
+        @for (r of ui.results(); track r.title) {
+          <button class="search-result row-link" (click)="ui.follow(r.url)">
+            {{ r.title }}
+          </button>
+        } @empty {
+          <p>没有找到匹配结果。试试名称或 ID。</p>
+        }
+      </div>
+    }
+    @case ("notifications") {
+      <div class="modal-body">
+        @if (ui.state().prefs.inapp) {
+          <h3>现场异常需要处理</h3>
+          <p>{{ ui.openAlarms() }} 条未关闭告警</p>
+          <button class="row-link" (click)="ui.follow('/v3/alarms')">
+            前往告警中心 →
+          </button>
+          <h3>新固件已加入演示目录</h3>
+          <p>ColdSense T200 · 2.3.1</p>
+          <button class="row-link" (click)="ui.follow('/v3/ota')">
+            查看固件与 OTA →
+          </button>
+        } @else {
+          <p>工作区通知已关闭。</p>
+          <button class="row-link" (click)="ui.follow('/v3/settings')">
+            前往设置
+          </button>
+        }
+      </div>
+    }
+    @case ("info") {
+      <div class="modal-body">
+        <div class="note">{{ ui.note() }}</div>
+      </div>
+    }
+  }
+</dialog>

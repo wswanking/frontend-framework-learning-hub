@@ -13,7 +13,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
         <a [routerLink]="'/' + item[0]" routerLinkActive="active" [routerLinkActiveOptions]="linkMatch" ariaCurrentWhenActive="page">{{ item[1] }}</a>
       }
     </nav>
-    <a class="diagnostic-link" routerLink="/">诊断页</a>
+    <a class="diagnostic-link" routerLink="/diagnostics">诊断页</a>
   </aside>
   <div class="shell-content"><router-outlet /></div>
 </div>` })

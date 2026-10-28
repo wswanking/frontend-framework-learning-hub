@@ -1,0 +1,162 @@
+@if (ui.page() === "devices") {
+  <section class="panel">
+    <form
+      class="filters"
+      [formGroup]="ui.filters"
+      (ngSubmit)="ui.applyFilters()"
+    >
+      <label
+        >搜索名称、ID、分组或标签<input
+          formControlName="q"
+          placeholder="例如：冷链、DEV-1001" /></label
+      ><label
+        >连接状态<select formControlName="status">
+          <option value="">全部状态</option>
+          <option>在线</option>
+          <option>离线</option>
+          <option>待接入</option>
+        </select></label
+      ><button class="primary">应用</button
+      ><button type="button" (click)="ui.clearFilters()">清除</button>
+    </form>
+    @if (ui.selected().length) {
+      <div class="bulk show">
+        <strong>已选择 {{ ui.selected().length }} 台</strong
+        ><button class="small danger" (click)="ui.remove()">删除所选</button
+        ><span>删除不可撤销，将显示影响范围</span>
+      </div>
+    }
+    <div class="table-hint">左右滑动查看更多字段</div>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="设备列表">
+      <table>
+        <thead>
+          <tr>
+            <th>
+              <input
+                class="checkbox"
+                type="checkbox"
+                aria-label="选择当前结果全部设备"
+                [checked]="
+                  ui.selected().length === ui.devices().length &&
+                  ui.devices().length > 0
+                "
+                (change)="ui.all($event)"
+              />
+            </th>
+            <th>设备 / 序列号</th>
+            <th>状态</th>
+            <th>产品</th>
+            <th>分组 / 标签</th>
+            <th>固件</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (d of ui.devices(); track d.id) {
+            <tr>
+              <td>
+                <input
+                  class="checkbox"
+                  type="checkbox"
+                  [attr.aria-label]="'选择 ' + d.name"
+                  [checked]="ui.selected().includes(d.id)"
+                  (change)="ui.toggle(d.id, $event)"
+                />
+              </td>
+              <td>
+                <a
+                  [routerLink]="['/v3/devices', d.id]"
+                  [queryParams]="ui.backParams()"
+                  [attr.data-device-id]="d.id"
+                  ><strong>{{ d.name }}</strong></a
+                ><small class="mono">{{ d.serial }}</small>
+              </td>
+              <td>
+                <span
+                  class="tag"
+                  [class.ok]="d.status === '在线'"
+                  [class.warn]="d.status === '离线'"
+                  >{{ d.status }}</span
+                >
+              </td>
+              <td>{{ d.product }}</td>
+              <td>
+                {{ d.group }}<small>{{ d.tags }}</small>
+              </td>
+              <td class="mono">{{ d.version }}</td>
+              <td>
+                <a
+                  [routerLink]="['/v3/devices', d.id]"
+                  [queryParams]="ui.backParams()"
+                  >查看 →</a
+                >
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="7">
+                <div class="empty">
+                  <h2>没有匹配的数据</h2>
+                  <p>调整筛选或注册第一台设备。</p>
+                  <button (click)="ui.clearFilters()">清除筛选</button>
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+    <div class="table-foot">
+      <span
+        >显示 {{ ui.devices().length }} /
+        {{ ui.state().devices.length }} 台设备</span
+      ><span>筛选条件保存在地址中</span>
+    </div>
+  </section>
+  <div class="note">
+    从设备详情可模拟接入上报、查看影子差异、执行命令与诊断。没有真实设备或密钥。
+  </div>
+} @else {
+  <section class="panel">
+    <div class="panel-head">
+      <h2>产品目录</h2>
+      <small>2 个固定示例</small>
+    </div>
+    <div class="table-hint">左右滑动查看更多字段</div>
+    <div class="table-wrap" tabindex="0" role="region" aria-label="产品目录">
+      <table>
+        <thead>
+          <tr>
+            <th>产品 / ID</th>
+            <th>接入协议</th>
+            <th>物模型属性</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (p of ui.state().products; track p.id) {
+            <tr>
+              <td>
+                <strong>{{ p.name }}</strong
+                ><small>{{ p.id }}</small>
+              </td>
+              <td>{{ p.protocol }}</td>
+              <td>{{ p.fields.length }}</td>
+              <td>
+                <button
+                  class="row-link"
+                  (click)="ui.open('product', p.name + ' · 物模型', p.id)"
+                >
+                  查看物模型 →
+                </button>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </section>
+  <div class="note">
+    支持属性规格查看与新增。版本发布、DP 映射、导入导出属于后续进阶范围。
+  </div>
+}

@@ -31,3 +31,19 @@
 把设备说明改成自己的练习标题，运行 `npm run dev` 后观察开发服务器更新，再手动还原这一行。执行 `npm run typecheck`：这里包含 ngc 的严格模板/AOT 检查和工具 TypeScript 检查，模板事件或绑定类型错误也会被检查。
 
 执行 `npm run test:unit`（本端 Angular 测试构建与 Vitest），再 `npm run build`，最后 `npm run test:e2e -- device-flow.spec.ts --workers=1`。读 [device-flow.spec.ts](../../code/apps/angular/tests/browser/device-flow.spec.ts) 的后退关闭嵌套控制预览、平板缩放用例；它们验证 afterNextRender 的实际结果，不是只断言 signal 被调用。
+
+## V3 独立工作区：从路由到事务
+
+本节描述 `/v3/workspace` 新默认入口；上文 `/devices`、`/dashboard` 等保留为教学兼容区，诊断入口改为 `/diagnostics`。兼容区手动表单与 V3 Reactive Forms 的实现不要混淆。
+
+[main.ts](../../code/apps/angular/src/main.ts) 以持久 [WorkspaceShell](../../code/apps/angular/src/v3/shell.component.ts) 父路由承载 14 个模块；`RouterOutlet` 只切内容。原生 `RouterLink` 保留浏览器历史，`RouterLinkActive` 表达导航位置。桌面侧栏 224px、顶栏64px；1050px 以下菜单默认关闭并约束焦点，680px 以下表格局部横滚。
+
+[WorkspacePage](../../code/apps/angular/src/v3/page.component.ts) 只协调异常状态、标题和模块组合。模板职责拆为 [工作区](../../code/apps/angular/src/v3/home.component.ts)、[资产列表](../../code/apps/angular/src/v3/assets.component.ts)、[设备详情](../../code/apps/angular/src/v3/detail.component.ts)、[运行模块](../../code/apps/angular/src/v3/operations.component.ts)、[组织治理](../../code/apps/angular/src/v3/governance.component.ts) 和 [原生 dialog](../../code/apps/angular/src/v3/dialog.component.ts)。这是按职责分组的组件，不是声称每个模块都各有一个页面组件。
+
+页面级提供者 [WorkspaceUI](../../code/apps/angular/src/v3/workspace-ui.ts) 通过 Signals / computed 派生数据，Reactive Forms 保存输入草稿。URL 持有已应用筛选、详情页签和列表返回位置；查询草稿不污染 CSV。页面销毁时 `takeUntilDestroyed` 清理订阅，页面不无限缓存。dialog 的打开、关闭和焦点由子组件处理，关闭及 Escape 先确认未保存表单。父 Shell 的 beforeunload 保护刷新，CanActivate/CanDeactivate 保护路由及历史；取消历史采用 computed navigation resolution。
+
+[领域命令](../../code/apps/angular/src/v3/model.ts) 先验证权限，再对克隆执行输入与状态校验，最后返回新状态与审计。失败不修改来源状态、ID计数或审计。OTA 首次/正常推进需要创建权限；运维可以重试失败项及推进重试。活跃目标不能删除；重试推进只验证本次失败目标，成功项不重复执行。[seed](../../code/apps/angular/src/v3/seed.ts) 与运行时数据完全属于本端；电表仅有 energy/power，不混入温控影子。
+
+[store](../../code/apps/angular/src/v3/store.ts) 负责本端独立 localStorage；不完整或损坏快照回种子，存储失败保留内存结果并显示诚实提示。四条流程为纯本地模拟：注册不发真实密钥，连接测试无外部请求，邀请不发邮件，重启不控制硬件，OTA由操作者显式推进。高级编排、自定义角色、真实认证及部署不在本次范围内。
+
+在本端目录执行 `npm ci`、`npm run diagnose`、`PLAYWRIGHT_EXECUTABLE_PATH=/usr/bin/chromium npm run test:e2e -- --retries=0`。`ng build` 编译模板与TypeScript，输出 `dist/diagnostics/browser`；静态服务器须把 `/v3/*` 非资源请求回退 `index.html`，否则刷新详情会404。预览不等于部署，测试通过不代替视觉人工审核。所有依赖、Mock、源码与测试不从React/Vue导入。领域与浏览器测试可分别从 [model.spec.ts](../../code/apps/angular/src/v3/model.spec.ts) 和 [v3.spec.ts](../../code/apps/angular/tests/browser/v3.spec.ts) 跟读。

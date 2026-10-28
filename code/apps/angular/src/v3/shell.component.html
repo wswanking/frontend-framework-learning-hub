@@ -1,0 +1,83 @@
+<div class="workspace-root" data-testid="v3-shell">
+  <a class="skip" href="#v3-main">跳到主要内容</a>
+  <aside
+    class="sidebar"
+    [class.open]="menu()"
+    [attr.inert]="mobile() && !menu() ? '' : null"
+  >
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">◈</span>
+      <div>IoT Atlas<small>CONNECTED OPERATIONS</small></div>
+    </div>
+    <button class="mobile-close" aria-label="关闭导航" (click)="closeMenu()">
+      ×
+    </button>
+    <nav class="nav" aria-label="主导航">
+      @for (group of groups; track group) {
+        <div class="nav-label">{{ group }}</div>
+        @for (item of items; track item.path) {
+          @if (item.group === group) {
+            <a
+              [routerLink]="['/v3', item.path]"
+              routerLinkActive="active"
+              ariaCurrentWhenActive="page"
+              ><span class="glyph" aria-hidden="true">{{ item.icon }}</span
+              >{{ item.title }}</a
+            >
+          }
+        }
+      }
+    </nav>
+    <div class="side-foot">
+      Angular · 独立本地模拟<br />无真实设备或生产服务
+    </div>
+  </aside>
+  @if (menu()) {
+    <button class="scrim" aria-label="收起导航" (click)="closeMenu()"></button>
+  }
+  <header class="topbar">
+    <button
+      id="v3-menu"
+      class="mobile-menu icon"
+      aria-label="导航菜单"
+      [attr.aria-expanded]="menu()"
+      (click)="openMenu()"
+    >
+      ☰
+    </button>
+    <div class="tenant">澄海智联<small>DEMO WORKSPACE / 华东</small></div>
+    <button
+      class="global-search"
+      (click)="overlay('search')"
+      aria-label="搜索设备、规则、页面"
+    >
+      ⌕ <span>搜索设备、规则、页面</span><kbd class="key">⌘ K</kbd>
+    </button>
+    <div class="top-end">
+      <button
+        class="icon"
+        aria-label="通知中心"
+        (click)="overlay('notifications')"
+      >
+        ♧</button
+      ><span class="avatar" aria-hidden="true">CH</span
+      ><label class="sr-only" for="v3-role">模拟身份</label
+      ><select
+        class="identity"
+        id="v3-role"
+        [value]="store.state().role"
+        (change)="role($event)"
+      >
+        @for (role of roleKeys; track role) {
+          <option [value]="role">{{ roles[role] }}</option>
+        }
+      </select>
+    </div>
+  </header>
+  <main id="v3-main" class="main" tabindex="-1"><router-outlet /></main>
+  @if (store.feedback()) {
+    <div class="toast" role="status" aria-live="polite">
+      {{ store.feedback() }}
+    </div>
+  }
+</div>

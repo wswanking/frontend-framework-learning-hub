@@ -1,0 +1,209 @@
+@if (ui.device(); as d) {
+  <div class="breadcrumb">
+    <a routerLink="/v3/devices">设备中心</a> / {{ d.id }}
+  </div>
+  <div class="page-head">
+    <div>
+      <h1>{{ d.name }}</h1>
+      <p>
+        <span
+          class="tag"
+          [class.ok]="d.status === '在线'"
+          [class.warn]="d.status === '离线'"
+          >{{ d.status }}</span
+        >
+        {{ d.id }} · {{ d.product }}
+      </p>
+    </div>
+    <div class="actions">
+      <button (click)="ui.back()">返回列表</button
+      ><button (click)="ui.editDevice(d)">编辑资料</button>
+      @if (d.product === "ColdSense T200") {
+        <button class="primary" (click)="ui.direct('ingest', d.id)">
+          模拟上报
+        </button>
+      }
+    </div>
+  </div>
+  @if (d.product === "EnergyLink M1") {
+    <section class="panel">
+      <div class="panel-head"><h2>电表属性样例</h2></div>
+      <div class="panel-body">
+        <dl class="kv">
+          <dt>energy / 累计电量</dt>
+          <dd>{{ d.energy }} kWh</dd>
+          <dt>power / 当前功率</dt>
+          <dd>{{ d.power }} W</dd>
+          <dt>固件</dt>
+          <dd>{{ d.version }}</dd>
+          <dt>分组</dt>
+          <dd>{{ d.group }}</dd>
+        </dl>
+        <div class="note">
+          电表只读规格样例，不提供温控字段或操作。其时序、影子、命令和 OTA
+          交互待设计。
+        </div>
+      </div>
+    </section>
+  } @else {
+    <div class="tabs">
+      @for (t of tabs; track t[0]) {
+        <a
+          [routerLink]="['/v3/devices', d.id]"
+          [queryParams]="{ tab: t[0], back: ui.query()['back'] }"
+          [class.active]="ui.tab() === t[0]"
+          [attr.aria-current]="ui.tab() === t[0] ? 'page' : null"
+          >{{ t[1] }}</a
+        >
+      }
+    </div>
+    @switch (ui.tab()) {
+      @case ("overview") {
+        <div class="grid">
+          <section class="panel">
+            <div class="panel-head">
+              <h2>运行指标</h2>
+              <small>本地模拟</small>
+            </div>
+            <div class="metric-strip">
+              <div class="metric">
+                <div class="metric-label">温度</div>
+                <strong class="metric-value">{{ d.temp }}°</strong>
+              </div>
+              <div class="metric">
+                <div class="metric-label">上报次数</div>
+                <strong class="metric-value">{{ d.events.length }}</strong>
+              </div>
+              <div class="metric">
+                <div class="metric-label">目标温度</div>
+                <strong class="metric-value">{{ d.desired }}°</strong>
+              </div>
+              <div class="metric">
+                <div class="metric-label">状态</div>
+                <strong class="metric-value">{{ d.status }}</strong>
+              </div>
+            </div>
+            <atlas-v3-chart />
+            <div class="table-foot">模拟趋势示意；精确采样见时序数据表。</div>
+          </section>
+          <section class="panel">
+            <div class="panel-head"><h2>设备档案</h2></div>
+            <div class="panel-body">
+              <dl class="kv">
+                <dt>序列号</dt>
+                <dd>{{ d.serial }}</dd>
+                <dt>分组</dt>
+                <dd>{{ d.group }}</dd>
+                <dt>标签</dt>
+                <dd>{{ d.tags }}</dd>
+                <dt>固件版本</dt>
+                <dd>{{ d.version }}</dd>
+                <dt>接入身份</dt>
+                <dd>DEMO-{{ d.id }}（非密钥）</dd>
+              </dl>
+              <div class="note">
+                {{
+                  d.status === "待接入"
+                    ? "点击模拟上报完成接入。"
+                    : "上报按钮追加确定性读数与诊断事件。"
+                }}
+              </div>
+            </div>
+          </section>
+        </div>
+      }
+      @case ("telemetry") {
+        <section class="panel">
+          <div class="panel-head"><h2>最新采样</h2></div>
+          <atlas-v3-chart />
+          <div
+            class="table-wrap"
+            tabindex="0"
+            role="region"
+            aria-label="设备采样"
+          >
+            <table>
+              <thead>
+                <tr>
+                  <th>采样时间</th>
+                  <th>温度 °C</th>
+                  <th>质量</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (p of points(); track p[0]) {
+                  <tr>
+                    <td>{{ p[0] }}</td>
+                    <td>{{ p[1] }}</td>
+                    <td><span class="tag ok">有效</span></td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </section>
+      }
+      @case ("shadow") {
+        <section class="panel">
+          <div class="panel-head"><h2>期望与上报状态</h2></div>
+          <div class="panel-body">
+            <dl class="kv">
+              <dt>desired.targetTemp</dt>
+              <dd>{{ d.desired }} °C</dd>
+              <dt>reported.targetTemp</dt>
+              <dd>{{ d.reported }} °C</dd>
+              <dt>差异</dt>
+              <dd>
+                <span class="tag">{{
+                  d.desired === d.reported ? "已同步" : "待同步"
+                }}</span>
+              </dd>
+            </dl>
+            <div class="actions spaced">
+              <button (click)="ui.shadow(d)">编辑目标温度</button
+              ><button class="primary" (click)="ui.direct('sync', d.id)">
+                模拟设备同步
+              </button>
+            </div>
+            <p>离线设备不可同步，请先模拟上报恢复连接。</p>
+          </div>
+        </section>
+      }
+      @case ("commands") {
+        <section class="panel">
+          <div class="panel-head"><h2>可执行命令</h2></div>
+          <div class="panel-body">
+            <h3>重启设备 / reboot</h3>
+            <p>需要在线与操作权限；会显示确认和模拟回执。</p>
+            <button class="danger" (click)="ui.reboot(d)">发送重启命令</button>
+            <div class="note">不连接或控制真实硬件。</div>
+          </div>
+        </section>
+      }
+      @case ("logs") {
+        <section class="panel">
+          <div class="panel-head"><h2>诊断事件</h2></div>
+          <div class="panel-body">
+            <ul class="timeline">
+              @for (e of d.events; track $index) {
+                <li>{{ e }}<small>本地模拟</small></li>
+              }
+            </ul>
+          </div>
+        </section>
+      }
+      @default {
+        <section class="panel empty">
+          <h2>未知详情页签</h2>
+          <a [routerLink]="['/v3/devices', d.id]">返回运行概览</a>
+        </section>
+      }
+    }
+  }
+} @else {
+  <section class="panel empty">
+    <h1>设备不可用</h1>
+    <p>对象不存在或已在本地演示中删除。</p>
+    <a routerLink="/v3/devices">返回设备列表</a>
+  </section>
+}

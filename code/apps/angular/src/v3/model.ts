@@ -119,9 +119,10 @@ export const allowed = (role: Role, cap: "write" | "operate" | "govern") =>
     : cap === "write"
       ? ["platformAdmin", "tenantAdmin"].includes(role)
       : role !== "viewer";
-const text = (value: string | undefined, label: string, min = 1) => {
+const text = (value: string | undefined, label: string, min = 1, max = 300) => {
   const v = value?.trim() ?? "";
   if (v.length < min) throw Error(`${label}至少 ${min} 个字符。`);
+  if (v.length > max) throw Error(`${label}最多 ${max} 个字符。`);
   return v;
 };
 const number = (value: string, min: number, max: number, label: string) => {
@@ -178,7 +179,7 @@ export function command(
   };
   switch (action) {
     case "register": {
-      const name = text(f["name"], "设备名称"),
+      const name = text(f["name"], "设备名称", 1, 48),
         serial = text(f["serial"], "序列号");
       if (!/^[\w-]{4,40}$/.test(serial))
         throw Error("序列号需为 4–40 位字母、数字、短横线或下划线。");
@@ -208,9 +209,9 @@ export function command(
     }
     case "edit":
       Object.assign(device(), {
-        name: text(f["name"], "设备名称"),
+        name: text(f["name"], "设备名称", 1, 48),
         group: text(f["group"], "所属分组"),
-        tags: f["tags"] || "",
+        tags: text(f["tags"], "标签", 0, 80),
       });
       break;
     case "ingest": {
@@ -262,14 +263,18 @@ export function command(
         throw Error("属性标识符已存在。");
       if (!["float", "integer", "boolean", "string"].includes(f["type"]))
         throw Error("类型无效。");
-      p.fields.push({ name, type: f["type"], unit: f["unit"] || "" });
+      p.fields.push({
+        name,
+        type: f["type"],
+        unit: text(f["unit"], "单位", 0, 12),
+      });
       break;
     }
     case "rule":
       object = id("RUL");
       s.rules.push({
         id: object,
-        name: text(f["name"], "规则名称"),
+        name: text(f["name"], "规则名称", 1, 50),
         threshold: number(f["threshold"], -40, 120, "阈值"),
         enabled: true,
       });
@@ -311,7 +316,7 @@ export function command(
       )
         throw Error("负责人不可用。");
       a.owner = f["owner"];
-      a.history.push(`${a.owner} 确认：${text(f["note"], "说明", 3)}`);
+      a.history.push(`${a.owner} 确认：${text(f["note"], "说明", 3, 200)}`);
       a.status = "已确认";
       break;
     }
@@ -341,7 +346,7 @@ export function command(
       object = id("OTA");
       s.batches.unshift({
         id: object,
-        name: text(f["name"], "批次名称"),
+        name: text(f["name"], "批次名称", 1, 50),
         version: "2.3.1",
         status: "待执行",
         targets: ids.map((device) => ({
@@ -409,7 +414,7 @@ export function command(
         )
       )
         throw Error("重试目标不存在或不在线。");
-      const reason = text(f["reason"], "重试原因", 5);
+      const reason = text(f["reason"], "重试原因", 5, 200);
       failed.forEach((t) => {
         t.status = "重试中";
         t.attempts++;
@@ -419,7 +424,7 @@ export function command(
       break;
     }
     case "invite": {
-      const name = text(f["name"], "姓名"),
+      const name = text(f["name"], "姓名", 1, 30),
         email = text(f["email"], "邮箱");
       if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
         throw Error("邮箱格式无效。");

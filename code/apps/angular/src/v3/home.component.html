@@ -1,0 +1,143 @@
+<div class="metric-strip">
+  <div class="metric">
+    <div class="metric-label">设备总数</div>
+    <strong class="metric-value">{{ ui.state().devices.length }}</strong>
+    <div class="metric-meta">
+      {{ ui.online() }} 台在线 ·
+      {{ ui.state().devices.length - ui.online() }} 台待处理
+    </div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">待处理告警</div>
+    <strong class="metric-value">{{ ui.openAlarms() }}</strong>
+    <div class="metric-meta">需要确认或跟进的异常</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">接收消息</div>
+    <strong class="metric-value">8,420</strong>
+    <div class="metric-meta">本窗口 · 99.86% 成功率</div>
+  </div>
+  <div class="metric">
+    <div class="metric-label">进行中升级</div>
+    <strong class="metric-value">{{ ui.activeBatches() }}</strong>
+    <div class="metric-meta">按批次追踪 · 可恢复失败</div>
+  </div>
+</div>
+<div class="grid">
+  <section class="panel">
+    <div class="panel-head">
+      <h2>消息流量</h2>
+      <span class="legend">● 接收消息 ┄ 转发消息</span>
+    </div>
+    <atlas-v3-chart />
+    <div class="table-foot">
+      摘要：接收 8,420 条 · 转发 7,960 条 · 错误 12 条（固定窗口）
+    </div>
+  </section>
+  <section class="panel">
+    <div class="panel-head"><h2>待办队列</h2></div>
+    <div class="work-item">
+      <span class="work-icon">!</span>
+      <div>
+        <h3>{{ ui.openAlarms() }} 条告警等待处置</h3>
+        <p>优先检查冷链温度与连接状态</p>
+      </div>
+      <a class="end" routerLink="/v3/alarms">处理 →</a>
+    </div>
+    <div class="work-item">
+      <span class="work-icon blue">↑</span>
+      <div>
+        <h3>ColdSense 2.3.1 可发布</h3>
+        <p>先升级少量设备，观察失败原因</p>
+      </div>
+      <a class="end" routerLink="/v3/ota">查看 →</a>
+    </div>
+    <div class="work-item">
+      <span class="work-icon green">◇</span>
+      <div>
+        <h3>工作区配额健康</h3>
+        <p>{{ ui.state().devices.length }} / {{ ui.state().quota }} 台设备</p>
+      </div>
+      <a class="end" routerLink="/v3/tenants">管理 →</a>
+    </div>
+  </section>
+</div>
+<section class="panel">
+  <div class="panel-head">
+    <h2>重点设备</h2>
+    <a routerLink="/v3/devices">所有设备 →</a>
+  </div>
+  <div class="table-hint">左右滑动查看更多字段</div>
+  <div class="table-wrap" tabindex="0" role="region" aria-label="重点设备">
+    <table>
+      <thead>
+        <tr>
+          <th>设备 / 标识</th>
+          <th>状态</th>
+          <th>产品</th>
+          <th>最新读数</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (d of ui.state().devices.slice(0, 4); track d.id) {
+          <tr>
+            <td>
+              <a [routerLink]="['/v3/devices', d.id]">{{ d.name }}</a
+              ><small>{{ d.id }}</small>
+            </td>
+            <td>
+              <span
+                class="tag"
+                [class.ok]="d.status === '在线'"
+                [class.warn]="d.status === '离线'"
+                >{{ d.status }}</span
+              >
+            </td>
+            <td>{{ d.product }}</td>
+            <td>
+              {{
+                d.product === "EnergyLink M1" ? d.power + " W" : d.temp + " °C"
+              }}
+            </td>
+            <td><a [routerLink]="['/v3/devices', d.id]">进入详情 →</a></td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</section>
+<div class="grid equal">
+  <section class="panel">
+    <div class="panel-head">
+      <h2>连接健康</h2>
+      <a routerLink="/v3/connectors">连接与转发 →</a>
+    </div>
+    <div class="panel-body">
+      <dl class="kv">
+        <dt>MQTT / TLS</dt>
+        <dd><span class="tag ok">健康</span> 华东接入节点</dd>
+        <dt>数据转发</dt>
+        <dd>HTTP 演示目标</dd>
+        <dt>数据时效</dt>
+        <dd>固定样例，不连接真实网络</dd>
+      </dl>
+    </div>
+  </section>
+  <section class="panel">
+    <div class="panel-head">
+      <h2>最近操作</h2>
+      <a routerLink="/v3/audit">完整审计 →</a>
+    </div>
+    <div class="panel-body">
+      <ul class="timeline">
+        @for (a of ui.state().audit.slice(0, 2); track a.id) {
+          <li>
+            {{ a.action
+            }}<small>{{ a.time }} · {{ a.actor }} · {{ a.object }}</small>
+          </li>
+        }
+      </ul>
+    </div>
+  </section>
+</div>

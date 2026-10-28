@@ -1,0 +1,265 @@
+@switch (ui.page()) {
+  @case ("tenants") {
+    <div class="grid">
+      <section class="panel">
+        <div class="panel-head"><h2>工作区成员</h2></div>
+        <div class="table-hint">左右滑动查看更多字段</div>
+        <div
+          class="table-wrap"
+          tabindex="0"
+          role="region"
+          aria-label="工作区成员"
+        >
+          <table>
+            <thead>
+              <tr>
+                <th>姓名 / 邮箱</th>
+                <th>角色</th>
+                <th>状态</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (m of ui.state().members; track m.id) {
+                <tr>
+                  <td>
+                    <strong>{{ m.name }}</strong
+                    ><small>{{ m.email }}</small>
+                  </td>
+                  <td>{{ m.role }}</td>
+                  <td>
+                    <span class="tag">{{ m.status }}</span>
+                  </td>
+                  <td>
+                    @if (m.role !== "平台管理员") {
+                      <button
+                        class="row-link"
+                        (click)="ui.member(m.id, m.name, m.role)"
+                      >
+                        分配角色
+                      </button>
+                    } @else {
+                      固定演示身份
+                    }
+                  </td>
+                </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><h2>租户配额</h2></div>
+        <div class="panel-body">
+          <h3>澄海智联 / CHENGHAI-DEMO</h3>
+          <p>设备额度</p>
+          <strong
+            >{{ ui.state().devices.length }} / {{ ui.state().quota }}</strong
+          >
+          <div class="progress">
+            <span
+              [style.width.%]="
+                (ui.state().devices.length / ui.state().quota) * 100
+              "
+            ></span>
+          </div>
+          <button (click)="ui.quota()">调整设备配额</button>
+          <div class="note">
+            邀请只保存本地记录，不发送邮件；前端演示不代表真实 IAM 授权。
+          </div>
+        </div>
+      </section>
+    </div>
+  }
+  @case ("access") {
+    <section class="panel">
+      <div class="panel-head"><h2>现有领域权限契约</h2></div>
+      <div class="table-hint">左右滑动查看更多字段</div>
+      <div
+        class="table-wrap"
+        tabindex="0"
+        role="region"
+        aria-label="角色权限矩阵"
+      >
+        <table class="permission-table">
+          <thead>
+            <tr>
+              <th>能力</th>
+              <th>平台管理员</th>
+              <th>租户管理员</th>
+              <th>运维工程师</th>
+              <th>数据观察员</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (row of matrix; track row[0]) {
+              <tr>
+                @for (cell of row; track $index) {
+                  <td>{{ cell }}</td>
+                }
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+      <div class="panel-body">
+        <div class="note">
+          右上角身份切换验证拒绝；前端不能替代后端鉴权。自定义角色编辑尚未实现。
+        </div>
+        <button class="primary" (click)="ui.store.role('viewer')">
+          以观察员体验
+        </button>
+      </div>
+    </section>
+  }
+  @case ("audit") {
+    <section class="panel">
+      <form
+        class="filters"
+        [formGroup]="ui.filters"
+        (ngSubmit)="ui.applyFilters()"
+      >
+        <label
+          >搜索操作或对象<input
+            formControlName="q"
+            placeholder="例如：注册设备" /></label
+        ><button class="primary">应用</button
+        ><button type="button" (click)="ui.clearFilters()">清除</button>
+      </form>
+      <div class="table-hint">左右滑动查看更多字段</div>
+      <div class="table-wrap" tabindex="0" role="region" aria-label="审计记录">
+        <table>
+          <thead>
+            <tr>
+              <th>时间</th>
+              <th>操作者</th>
+              <th>动作</th>
+              <th>对象</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (a of ui.audit(); track a.id) {
+              <tr>
+                <td>{{ a.time }}</td>
+                <td>{{ a.actor }}</td>
+                <td>{{ a.action }}</td>
+                <td>{{ a.object }}</td>
+              </tr>
+            } @empty {
+              <tr>
+                <td colspan="4">没有匹配的审计记录。</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+    <div class="note">
+      仅记录本浏览器模拟操作，可被重置；不代表不可篡改的生产审计。
+    </div>
+  }
+  @case ("settings") {
+    <div class="grid equal">
+      <section class="panel">
+        <div class="panel-head"><h2>通知偏好</h2></div>
+        <form
+          class="panel-body"
+          [formGroup]="ui.prefs"
+          (ngSubmit)="ui.savePrefs()"
+        >
+          <label class="field"
+            >工作区内通知<select formControlName="inapp">
+              <option value="true">开启</option>
+              <option value="false">关闭</option>
+            </select></label
+          ><label class="field"
+            >邮件摘要意向<select formControlName="email">
+              <option value="false">关闭</option>
+              <option value="true">开启（仅保存意向）</option>
+            </select></label
+          >
+          <p>不发送邮件；通知中心遵循站内通知开关。</p>
+          <button class="primary">保存偏好</button>
+        </form>
+      </section>
+      <section class="panel">
+        <div class="panel-head"><h2>集成能力边界</h2></div>
+        <div class="panel-body">
+          <dl class="kv">
+            <dt>Webhook / 邮件</dt>
+            <dd>待设计</dd>
+            <dt>身份 SSO</dt>
+            <dd>本轮范围外</dd>
+            <dt>真实设备</dt>
+            <dd>未连接</dd>
+            <dt>存储位置</dt>
+            <dd>本应用 localStorage</dd>
+          </dl>
+        </div>
+      </section>
+    </div>
+  }
+  @case ("learning") {
+    <section class="panel">
+      <div class="panel-head"><h2>同一业务，三种框架习惯</h2></div>
+      <div
+        class="table-wrap"
+        tabindex="0"
+        role="region"
+        aria-label="框架实现路线"
+      >
+        <table>
+          <thead>
+            <tr>
+              <th>职责</th>
+              <th>React</th>
+              <th>Vue</th>
+              <th>Angular</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>持久 Shell</td>
+              <td>Outlet</td>
+              <td>RouterView</td>
+              <td>RouterOutlet</td>
+            </tr>
+            <tr>
+              <td>状态 / 表单</td>
+              <td>Hooks</td>
+              <td>Composable</td>
+              <td>Signals / Reactive Forms</td>
+            </tr>
+            <tr>
+              <td>未保存保护</td>
+              <td>Blocker</td>
+              <td>Leave / Update guard</td>
+              <td>CanActivate / CanDeactivate</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="panel-body">
+        <h3>本端源码阅读顺序</h3>
+        <p>
+          shell.component → page.component → workspace-ui → 功能组件 → model /
+          seed / store
+        </p>
+        <p>
+          独立运行 npm
+          ci、typecheck、lint、test:unit、build、test:e2e；静态服务器需要 SPA
+          路由回退。
+        </p>
+        <div class="actions">
+          <a routerLink="/diagnostics">诊断入口</a
+          ><a routerLink="/labs">兼容组件实验室</a
+          ><a routerLink="/delivery">兼容交付看板</a>
+        </div>
+        <div class="note">
+          V3
+          与兼容区分别演示；测试、CI、部署与视觉批准需查看真实记录，不由此页面宣称完成。
+        </div>
+      </div>
+    </section>
+  }
+}
