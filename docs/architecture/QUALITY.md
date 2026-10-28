@@ -1,5 +1,9 @@
 # 诊断与验收环境
 
+## 2026-10-28：重建第一源码阶段
+
+设计/契约提交 `1c405591b7c446e1d64c4be8c4f480a0e476f139` 已推送 `feat/v3-approved-workspace`，远端SHA核验一致。React 首批独立类型、种子、领域事务与单测已形成：本端 `npm ci` 成功，新增领域9/9单测与整端typecheck通过，日志在 `code/apps/react/reports/v3-rebuild/domain-first.log`、`typecheck-stage1.log`。外层工具12/12通过，日志 `reports/v3-rebuild/tool-tests.log`。本条仅表示领域源码检查点，UI、完整浏览器与最终CI尚未完成；Vue/Angular仍在实现，不沿用旧通过数字。
+
 ## 2026-10-28：V3 重建启动（尚未验证）
 
 上次本地 V3 提交与源码未持久保留，不能恢复同一版本。现根据用户明确授权，从远端 M1–M4 `b20bd23` 和批准设计 `d809519` 重建；独立分支 `feat/v3-approved-workspace` 在开始时远端不存在，同名 PR 查询为空。阶段性提交推送持久保存，最终草稿 PR 到 main；不合并、不部署。以下历史测试数字不作为本次成功证据，逐端实施与完整新验证完成后另记。

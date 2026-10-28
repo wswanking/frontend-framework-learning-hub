@@ -66,3 +66,9 @@ node tools/static-site.mjs reports/m4-run-001/candidate/apps/react 15101
 当前三端以根路径工作。**不能直接把三个 dist 放到 `/react/`、`/vue/`、`/angular/` 就宣称支持。** 需要分别配置 Vite base 与 React router basename、Vue createWebHistory base、Angular base href（必要时 deploy URL），并逐项修正绝对资源/实验室 iframe/源码链接和跨端入口。服务器也必须知道前缀。`static-site.mjs` 的可选 `/prefix/` 参数只验证服务器能力，不改写应用或提供完整子路径兼容；应另开增量配置、重新构建并完整回归后交付。
 
 本轮证据与未运行项见 [QUALITY](../architecture/QUALITY.md)。
+
+## V3 的深链接与持久保存
+
+V3默认 `/v3/workspace`，例如 `/v3/devices/DEV-1001` 的直接打开和刷新均需本端SPA回退。旧 `/devices` 等仍是教学兼容路径；静态资源缺失仍应返回404，不能全部返回HTML。三端域名/资源和浏览器存储继续独立，本轮没有执行部署。
+
+阶段性代码应先本地commit再普通push至独立分支，核对远端SHA；不要把临时执行环境当作唯一源码备份。完整验证报告绑定具体提交，不将前一版本报告作为新实现通过。PR是代码评审入口，不代表合并、视觉或发布批准。

@@ -7,7 +7,15 @@
 3. [Angular：从模板追到 signals 和 DI](angular.md)
 4. [编译、调试、测试与构建](engineering.md)
 
-## 先跑同一条业务链
+## V3：同一业务，三个独立实现
+
+2026-10-28 按已批准 [设计](../../交互/DESIGN.md) 和 [实施契约](../interaction/V3-IMPLEMENTATION.md) 重建默认 `/v3/workspace`。阶段状态与本轮测试见 [QUALITY](../architecture/QUALITY.md)，不沿用遗失版本的通过数字。原型只用于设计对照，不参与应用构建。
+
+三端使用同一任务学习不同框架：注册温控设备并模拟上报；创建阈值规则并确认/解决告警；创建OTA并只重试失败目标；邀请模拟成员、分配角色并验证配额/权限。设备列表输入是草稿，点击应用才改变URL；时序CSV使用已应用查询。电表仅展示能耗规格和元数据，不复用温控动作。
+
+在Network中观察文档请求：站内导航只替换内容，Shell保留；跨框架进入独立应用可以加载新文档。编辑后验证Escape、后退、前进及刷新取消保留草稿、接受才丢弃。四条业务都是本地Mock，不连接硬件、不发送邮件、不提供生产鉴权。
+
+## 旧 M2 教学兼容链
 
 准备 Node 24.15+ 的 24.x、npm 和浏览器。不要在仓库根安装依赖。以下以 React 为例；Vue、Angular 分别替换目录，端口为 14102、14103。
 
@@ -38,7 +46,7 @@ npm run dev
 | 清理 | useEffect 返回函数 | watch cleanup / onBeforeUnmount | takeUntilDestroyed / ngOnDestroy |
 | 离开保护 | useBlocker | onBeforeRouteLeave / Update | CanDeactivate / CanActivate |
 
-每个分支教程都指出实际函数与文件。不要把“概念上可以使用”写成“项目已经使用”：本项目设备表单没有接入 React Hook Form、Pinia、NgRx 或 Angular Reactive Forms；Angular 的设备领域服务也不是通过 DI 注入的 HTTP 服务。
+每个分支教程都指出实际函数与文件。不要把“概念上可以使用”写成“项目已经使用”：以下旧M2设备表单没有接入 React Hook Form、Pinia、NgRx 或 Angular Reactive Forms；旧Angular领域服务也不是通过 DI 注入的 HTTP 服务。V3采用的模式以各端新增源码教程为准，不把旧示例结论套到新实现。
 
 ## 可复现的检查
 

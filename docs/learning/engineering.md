@@ -40,3 +40,9 @@ npm run report
 部署时还需要 SPA 深链回退、正确静态资源 404、缓存策略和版本切换。三独立站点为基础拓扑；子路径部署要同时调整构建资源 base、router base、静态资源绝对路径及服务器前缀，不能只移动 dist 目录。具体本地验证和发布/回滚操作见 [M4 部署实操](deployment.md)，远端平台尚未选定。
 
 前端环境变量无论叫 VITE_*、Angular file replacement 还是运行时 JSON，只要传给浏览器就可被读取。只能放公开的 API 地址、功能标记等；秘密必须由真实服务端保管。这个项目没有真实后端，也没有把 Delivery Mock 的“发布”按钮接到部署平台。
+
+## V3 与教学兼容区的验证
+
+默认入口为 `/v3/workspace`，诊断页为 `/diagnostics`。先独立安装本端依赖，执行 `npm run diagnose` 生成生产产物，再运行完整 `npm run test:e2e -- --retries=0`；`-- v3.spec.ts` 只做V3专项，不能代替旧业务加V3的完整回归。最后修改源码后需要重新构建并复验，报告记录对应提交及源码摘要。
+
+构建输入是各端真实TSX、SFC、Angular组件/模板，不是 `交互/index.html`。源码与已保存Mock、URL、页面草稿属于不同层次；真正服务端校验、异步取消和并发冲突仍需独立后端设计，不可把同步Mock成功推断成生产能力。
