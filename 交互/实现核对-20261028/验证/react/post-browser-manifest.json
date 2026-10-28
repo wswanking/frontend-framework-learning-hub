@@ -1,0 +1,10 @@
+{
+  "note": "Only visual environment metadata changed after 224/224 browser run; runtime/browser sources unchanged. New typecheck, lint and visual capture passed.",
+  "changes": [
+    {
+      "path": "tests/visual/diagnostic.spec.ts",
+      "browserRunSha256": "d06ede8c3228e7f9fbdb6a25024fb5ce43e328a95e43921cd1d865f57479def1",
+      "finalSha256": "8a3845ee9ac9ffccc8a9277f310bcfe4e416e10906c4dc2e9ad60977dbe5bf20"
+    }
+  ]
+}

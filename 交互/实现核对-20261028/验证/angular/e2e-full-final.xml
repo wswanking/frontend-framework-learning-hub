@@ -1,0 +1,546 @@
+<testsuites id="" name="" tests="246" failures="0" skipped="0" errors="0" time="778.955835">
+<testsuite name="dashboard.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="desktop" tests="15" failures="0" skipped="0" time="172.531" errors="0">
+<testcase name="IOT-DASH-001 clears paused events and detail after identity or permission changes" classname="dashboard.spec.ts" time="9.407">
+</testcase>
+<testcase name="IOT-DASH-001 keeps mobile filters collapsed until requested" classname="dashboard.spec.ts" time="7.934">
+</testcase>
+<testcase name="IOT-QUALITY-001 keeps key data readable at a tablet viewport" classname="dashboard.spec.ts" time="19.484">
+</testcase>
+<testcase name="IOT-DASH-001 opens the lab from the shared navigation" classname="dashboard.spec.ts" time="5.975">
+</testcase>
+<testcase name="IOT-DASH-001 map controls change and reset the view without changing the query" classname="dashboard.spec.ts" time="10.445">
+</testcase>
+<testcase name="IOT-DASH-001 one applied query drives metrics, map, ranking and country detail" classname="dashboard.spec.ts" time="9.152">
+</testcase>
+<testcase name="IOT-DASH-001 applies a valid custom range and rejects reversed or future times" classname="dashboard.spec.ts" time="9.839">
+</testcase>
+<testcase name="IOT-DASH-001 partial failure, stale data, theme and narrow layout" classname="dashboard.spec.ts" time="23.896">
+</testcase>
+<testcase name="IOT-DASH-001 reflects device alarm acknowledgement across pages" classname="dashboard.spec.ts" time="11.889">
+</testcase>
+<testcase name="IOT-DASH-001 includes a live device message in the event stream" classname="dashboard.spec.ts" time="15.964">
+</testcase>
+<testcase name="IOT-DASH-001 receives Mock messages live and holds new events while paused" classname="dashboard.spec.ts" time="12.658">
+</testcase>
+<testcase name="IOT-DASH-001 drills from continent through country to node with the applied range" classname="dashboard.spec.ts" time="12.643">
+</testcase>
+<testcase name="IOT-DASH-001 and IOT-GEO-001 keep tenant, UTC range and node level across pages" classname="dashboard.spec.ts" time="9.263">
+</testcase>
+<testcase name="IOT-DASH-001 shows query cutoff separately from successful refresh time" classname="dashboard.spec.ts" time="7.164">
+</testcase>
+<testcase name="IOT-DASH-001 expands the full event history without changing the query" classname="dashboard.spec.ts" time="6.818">
+</testcase>
+</testsuite>
+<testsuite name="delivery.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="desktop" tests="8" failures="0" skipped="0" time="63.623" errors="0">
+<testcase name="IOT-PLATFORM-001/002 shows factual requirements, issue and pending review with traceability" classname="delivery.spec.ts" time="6.917">
+</testcase>
+<testcase name="IOT-RELEASE-001 explains why production is blocked and saves only a local Mock record" classname="delivery.spec.ts" time="5.537">
+</testcase>
+<testcase name="IOT-PLATFORM-002 light theme is accessible and page fits the viewport" classname="delivery.spec.ts" time="9.858">
+</testcase>
+<testcase name="IOT-PLATFORM-001 returns an approved scope change to review with a CHG trace" classname="delivery.spec.ts" time="9.493">
+</testcase>
+<testcase name="IOT-RELEASE-001 groups checks and opens missing release material" classname="delivery.spec.ts" time="15.442">
+</testcase>
+<testcase name="IOT-RELEASE-001 keeps a blocked record editable with an audit revision" classname="delivery.spec.ts" time="7.246">
+</testcase>
+<testcase name="IOT-PLATFORM-002 delivery dialog keeps keyboard focus and restores the trigger" classname="delivery.spec.ts" time="4.38">
+</testcase>
+<testcase name="IOT-RELEASE-001 keeps release title and actions visible while reviewing checks" classname="delivery.spec.ts" time="4.75">
+</testcase>
+</testsuite>
+<testsuite name="device-flow.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="desktop" tests="10" failures="0" skipped="0" time="61.342" errors="0">
+<testcase name="M2 restores applied filters, pagination and edited detail through URL and history" classname="device-flow.spec.ts" time="13.257">
+</testcase>
+<testcase name="M2 distinguishes empty, unavailable and forbidden lists with recoverable feedback" classname="device-flow.spec.ts" time="7.314">
+</testcase>
+<testcase name="M2 missing detail reports failure in the drawer and returns to its filtered list" classname="device-flow.spec.ts" time="4.153">
+</testcase>
+<testcase name="M2 readonly identity explains metadata permissions without an edit action" classname="device-flow.spec.ts" time="4.366">
+</testcase>
+<testcase name="M2 Escape protects a dirty draft and restores focus after discard" classname="device-flow.spec.ts" time="4.419">
+</testcase>
+<testcase name="M2 slow detail and save expose pending state and prevent duplicate writes" classname="device-flow.spec.ts" time="5.755">
+</testcase>
+<testcase name="M2 version conflicts keep the draft until explicit reload, then allow saving" classname="device-flow.spec.ts" time="6.692">
+</testcase>
+<testcase name="M2 history cannot reveal a foreign device after identity changes" classname="device-flow.spec.ts" time="4.263">
+</testcase>
+<testcase name="M2 history closes nested control preview and releases the detail scroll lock" classname="device-flow.spec.ts" time="6.016">
+</testcase>
+<testcase name="M2 full-width tablet detail traps focus and releases it when resized to desktop" classname="device-flow.spec.ts" time="5.107">
+</testcase>
+</testsuite>
+<testsuite name="devices.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="desktop" tests="17" failures="0" skipped="0" time="127.015" errors="0">
+<testcase name="IOT-TENANT-001 warns before device registration enters the quota warning range" classname="devices.spec.ts" time="3.489">
+</testcase>
+<testcase name="IOT-DEVICE-001 keeps create, import and delete confirmation focus inside dialogs" classname="devices.spec.ts" time="5.757">
+</testcase>
+<testcase name="IOT-DEVICE-001 shows the empty UTC interval and focuses the range control" classname="devices.spec.ts" time="7.455">
+</testcase>
+<testcase name="IOT-DEVICE-001 exports every selected device across pages" classname="devices.spec.ts" time="4.171">
+</testcase>
+<testcase name="IOT-DEVICE-001 requeries the UTC window when zooming telemetry" classname="devices.spec.ts" time="5.419">
+</testcase>
+<testcase name="IOT-DEVICE-001 filters, sorts and pages devices before opening detail" classname="devices.spec.ts" time="6.765">
+</testcase>
+<testcase name="IOT-DEVICE-001 UTC and custom tag filters › filters imported tags and treats the entered last active minute as UTC" classname="devices.spec.ts" time="6.77">
+</testcase>
+<testcase name="IOT-DEVICE-001 shows two telemetry units, gaps, zoom and export" classname="devices.spec.ts" time="10.767">
+</testcase>
+<testcase name="IOT-DEVICE-001 queries a custom UTC telemetry interval and rejects invalid bounds" classname="devices.spec.ts" time="4.011">
+</testcase>
+<testcase name="IOT-DEVICE-001 shows raw messages and persists fault alarm acknowledgement" classname="devices.spec.ts" time="5.389">
+</testcase>
+<testcase name="IOT-DEVICE-001 imports CSV atomically and confirms batch deletion" classname="devices.spec.ts" time="18.99">
+</testcase>
+<testcase name="IOT-DEVICE-001 explains rejected control parameters inside the preview" classname="devices.spec.ts" time="5.669">
+</testcase>
+<testcase name="IOT-DEVICE-001 previews and records model driven control, with offline and permission guards" classname="devices.spec.ts" time="10.608">
+</testcase>
+<testcase name="IOT-DEVICE-001 live telemetry updates and persists the reported shadow" classname="devices.spec.ts" time="11.858">
+</testcase>
+<testcase name="IOT-DEVICE-001 displays and reconciles the device shadow after a command" classname="devices.spec.ts" time="7.283">
+</testcase>
+<testcase name="IOT-DEVICE-001 is accessible in light theme and narrow viewport" classname="devices.spec.ts" time="8.568">
+</testcase>
+<testcase name="IOT-DEVICE-001 keeps edited metadata after reload" classname="devices.spec.ts" time="4.046">
+</testcase>
+</testsuite>
+<testsuite name="diagnostic.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="desktop" tests="2" failures="0" skipped="0" time="14.324" errors="0">
+<testcase name="IOT-QUALITY-001 invalid input, failure and retry" classname="diagnostic.spec.ts" time="4.112">
+</testcase>
+<testcase name="IOT-QUALITY-001 accessible states and responsive layout" classname="diagnostic.spec.ts" time="10.212">
+</testcase>
+</testsuite>
+<testsuite name="firmware-ota.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="desktop" tests="6" failures="0" skipped="0" time="66.936" errors="0">
+<testcase name="IOT-FIRMWARE-001 registers, verifies and releases metadata without uploading the file" classname="firmware-ota.spec.ts" time="5.859">
+</testcase>
+<testcase name="IOT-FIRMWARE-001 shows actual local read progress before checksum completes" classname="firmware-ota.spec.ts" time="4.057">
+</testcase>
+<testcase name="IOT-TENANT-001 previews storage use and rejects firmware metadata beyond the tenant limit" classname="firmware-ota.spec.ts" time="6.833">
+</testcase>
+<testcase name="IOT-OTA-001 previews batches, auto pauses on failure and preserves a retry attempt" classname="firmware-ota.spec.ts" time="26.413">
+</testcase>
+<testcase name="IOT-FIRMWARE-001 and IOT-OTA-001 remain accessible and fit a narrow viewport" classname="firmware-ota.spec.ts" time="7.393">
+</testcase>
+<testcase name="IOT-OTA-001 confirms rollback as a separate task and keeps read-only roles read-only" classname="firmware-ota.spec.ts" time="16.381">
+</testcase>
+</testsuite>
+<testsuite name="geography.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="desktop" tests="6" failures="0" skipped="0" time="55.012" errors="0">
+<testcase name="IOT-GEO-001 filters, drills to device, and keeps unlocated devices accessible" classname="geography.spec.ts" time="13.394">
+</testcase>
+<testcase name="IOT-GEO-001 clears old tenant data and detail when identity is denied" classname="geography.spec.ts" time="9.444">
+</testcase>
+<testcase name="IOT-GEO-001 keeps the applied map when a custom UTC range is invalid" classname="geography.spec.ts" time="6.102">
+</testcase>
+<testcase name="IOT-GEO-001 sorts and paginates a dense node list and opens device detail" classname="geography.spec.ts" time="10.267">
+</testcase>
+<testcase name="IOT-GEO-001 map fallback, permissions, theme and narrow layout" classname="geography.spec.ts" time="10.893">
+</testcase>
+<testcase name="IOT-GEO-001 legend filters map, list and statistics through the same status query" classname="geography.spec.ts" time="4.912">
+</testcase>
+</testsuite>
+<testsuite name="labs.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="desktop" tests="5" failures="0" skipped="0" time="45.57" errors="0">
+<testcase name="IOT-LEARNING-001 main UI example filters fixed data and keeps theme local" classname="labs.spec.ts" time="4.191">
+</testcase>
+<testcase name="IOT-LEARNING-001 Angular candidate UI libraries render shared data in an isolated frame" classname="labs.spec.ts" time="21.185">
+</testcase>
+<testcase name="IOT-LEARNING-001 lab fits narrow screens and passes accessibility scan" classname="labs.spec.ts" time="9.786">
+</testcase>
+<testcase name="IOT-LEARNING-001 renders the same trend, bar and pie data with three chart libraries" classname="labs.spec.ts" time="6.198">
+</testcase>
+<testcase name="IOT-LEARNING-001 serves this framework implementation source and PRD link" classname="labs.spec.ts" time="4.21">
+</testcase>
+</testsuite>
+<testsuite name="products.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="desktop" tests="14" failures="0" skipped="0" time="69.522" errors="0">
+<testcase name="IOT-TENANT-001 previews product quota warning before saving a new product" classname="products.spec.ts" time="4.503">
+</testcase>
+<testcase name="IOT-PRODUCT-001 paginates associated devices after a permitted import" classname="products.spec.ts" time="6.498">
+</testcase>
+<testcase name="IOT-PRODUCT-001 lists associated devices and opens their detail" classname="products.spec.ts" time="4.211">
+</testcase>
+<testcase name="IOT-PRODUCT-001 confirmation dialogs support keyboard focus and Escape" classname="products.spec.ts" time="5.396">
+</testcase>
+<testcase name="IOT-PRODUCT-001 removes product details across identities and forbidden responses" classname="products.spec.ts" time="3.251">
+</testcase>
+<testcase name="IOT-PRODUCT-001 keeps access configuration separate and persists validated edits" classname="products.spec.ts" time="5.484">
+</testcase>
+<testcase name="IOT-PRODUCT-001 confirms protocol impact before resetting paths" classname="products.spec.ts" time="4.386">
+</testcase>
+<testcase name="IOT-PRODUCT-001 exports only selected visible products" classname="products.spec.ts" time="2.89">
+</testcase>
+<testcase name="IOT-PRODUCT-001 product list filters, pages, and DP conversion" classname="products.spec.ts" time="5.776">
+</testcase>
+<testcase name="IOT-PRODUCT-001 validates edits, shows impact and guards unsaved changes" classname="products.spec.ts" time="7.099">
+</testcase>
+<testcase name="IOT-PRODUCT-001 locates invalid model JSON and preserves the draft" classname="products.spec.ts" time="4.31">
+</testcase>
+<testcase name="IOT-PRODUCT-001 validates new model identifiers while editing and preserves existing items" classname="products.spec.ts" time="5.02">
+</testcase>
+<testcase name="IOT-PRODUCT-001 read-only role, theme, accessibility and narrow layout" classname="products.spec.ts" time="7.282">
+</testcase>
+<testcase name="IOT-PRODUCT-001 confirms removal of incompatible model fields" classname="products.spec.ts" time="3.416">
+</testcase>
+</testsuite>
+<testsuite name="rules.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="desktop" tests="5" failures="0" skipped="0" time="25.52" errors="0">
+<testcase name="IOT-RULE-001 saves a dry-run sample and compares immutable rule versions" classname="rules.spec.ts" time="5.403">
+</testcase>
+<testcase name="IOT-RULE-001 lists seeded rules and traces a dry run before explicit log application" classname="rules.spec.ts" time="6.732">
+</testcase>
+<testcase name="IOT-RULE-001 creates and persists a connected rule and prevents a cycle" classname="rules.spec.ts" time="5.971">
+</testcase>
+<testcase name="IOT-RULE-001 enforces viewer and operator permissions in the page" classname="rules.spec.ts" time="2.63">
+</testcase>
+<testcase name="IOT-RULE-001 stays accessible in light theme and narrow viewport" classname="rules.spec.ts" time="4.784">
+</testcase>
+</testsuite>
+<testsuite name="shell.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="desktop" tests="7" failures="0" skipped="0" time="34.767" errors="0">
+<testcase name="IOT-PLATFORM-003 M1 persistent shell, all menus, lazy content and history" classname="shell.spec.ts" time="7.918">
+</testcase>
+<testcase name="M1 dirty metadata protects Back to unknown route and refresh; discard and focus return" classname="shell.spec.ts" time="5.746">
+</testcase>
+<testcase name="M1 dirty products protect navigation and forward history" classname="shell.spec.ts" time="3.699">
+</testcase>
+<testcase name="M1 responsive navigation and fixed chrome" classname="shell.spec.ts" time="4.49">
+</testcase>
+<testcase name="M1 dirty unknown destination, route links and clean deep-link reload" classname="shell.spec.ts" time="5.212">
+</testcase>
+<testcase name="M1 saved normalized metadata leaves without confirmation and closed detail stops telemetry" classname="shell.spec.ts" time="3.672">
+</testcase>
+<testcase name="M1 navigation chrome stays mounted while the next route chunk is loading" classname="shell.spec.ts" time="4.03">
+</testcase>
+</testsuite>
+<testsuite name="tenants.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="desktop" tests="5" failures="0" skipped="0" time="32.469" errors="0">
+<testcase name="IOT-TENANT-001 filters tenants and carries the selected tenant to the dashboard" classname="tenants.spec.ts" time="4.283">
+</testcase>
+<testcase name="IOT-TENANT-001 previews quota impact, manages Mock members and keeps viewers read-only" classname="tenants.spec.ts" time="5.631">
+</testcase>
+<testcase name="IOT-TENANT-001 has accessible light theme and no page overflow" classname="tenants.spec.ts" time="3.187">
+</testcase>
+<testcase name="IOT-TENANT-001 routes blocked quota use to the correct tenant resources" classname="tenants.spec.ts" time="11.192">
+</testcase>
+<testcase name="IOT-TENANT-001 creates a tenant, publishes its product and registers its device" classname="tenants.spec.ts" time="8.176">
+</testcase>
+</testsuite>
+<testsuite name="v3.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="desktop" tests="23" failures="0" skipped="0" time="135.663" errors="0">
+<testcase name="14 native routes preserve shell, current-route mobile close and rendering" classname="v3.spec.ts" time="9.281">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 工作区" classname="v3.spec.ts" time="7.138">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 告警中心" classname="v3.spec.ts" time="6.256">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 时序数据" classname="v3.spec.ts" time="6.762">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 全球节点" classname="v3.spec.ts" time="5.09">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 设备中心" classname="v3.spec.ts" time="5.059">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 产品与物模型" classname="v3.spec.ts" time="3.598">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 规则与场景" classname="v3.spec.ts" time="3.484">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 固件与 OTA" classname="v3.spec.ts" time="3.592">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 连接与转发" classname="v3.spec.ts" time="3.808">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 租户与成员" classname="v3.spec.ts" time="6.736">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 角色与权限" classname="v3.spec.ts" time="7.434">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 审计与运维" classname="v3.spec.ts" time="7.928">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 设置与集成" classname="v3.spec.ts" time="7.422">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 学习与交付" classname="v3.spec.ts" time="6.774">
+</testcase>
+<testcase name="register, ingest, shadow, command, URL restoration and return focus" classname="v3.spec.ts" time="6.966">
+</testcase>
+<testcase name="rule input produces assigned and resolved alarm with audit" classname="v3.spec.ts" time="5.571">
+</testcase>
+<testcase name="OTA partial failure and retry preserves successful attempt counts" classname="v3.spec.ts" time="4.99">
+</testcase>
+<testcase name="governance invitation, role, quota and viewer denial" classname="v3.spec.ts" time="5.674">
+</testcase>
+<testcase name="dirty modal back, Escape decisions, focus and clean forward" classname="v3.spec.ts" time="4.262">
+</testcase>
+<testcase name="dirty settings link/forward and refresh decisions, unknown route recovery" classname="v3.spec.ts" time="7.55">
+</testcase>
+<testcase name="applied CSV ignores draft; global search and read-only electric detail" classname="v3.spec.ts" time="3.7">
+</testcase>
+<testcase name="product attributes, connector and node details, settings notifications and audit filter" classname="v3.spec.ts" time="6.588">
+</testcase>
+</testsuite>
+<testsuite name="dashboard.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="mobile" tests="15" failures="0" skipped="0" time="107.793" errors="0">
+<testcase name="IOT-DASH-001 clears paused events and detail after identity or permission changes" classname="dashboard.spec.ts" time="8.565">
+</testcase>
+<testcase name="IOT-DASH-001 keeps mobile filters collapsed until requested" classname="dashboard.spec.ts" time="5.962">
+</testcase>
+<testcase name="IOT-QUALITY-001 keeps key data readable at a tablet viewport" classname="dashboard.spec.ts" time="12.596">
+</testcase>
+<testcase name="IOT-DASH-001 opens the lab from the shared navigation" classname="dashboard.spec.ts" time="5.251">
+</testcase>
+<testcase name="IOT-DASH-001 map controls change and reset the view without changing the query" classname="dashboard.spec.ts" time="5.873">
+</testcase>
+<testcase name="IOT-DASH-001 one applied query drives metrics, map, ranking and country detail" classname="dashboard.spec.ts" time="6.278">
+</testcase>
+<testcase name="IOT-DASH-001 applies a valid custom range and rejects reversed or future times" classname="dashboard.spec.ts" time="6.108">
+</testcase>
+<testcase name="IOT-DASH-001 partial failure, stale data, theme and narrow layout" classname="dashboard.spec.ts" time="13.283">
+</testcase>
+<testcase name="IOT-DASH-001 reflects device alarm acknowledgement across pages" classname="dashboard.spec.ts" time="7.712">
+</testcase>
+<testcase name="IOT-DASH-001 includes a live device message in the event stream" classname="dashboard.spec.ts" time="11.491">
+</testcase>
+<testcase name="IOT-DASH-001 receives Mock messages live and holds new events while paused" classname="dashboard.spec.ts" time="5.507">
+</testcase>
+<testcase name="IOT-DASH-001 drills from continent through country to node with the applied range" classname="dashboard.spec.ts" time="6.782">
+</testcase>
+<testcase name="IOT-DASH-001 and IOT-GEO-001 keep tenant, UTC range and node level across pages" classname="dashboard.spec.ts" time="5.07">
+</testcase>
+<testcase name="IOT-DASH-001 shows query cutoff separately from successful refresh time" classname="dashboard.spec.ts" time="3.169">
+</testcase>
+<testcase name="IOT-DASH-001 expands the full event history without changing the query" classname="dashboard.spec.ts" time="4.146">
+</testcase>
+</testsuite>
+<testsuite name="delivery.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="mobile" tests="8" failures="0" skipped="0" time="36.734" errors="0">
+<testcase name="IOT-PLATFORM-001/002 shows factual requirements, issue and pending review with traceability" classname="delivery.spec.ts" time="4.085">
+</testcase>
+<testcase name="IOT-RELEASE-001 explains why production is blocked and saves only a local Mock record" classname="delivery.spec.ts" time="3.883">
+</testcase>
+<testcase name="IOT-PLATFORM-002 light theme is accessible and page fits the viewport" classname="delivery.spec.ts" time="6.017">
+</testcase>
+<testcase name="IOT-PLATFORM-001 returns an approved scope change to review with a CHG trace" classname="delivery.spec.ts" time="5.117">
+</testcase>
+<testcase name="IOT-RELEASE-001 groups checks and opens missing release material" classname="delivery.spec.ts" time="7.331">
+</testcase>
+<testcase name="IOT-RELEASE-001 keeps a blocked record editable with an audit revision" classname="delivery.spec.ts" time="4.06">
+</testcase>
+<testcase name="IOT-PLATFORM-002 delivery dialog keeps keyboard focus and restores the trigger" classname="delivery.spec.ts" time="3.266">
+</testcase>
+<testcase name="IOT-RELEASE-001 keeps release title and actions visible while reviewing checks" classname="delivery.spec.ts" time="2.975">
+</testcase>
+</testsuite>
+<testsuite name="device-flow.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="mobile" tests="10" failures="0" skipped="0" time="37.719" errors="0">
+<testcase name="M2 restores applied filters, pagination and edited detail through URL and history" classname="device-flow.spec.ts" time="7.944">
+</testcase>
+<testcase name="M2 distinguishes empty, unavailable and forbidden lists with recoverable feedback" classname="device-flow.spec.ts" time="3.323">
+</testcase>
+<testcase name="M2 missing detail reports failure in the drawer and returns to its filtered list" classname="device-flow.spec.ts" time="2.547">
+</testcase>
+<testcase name="M2 readonly identity explains metadata permissions without an edit action" classname="device-flow.spec.ts" time="3.235">
+</testcase>
+<testcase name="M2 Escape protects a dirty draft and restores focus after discard" classname="device-flow.spec.ts" time="3.709">
+</testcase>
+<testcase name="M2 slow detail and save expose pending state and prevent duplicate writes" classname="device-flow.spec.ts" time="3.151">
+</testcase>
+<testcase name="M2 version conflicts keep the draft until explicit reload, then allow saving" classname="device-flow.spec.ts" time="3.667">
+</testcase>
+<testcase name="M2 history cannot reveal a foreign device after identity changes" classname="device-flow.spec.ts" time="3.517">
+</testcase>
+<testcase name="M2 history closes nested control preview and releases the detail scroll lock" classname="device-flow.spec.ts" time="3.525">
+</testcase>
+<testcase name="M2 full-width tablet detail traps focus and releases it when resized to desktop" classname="device-flow.spec.ts" time="3.101">
+</testcase>
+</testsuite>
+<testsuite name="devices.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="mobile" tests="17" failures="0" skipped="0" time="80.236" errors="0">
+<testcase name="IOT-TENANT-001 warns before device registration enters the quota warning range" classname="devices.spec.ts" time="2.599">
+</testcase>
+<testcase name="IOT-DEVICE-001 keeps create, import and delete confirmation focus inside dialogs" classname="devices.spec.ts" time="3.833">
+</testcase>
+<testcase name="IOT-DEVICE-001 shows the empty UTC interval and focuses the range control" classname="devices.spec.ts" time="3.533">
+</testcase>
+<testcase name="IOT-DEVICE-001 exports every selected device across pages" classname="devices.spec.ts" time="2.893">
+</testcase>
+<testcase name="IOT-DEVICE-001 requeries the UTC window when zooming telemetry" classname="devices.spec.ts" time="3.229">
+</testcase>
+<testcase name="IOT-DEVICE-001 filters, sorts and pages devices before opening detail" classname="devices.spec.ts" time="3.168">
+</testcase>
+<testcase name="IOT-DEVICE-001 UTC and custom tag filters › filters imported tags and treats the entered last active minute as UTC" classname="devices.spec.ts" time="3.901">
+</testcase>
+<testcase name="IOT-DEVICE-001 shows two telemetry units, gaps, zoom and export" classname="devices.spec.ts" time="8.748">
+</testcase>
+<testcase name="IOT-DEVICE-001 queries a custom UTC telemetry interval and rejects invalid bounds" classname="devices.spec.ts" time="2.21">
+</testcase>
+<testcase name="IOT-DEVICE-001 shows raw messages and persists fault alarm acknowledgement" classname="devices.spec.ts" time="2.219">
+</testcase>
+<testcase name="IOT-DEVICE-001 imports CSV atomically and confirms batch deletion" classname="devices.spec.ts" time="11.065">
+</testcase>
+<testcase name="IOT-DEVICE-001 explains rejected control parameters inside the preview" classname="devices.spec.ts" time="4.461">
+</testcase>
+<testcase name="IOT-DEVICE-001 previews and records model driven control, with offline and permission guards" classname="devices.spec.ts" time="6.376">
+</testcase>
+<testcase name="IOT-DEVICE-001 live telemetry updates and persists the reported shadow" classname="devices.spec.ts" time="9.01">
+</testcase>
+<testcase name="IOT-DEVICE-001 displays and reconciles the device shadow after a command" classname="devices.spec.ts" time="4.67">
+</testcase>
+<testcase name="IOT-DEVICE-001 is accessible in light theme and narrow viewport" classname="devices.spec.ts" time="5.813">
+</testcase>
+<testcase name="IOT-DEVICE-001 keeps edited metadata after reload" classname="devices.spec.ts" time="2.508">
+</testcase>
+</testsuite>
+<testsuite name="diagnostic.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="mobile" tests="2" failures="0" skipped="0" time="8.078" errors="0">
+<testcase name="IOT-QUALITY-001 invalid input, failure and retry" classname="diagnostic.spec.ts" time="2.355">
+</testcase>
+<testcase name="IOT-QUALITY-001 accessible states and responsive layout" classname="diagnostic.spec.ts" time="5.723">
+</testcase>
+</testsuite>
+<testsuite name="firmware-ota.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="mobile" tests="6" failures="0" skipped="0" time="42.384" errors="0">
+<testcase name="IOT-FIRMWARE-001 registers, verifies and releases metadata without uploading the file" classname="firmware-ota.spec.ts" time="3.672">
+</testcase>
+<testcase name="IOT-FIRMWARE-001 shows actual local read progress before checksum completes" classname="firmware-ota.spec.ts" time="2.703">
+</testcase>
+<testcase name="IOT-TENANT-001 previews storage use and rejects firmware metadata beyond the tenant limit" classname="firmware-ota.spec.ts" time="3.525">
+</testcase>
+<testcase name="IOT-OTA-001 previews batches, auto pauses on failure and preserves a retry attempt" classname="firmware-ota.spec.ts" time="17.921">
+</testcase>
+<testcase name="IOT-FIRMWARE-001 and IOT-OTA-001 remain accessible and fit a narrow viewport" classname="firmware-ota.spec.ts" time="2.87">
+</testcase>
+<testcase name="IOT-OTA-001 confirms rollback as a separate task and keeps read-only roles read-only" classname="firmware-ota.spec.ts" time="11.693">
+</testcase>
+</testsuite>
+<testsuite name="geography.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="mobile" tests="6" failures="0" skipped="0" time="28.34" errors="0">
+<testcase name="IOT-GEO-001 filters, drills to device, and keeps unlocated devices accessible" classname="geography.spec.ts" time="5.213">
+</testcase>
+<testcase name="IOT-GEO-001 clears old tenant data and detail when identity is denied" classname="geography.spec.ts" time="3.054">
+</testcase>
+<testcase name="IOT-GEO-001 keeps the applied map when a custom UTC range is invalid" classname="geography.spec.ts" time="3.031">
+</testcase>
+<testcase name="IOT-GEO-001 sorts and paginates a dense node list and opens device detail" classname="geography.spec.ts" time="5.452">
+</testcase>
+<testcase name="IOT-GEO-001 map fallback, permissions, theme and narrow layout" classname="geography.spec.ts" time="6.635">
+</testcase>
+<testcase name="IOT-GEO-001 legend filters map, list and statistics through the same status query" classname="geography.spec.ts" time="4.955">
+</testcase>
+</testsuite>
+<testsuite name="labs.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="mobile" tests="5" failures="0" skipped="0" time="34.988" errors="0">
+<testcase name="IOT-LEARNING-001 main UI example filters fixed data and keeps theme local" classname="labs.spec.ts" time="4.281">
+</testcase>
+<testcase name="IOT-LEARNING-001 Angular candidate UI libraries render shared data in an isolated frame" classname="labs.spec.ts" time="18.13">
+</testcase>
+<testcase name="IOT-LEARNING-001 lab fits narrow screens and passes accessibility scan" classname="labs.spec.ts" time="6.927">
+</testcase>
+<testcase name="IOT-LEARNING-001 renders the same trend, bar and pie data with three chart libraries" classname="labs.spec.ts" time="3.561">
+</testcase>
+<testcase name="IOT-LEARNING-001 serves this framework implementation source and PRD link" classname="labs.spec.ts" time="2.089">
+</testcase>
+</testsuite>
+<testsuite name="products.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="mobile" tests="14" failures="0" skipped="0" time="44.238" errors="0">
+<testcase name="IOT-TENANT-001 previews product quota warning before saving a new product" classname="products.spec.ts" time="4.176">
+</testcase>
+<testcase name="IOT-PRODUCT-001 paginates associated devices after a permitted import" classname="products.spec.ts" time="5.418">
+</testcase>
+<testcase name="IOT-PRODUCT-001 lists associated devices and opens their detail" classname="products.spec.ts" time="3.036">
+</testcase>
+<testcase name="IOT-PRODUCT-001 confirmation dialogs support keyboard focus and Escape" classname="products.spec.ts" time="3.047">
+</testcase>
+<testcase name="IOT-PRODUCT-001 removes product details across identities and forbidden responses" classname="products.spec.ts" time="1.804">
+</testcase>
+<testcase name="IOT-PRODUCT-001 keeps access configuration separate and persists validated edits" classname="products.spec.ts" time="3.181">
+</testcase>
+<testcase name="IOT-PRODUCT-001 confirms protocol impact before resetting paths" classname="products.spec.ts" time="2.819">
+</testcase>
+<testcase name="IOT-PRODUCT-001 exports only selected visible products" classname="products.spec.ts" time="1.882">
+</testcase>
+<testcase name="IOT-PRODUCT-001 product list filters, pages, and DP conversion" classname="products.spec.ts" time="3">
+</testcase>
+<testcase name="IOT-PRODUCT-001 validates edits, shows impact and guards unsaved changes" classname="products.spec.ts" time="3.246">
+</testcase>
+<testcase name="IOT-PRODUCT-001 locates invalid model JSON and preserves the draft" classname="products.spec.ts" time="2.142">
+</testcase>
+<testcase name="IOT-PRODUCT-001 validates new model identifiers while editing and preserves existing items" classname="products.spec.ts" time="2.712">
+</testcase>
+<testcase name="IOT-PRODUCT-001 read-only role, theme, accessibility and narrow layout" classname="products.spec.ts" time="4.849">
+</testcase>
+<testcase name="IOT-PRODUCT-001 confirms removal of incompatible model fields" classname="products.spec.ts" time="2.926">
+</testcase>
+</testsuite>
+<testsuite name="rules.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="mobile" tests="5" failures="0" skipped="0" time="19.226" errors="0">
+<testcase name="IOT-RULE-001 saves a dry-run sample and compares immutable rule versions" classname="rules.spec.ts" time="4.311">
+</testcase>
+<testcase name="IOT-RULE-001 lists seeded rules and traces a dry run before explicit log application" classname="rules.spec.ts" time="4.421">
+</testcase>
+<testcase name="IOT-RULE-001 creates and persists a connected rule and prevents a cycle" classname="rules.spec.ts" time="4.382">
+</testcase>
+<testcase name="IOT-RULE-001 enforces viewer and operator permissions in the page" classname="rules.spec.ts" time="1.893">
+</testcase>
+<testcase name="IOT-RULE-001 stays accessible in light theme and narrow viewport" classname="rules.spec.ts" time="4.219">
+</testcase>
+</testsuite>
+<testsuite name="shell.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="mobile" tests="7" failures="0" skipped="0" time="26.276" errors="0">
+<testcase name="IOT-PLATFORM-003 M1 persistent shell, all menus, lazy content and history" classname="shell.spec.ts" time="6.41">
+</testcase>
+<testcase name="M1 dirty metadata protects Back to unknown route and refresh; discard and focus return" classname="shell.spec.ts" time="4.501">
+</testcase>
+<testcase name="M1 dirty products protect navigation and forward history" classname="shell.spec.ts" time="2.761">
+</testcase>
+<testcase name="M1 responsive navigation and fixed chrome" classname="shell.spec.ts" time="3.346">
+</testcase>
+<testcase name="M1 dirty unknown destination, route links and clean deep-link reload" classname="shell.spec.ts" time="3.378">
+</testcase>
+<testcase name="M1 saved normalized metadata leaves without confirmation and closed detail stops telemetry" classname="shell.spec.ts" time="2.454">
+</testcase>
+<testcase name="M1 navigation chrome stays mounted while the next route chunk is loading" classname="shell.spec.ts" time="3.426">
+</testcase>
+</testsuite>
+<testsuite name="tenants.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="mobile" tests="5" failures="0" skipped="0" time="22.798" errors="0">
+<testcase name="IOT-TENANT-001 filters tenants and carries the selected tenant to the dashboard" classname="tenants.spec.ts" time="4.175">
+</testcase>
+<testcase name="IOT-TENANT-001 previews quota impact, manages Mock members and keeps viewers read-only" classname="tenants.spec.ts" time="4.76">
+</testcase>
+<testcase name="IOT-TENANT-001 has accessible light theme and no page overflow" classname="tenants.spec.ts" time="3.719">
+</testcase>
+<testcase name="IOT-TENANT-001 routes blocked quota use to the correct tenant resources" classname="tenants.spec.ts" time="5.828">
+</testcase>
+<testcase name="IOT-TENANT-001 creates a tenant, publishes its product and registers its device" classname="tenants.spec.ts" time="4.316">
+</testcase>
+</testsuite>
+<testsuite name="v3.spec.ts" timestamp="2026-10-28T12:08:25.352Z" hostname="mobile" tests="23" failures="0" skipped="0" time="113.752" errors="0">
+<testcase name="14 native routes preserve shell, current-route mobile close and rendering" classname="v3.spec.ts" time="8.22">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 工作区" classname="v3.spec.ts" time="3.527">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 告警中心" classname="v3.spec.ts" time="4.288">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 时序数据" classname="v3.spec.ts" time="3.636">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 全球节点" classname="v3.spec.ts" time="3.542">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 设备中心" classname="v3.spec.ts" time="4.239">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 产品与物模型" classname="v3.spec.ts" time="4.346">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 规则与场景" classname="v3.spec.ts" time="4.55">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 固件与 OTA" classname="v3.spec.ts" time="4.38">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 连接与转发" classname="v3.spec.ts" time="4.187">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 租户与成员" classname="v3.spec.ts" time="4.829">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 角色与权限" classname="v3.spec.ts" time="5.123">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 审计与运维" classname="v3.spec.ts" time="5.101">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 设置与集成" classname="v3.spec.ts" time="5.873">
+</testcase>
+<testcase name="recoverable exception states and accessibility: 学习与交付" classname="v3.spec.ts" time="5.606">
+</testcase>
+<testcase name="register, ingest, shadow, command, URL restoration and return focus" classname="v3.spec.ts" time="5.872">
+</testcase>
+<testcase name="rule input produces assigned and resolved alarm with audit" classname="v3.spec.ts" time="4.183">
+</testcase>
+<testcase name="OTA partial failure and retry preserves successful attempt counts" classname="v3.spec.ts" time="3.141">
+</testcase>
+<testcase name="governance invitation, role, quota and viewer denial" classname="v3.spec.ts" time="5.488">
+</testcase>
+<testcase name="dirty modal back, Escape decisions, focus and clean forward" classname="v3.spec.ts" time="4.85">
+</testcase>
+<testcase name="dirty settings link/forward and refresh decisions, unknown route recovery" classname="v3.spec.ts" time="8.819">
+</testcase>
+<testcase name="applied CSV ignores draft; global search and read-only electric detail" classname="v3.spec.ts" time="3.849">
+</testcase>
+<testcase name="product attributes, connector and node details, settings notifications and audit filter" classname="v3.spec.ts" time="6.103">
+</testcase>
+</testsuite>
+</testsuites>

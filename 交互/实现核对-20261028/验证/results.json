@@ -1,0 +1,83 @@
+{
+  "react": {
+    "unit": {
+      "name": "vitest tests",
+      "tests": "126",
+      "failures": "0",
+      "errors": "0",
+      "time": "10.341635842"
+    },
+    "browser": {
+      "id": "",
+      "name": "",
+      "tests": "224",
+      "failures": "0",
+      "skipped": "0",
+      "errors": "0",
+      "time": "838.4735739999999"
+    },
+    "visualCapture": {
+      "id": "",
+      "name": "",
+      "tests": "2",
+      "failures": "0",
+      "skipped": "0",
+      "errors": "0",
+      "time": "14.565676999999999"
+    }
+  },
+  "vue": {
+    "unit": {
+      "name": "vitest tests",
+      "tests": "131",
+      "failures": "0",
+      "errors": "0",
+      "time": "3.160535018"
+    },
+    "browser": {
+      "id": "",
+      "name": "",
+      "tests": "222",
+      "failures": "0",
+      "skipped": "0",
+      "errors": "0",
+      "time": "397.162483"
+    },
+    "visualCapture": {
+      "id": "",
+      "name": "",
+      "tests": "2",
+      "failures": "0",
+      "skipped": "0",
+      "errors": "0",
+      "time": "4.9157779999999995"
+    }
+  },
+  "angular": {
+    "unit": {
+      "name": "vitest tests",
+      "tests": "151",
+      "failures": "0",
+      "errors": "0",
+      "time": "9.873401866"
+    },
+    "browser": {
+      "id": "",
+      "name": "",
+      "tests": "246",
+      "failures": "0",
+      "skipped": "0",
+      "errors": "0",
+      "time": "778.955835"
+    },
+    "visualCapture": {
+      "id": "",
+      "name": "",
+      "tests": "2",
+      "failures": "0",
+      "skipped": "0",
+      "errors": "0",
+      "time": "9.944402999999998"
+    }
+  }
+}

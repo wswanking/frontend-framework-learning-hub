@@ -1,0 +1,135 @@
+
+> @iot-atlas/vue@0.0.0 diagnose
+> npm run test:guards && npm run check:boundaries && npm run typecheck && npm run lint && npm run test:unit && npm run build
+
+
+> @iot-atlas/vue@0.0.0 test:guards
+> node --test scripts/guards.test.mjs
+
+✔ rejects cross-project source and resources (1054.460736ms)
+✔ rejects undeclared or parent-only dependencies (1949.851807ms)
+✔ accepts local source without outside dependencies (4243.643138ms)
+✔ unreviewed visual baseline fails closed before launching browsers (822.860128ms)
+ℹ tests 4
+ℹ suites 0
+ℹ pass 4
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 8629.663781
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+
+> @iot-atlas/vue@0.0.0 check:boundaries
+> node scripts/check-boundaries.mjs
+
+Isolation check passed.
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+
+> @iot-atlas/vue@0.0.0 typecheck
+> vue-tsc --noEmit
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+
+> @iot-atlas/vue@0.0.0 lint
+> eslint . && stylelint "src/**/*.css"
+
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+
+> @iot-atlas/vue@0.0.0 test:unit
+> vitest run
+
+
+ RUN  v4.1.11 /workspace/frontend-framework-learning-hub/code/apps/vue
+
+ ✓ src/v3/domain.spec.ts (15 tests) 520ms
+     ✓ commits nothing after late command validation fails  380ms
+ ✓ src/App.spec.ts (1 test) 2480ms
+   ✓ IOT-QUALITY-001 validation, failed input retention and retry  2476ms
+ ✓ src/diagnostic.spec.ts (2 tests) 291ms
+ ❯ src/device-events.spec.ts (11 tests | 1 failed) 6319ms
+     ✓ includes rule alarms beyond the first log page and excludes partial device ID matches 202ms
+     ✓ keeps the seed report unchanged after live attributes move forward 26ms
+     ✓ records valid live reports once and restores them from this app storage 60ms
+     ✓ does not charge or execute rules for invalid and missing telemetry 14ms
+     ✓ consumes a new live report with enabled rules once and ignores disabled rules 24ms
+     × dispatches an accepted report to enabled rules beyond the first rule page 5886ms
+     ✓ counts live messages against the tenant hard quota without charging duplicate reports 9ms
+     ✓ allows only one concurrent new report for the last message slot 3ms
+     ✓ shows fault alarm, forbids viewer acknowledgement and persists authorized acknowledgement 2ms
+     ✓ includes alarms created by rule execution for the same device 3ms
+     ✓ shows an OTA threshold alarm on the failed device and persists acknowledgement 50ms
+ ✓ src/contract-parity.spec.ts (1 test) 1083ms
+     ✓ writes deterministic actual DTOs for the outer parity gate  1059ms
+ ✓ src/products.spec.ts (14 tests) 457ms
+ ✓ src/dashboard.spec.ts (10 tests) 239ms
+ ✓ src/rules.spec.ts (10 tests) 698ms
+     ✓ saves with version checks and runs enabled events deterministically  365ms
+ ✓ src/devices.spec.ts (7 tests) 381ms
+ ✓ src/firmware.spec.ts (9 tests) 113ms
+ ✓ src/ota.spec.ts (6 tests) 251ms
+ ✓ src/ota-trend.spec.ts (2 tests) 104ms
+ ✓ src/geography.spec.ts (5 tests) 63ms
+ ✓ src/device-import.spec.ts (5 tests) 537ms
+ ✓ src/geo-cluster.spec.ts (3 tests) 145ms
+ ✓ src/delivery.spec.ts (8 tests) 668ms
+ ✓ src/tenants.spec.ts (6 tests) 100ms
+ ✓ src/dashboard-operations.spec.ts (2 tests) 135ms
+ ✓ src/geo-list.spec.ts (1 test) 152ms
+ ✓ src/device-shadow.spec.ts (3 tests) 82ms
+ ✓ src/ota-version.spec.ts (1 test) 21ms
+ ✓ src/telemetry-range.spec.ts (2 tests) 34ms
+ ✓ src/device-filter-time.spec.ts (1 test) 7ms
+ ✓ src/lab-data.spec.ts (1 test) 28ms
+ ✓ src/model-json.spec.ts (1 test) 12ms
+ ✓ src/product-export.spec.ts (1 test) 30ms
+ ✓ src/device-route.spec.ts (3 tests) 35ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  src/device-events.spec.ts > IOT-DEVICE-001 messages and alarm acknowledgement > dispatches an accepted report to enabled rules beyond the first rule page
+Error: Test timed out in 5000ms.
+If this is a long-running test, pass a timeout value as the last argument or configure it globally with "testTimeout".
+ ❯ src/device-events.spec.ts:98:3
+     96|   });
+     97|
+     98|   it('dispatches an accepted report to enabled rules beyond the first …
+       |   ^
+     99|     const store = storage(), seedRules = new RuleService(store);
+    100|     const seed = await seedRules.get(admin, 'rule_high_temp');
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 26 passed (27)
+      Tests  1 failed | 130 passed (131)
+   Start at  11:58:33
+   Duration  54.35s (transform 8.12s, setup 11.29s, import 12.87s, tests 14.99s, environment 91.43s)
+
+JUNIT report written to /workspace/frontend-framework-learning-hub/code/apps/vue/reports/unit.xml
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

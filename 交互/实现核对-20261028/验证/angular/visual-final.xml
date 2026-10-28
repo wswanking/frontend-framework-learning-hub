@@ -1,0 +1,46 @@
+<testsuites id="" name="" tests="2" failures="0" skipped="0" errors="0" time="9.944402999999998">
+<testsuite name="diagnostic.spec.ts" timestamp="2026-10-28T12:21:23.397Z" hostname="desktop" tests="1" failures="0" skipped="0" time="5.299" errors="0">
+<testcase name="diagnostic fixture states, not product acceptance" classname="diagnostic.spec.ts" time="5.299">
+<system-out>
+<![CDATA[A snapshot doesn't exist at /workspace/frontend-framework-learning-hub/code/apps/angular/reports/visual-candidates/desktop/initial-linux.png, writing actual.
+A snapshot doesn't exist at /workspace/frontend-framework-learning-hub/code/apps/angular/reports/visual-candidates/desktop/invalid-linux.png, writing actual.
+A snapshot doesn't exist at /workspace/frontend-framework-learning-hub/code/apps/angular/reports/visual-candidates/desktop/success-linux.png, writing actual.
+
+[[ATTACHMENT|visual-candidates/desktop/initial-linux.png]]
+
+[[ATTACHMENT|visual-results/diagnostic-diagnostic-fixture-states-not-product-acceptance-desktop/initial-actual.png]]
+
+[[ATTACHMENT|visual-candidates/desktop/invalid-linux.png]]
+
+[[ATTACHMENT|visual-results/diagnostic-diagnostic-fixture-states-not-product-acceptance-desktop/invalid-actual.png]]
+
+[[ATTACHMENT|visual-candidates/desktop/success-linux.png]]
+
+[[ATTACHMENT|visual-results/diagnostic-diagnostic-fixture-states-not-product-acceptance-desktop/success-actual.png]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+<testsuite name="diagnostic.spec.ts" timestamp="2026-10-28T12:21:23.397Z" hostname="mobile" tests="1" failures="0" skipped="0" time="4.216" errors="0">
+<testcase name="diagnostic fixture states, not product acceptance" classname="diagnostic.spec.ts" time="4.216">
+<system-out>
+<![CDATA[A snapshot doesn't exist at /workspace/frontend-framework-learning-hub/code/apps/angular/reports/visual-candidates/mobile/initial-linux.png, writing actual.
+A snapshot doesn't exist at /workspace/frontend-framework-learning-hub/code/apps/angular/reports/visual-candidates/mobile/invalid-linux.png, writing actual.
+A snapshot doesn't exist at /workspace/frontend-framework-learning-hub/code/apps/angular/reports/visual-candidates/mobile/success-linux.png, writing actual.
+
+[[ATTACHMENT|visual-candidates/mobile/initial-linux.png]]
+
+[[ATTACHMENT|visual-results/diagnostic-diagnostic-fixture-states-not-product-acceptance-mobile/initial-actual.png]]
+
+[[ATTACHMENT|visual-candidates/mobile/invalid-linux.png]]
+
+[[ATTACHMENT|visual-results/diagnostic-diagnostic-fixture-states-not-product-acceptance-mobile/invalid-actual.png]]
+
+[[ATTACHMENT|visual-candidates/mobile/success-linux.png]]
+
+[[ATTACHMENT|visual-results/diagnostic-diagnostic-fixture-states-not-product-acceptance-mobile/success-actual.png]]
+]]>
+</system-out>
+</testcase>
+</testsuite>
+</testsuites>

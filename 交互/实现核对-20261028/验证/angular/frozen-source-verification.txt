@@ -1,0 +1,3 @@
+Final diagnose, full browser, visual capture completed successfully.
+Frozen source verification: 155 files checked; 0 mismatches.
+Last Angular source commit: 3efc352

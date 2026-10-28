@@ -1,0 +1,192 @@
+
+> @iot-atlas/vue@0.0.0 test:e2e
+> playwright test v3.spec.ts --retries=0
+
+[WebServer] (node:3829) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:3842) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 20 tests using 2 workers
+
+(node:3866) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:3867) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [desktop] › tests/browser/v3.spec.ts:76:1 › V3 rule creates alarm with ordered acknowledge and resolve (2.7s)
+  ✓   1 [desktop] › tests/browser/v3.spec.ts:32:1 › V3 provisioning metadata telemetry shadow command and filtered return (4.5s)
+  ✓   3 [desktop] › tests/browser/v3.spec.ts:109:1 › V3 OTA partial failure retries only failed device and survives reload (2.4s)
+  ✓   4 [desktop] › tests/browser/v3.spec.ts:130:1 › V3 members roles quota and action permission rejection (2.3s)
+  ✓   5 [desktop] › tests/browser/v3.spec.ts:162:1 › V3 dirty back forward Escape settings and unknown routes (3.1s)
+  ✓   6 [desktop] › tests/browser/v3.spec.ts:217:1 › V3 product attributes applied CSV notification preference and real refresh guard (2.9s)
+  ✓   7 [desktop] › tests/browser/v3.spec.ts:260:1 › V3 all modules exception states meter scope and screenshots (10.7s)
+  ✘   8 [desktop] › tests/browser/v3.spec.ts:293:1 › V3 every module passes axe (8.3s)
+(node:4557) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [desktop] › tests/browser/v3.spec.ts:302:1 › V3 mobile navigation focus and global search preserve the shell (2.4s)
+(node:4707) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 [desktop] › tests/browser/v3.spec.ts:321:1 › V3 node connector audit and state discard boundaries (2.6s)
+(node:4874) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  11 [mobile] › tests/browser/v3.spec.ts:32:1 › V3 provisioning metadata telemetry shadow command and filtered return (3.6s)
+  ✓  12 [mobile] › tests/browser/v3.spec.ts:76:1 › V3 rule creates alarm with ordered acknowledge and resolve (2.4s)
+  ✓  13 [mobile] › tests/browser/v3.spec.ts:109:1 › V3 OTA partial failure retries only failed device and survives reload (2.1s)
+  ✓  14 [mobile] › tests/browser/v3.spec.ts:130:1 › V3 members roles quota and action permission rejection (2.3s)
+  ✓  15 [mobile] › tests/browser/v3.spec.ts:162:1 › V3 dirty back forward Escape settings and unknown routes (3.1s)
+  ✓  16 [mobile] › tests/browser/v3.spec.ts:217:1 › V3 product attributes applied CSV notification preference and real refresh guard (3.3s)
+  ✘  18 [mobile] › tests/browser/v3.spec.ts:293:1 › V3 every module passes axe (9.2s)
+(node:5482) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  17 [mobile] › tests/browser/v3.spec.ts:260:1 › V3 all modules exception states meter scope and screenshots (12.6s)
+  ✓  19 [mobile] › tests/browser/v3.spec.ts:302:1 › V3 mobile navigation focus and global search preserve the shell (2.3s)
+  ✓  20 [mobile] › tests/browser/v3.spec.ts:321:1 › V3 node connector audit and state discard boundaries (3.3s)
+
+
+  1) [desktop] › tests/browser/v3.spec.ts:293:1 › V3 every module passes axe ───────────────────────
+
+    Error: nodes
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 35
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "description": "Ensure the order of headings is semantically correct",
+    +     "help": "Heading levels should only increase by one",
+    +     "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=playwright",
+    +     "id": "heading-order",
+    +     "impact": "moderate",
+    +     "nodes": Array [
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": null,
+    +             "id": "heading-order",
+    +             "impact": "moderate",
+    +             "message": "Heading order invalid",
+    +             "relatedNodes": Array [],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Heading order invalid",
+    +         "html": "<h3>华东 · 上海</h3>",
+    +         "impact": "moderate",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "section:nth-child(1) > h3",
+    +         ],
+    +       },
+    +     ],
+    +     "tags": Array [
+    +       "cat.semantics",
+    +       "best-practice",
+    +     ],
+    +   },
+    + ]
+
+      295 |   for (const path of modules) {
+      296 |     await page.goto("/v3/" + path);
+    > 297 |     expect((await new AxeBuilder({ page }).analyze()).violations, path).toEqual(
+          |                                                                         ^
+      298 |       [],
+      299 |     );
+      300 |   }
+        at /workspace/frontend-framework-learning-hub/code/apps/vue/tests/browser/v3.spec.ts:297:73
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    reports/test-results/v3-V3-every-module-passes-axe-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: reports/test-results/v3-V3-every-module-passes-axe-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/test-results/v3-V3-every-module-passes-axe-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace reports/test-results/v3-V3-every-module-passes-axe-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [mobile] › tests/browser/v3.spec.ts:293:1 › V3 every module passes axe ────────────────────────
+
+    Error: nodes
+
+    expect(received).toEqual(expected) // deep equality
+
+    - Expected  -  1
+    + Received  + 35
+
+    - Array []
+    + Array [
+    +   Object {
+    +     "description": "Ensure the order of headings is semantically correct",
+    +     "help": "Heading levels should only increase by one",
+    +     "helpUrl": "https://dequeuniversity.com/rules/axe/4.13/heading-order?application=playwright",
+    +     "id": "heading-order",
+    +     "impact": "moderate",
+    +     "nodes": Array [
+    +       Object {
+    +         "all": Array [],
+    +         "any": Array [
+    +           Object {
+    +             "data": null,
+    +             "id": "heading-order",
+    +             "impact": "moderate",
+    +             "message": "Heading order invalid",
+    +             "relatedNodes": Array [],
+    +           },
+    +         ],
+    +         "failureSummary": "Fix any of the following:
+    +   Heading order invalid",
+    +         "html": "<h3>华东 · 上海</h3>",
+    +         "impact": "moderate",
+    +         "none": Array [],
+    +         "target": Array [
+    +           "section:nth-child(1) > h3",
+    +         ],
+    +       },
+    +     ],
+    +     "tags": Array [
+    +       "cat.semantics",
+    +       "best-practice",
+    +     ],
+    +   },
+    + ]
+
+      295 |   for (const path of modules) {
+      296 |     await page.goto("/v3/" + path);
+    > 297 |     expect((await new AxeBuilder({ page }).analyze()).violations, path).toEqual(
+          |                                                                         ^
+      298 |       [],
+      299 |     );
+      300 |   }
+        at /workspace/frontend-framework-learning-hub/code/apps/vue/tests/browser/v3.spec.ts:297:73
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    reports/test-results/v3-V3-every-module-passes-axe-mobile/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: reports/test-results/v3-V3-every-module-passes-axe-mobile/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/test-results/v3-V3-every-module-passes-axe-mobile/trace.zip
+    Usage:
+
+        npx playwright show-trace reports/test-results/v3-V3-every-module-passes-axe-mobile/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [desktop] › tests/browser/v3.spec.ts:293:1 › V3 every module passes axe ────────────────────────
+    [mobile] › tests/browser/v3.spec.ts:293:1 › V3 every module passes axe ─────────────────────────
+  18 passed (50.3s)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
