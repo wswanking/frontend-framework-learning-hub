@@ -9,10 +9,26 @@ import { Icon } from "./Icon";
 import { WorkspaceDialog } from "./WorkspaceDialog";
 import "./workspace.css";
 export default function V3Shell() {
+  const location = useLocation();
+  const scenarioRoute = location.pathname + location.search;
+  const [scenarioSelection, setScenarioSelection] = useState({
+    route: scenarioRoute,
+    value: "normal",
+  });
+  // Keep only the current selection. A route change derives normal during render,
+  // rather than a delayed effect overwriting the next user interaction.
+  const scenario =
+    scenarioSelection.route === scenarioRoute
+      ? scenarioSelection.value
+      : "normal";
+  if (scenarioSelection.route !== scenarioRoute) {
+    setScenarioSelection({ route: scenarioRoute, value: "normal" });
+  }
+  const setScenario = (value: string) =>
+    setScenarioSelection({ route: scenarioRoute, value });
   const [store, setStore] = useState(load),
     [modal, setModal] = useState<{ spec: ModalSpec; key: number } | null>(null),
     [dirty, setDirty] = useState(false),
-    [scenario, setScenario] = useState("normal"),
     [notice, setNotice] = useState(""),
     [open, setOpen] = useState(false),
     [mobile, setMobile] = useState(
@@ -21,8 +37,7 @@ export default function V3Shell() {
     [contentVersion, setContentVersion] = useState(0);
   const latest = useRef(store);
   latest.current = store;
-  const location = useLocation(),
-    navigate = useNavigate(),
+  const navigate = useNavigate(),
     allow = useUnsavedChanges(dirty),
     menu = useRef<HTMLButtonElement>(null),
     sidebar = useRef<HTMLElement>(null),
@@ -44,7 +59,6 @@ export default function V3Shell() {
   useEffect(() => {
     setModal(null);
     setDirty(false);
-    setScenario("normal");
     setOpen(false);
     main.current?.focus();
     window.scrollTo(0, 0);
