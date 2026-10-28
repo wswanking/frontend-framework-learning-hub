@@ -24,7 +24,7 @@ test.beforeEach(({ page }) => {
   page.on("pageerror", (e) => messages.push(e.message));
 });
 test.afterEach(({ page }) => expect(errors.get(page)).toEqual([]));
-async function nav(page: Page, name: string) {
+async function clickNav(page: Page, name: string) {
   const toggle = page.getByRole("button", { name: "打开导航" });
   if (
     (await toggle.isVisible()) &&
@@ -35,6 +35,9 @@ async function nav(page: Page, name: string) {
     .getByRole("navigation", { name: "主导航" })
     .getByRole("link", { name, exact: true })
     .click();
+}
+async function nav(page: Page, name: string) {
+  await clickNav(page, name);
   // The shell select stays mounted while a router transition commits.
   await expect(
     page.getByRole("heading", {
@@ -408,11 +411,11 @@ test("V3 identity/search discard destroys drafts and leaves future guards active
   await page.keyboard.press("Escape");
   await expect(draft).not.toBeChecked();
   await draft.check();
-  await prompt(page, false, () => nav(page, "设备中心"));
+  await prompt(page, false, () => clickNav(page, "设备中心"));
   await expect(page).toHaveURL(/settings/);
   await page.getByRole("button", { name: "保存偏好" }).click();
   await draft.uncheck();
-  await prompt(page, false, () => nav(page, "设备中心"));
+  await prompt(page, false, () => clickNav(page, "设备中心"));
   await expect(page).toHaveURL(/settings/);
   await page.getByRole("button", { name: "保存偏好" }).click();
 });
