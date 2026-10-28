@@ -36,7 +36,7 @@
 
 ## 覆盖矩阵
 
-“可操作”仅指本设计原型中的浏览器模拟；不是正式三端能力完成。C=本稿核心；A=进阶设计/局部交互；O=本轮不实现。新增编号 `V3-PROP-*` 都是待审核建议，不占用正式 IOT 编号。
+“可操作”仅指本设计原型中的浏览器模拟；不是正式三端能力完成。C=本稿核心；A=进阶设计/局部交互；O=本轮不实现。编号 `V3-PROP-*` 保留原提案标识；用户已批准本稿范围，正式需求关联见PRD，不将高级能力视为已实现。
 
 | 范围 / 对应现有需求 | 层级 | 原型页面与交互 | 状态 / 边界 |
 |---|---|---|---|
@@ -66,19 +66,19 @@
 
 附加演练：修改设备名未保存时切路由、后退及关闭；取消保留输入，放弃才退出；刷新走浏览器原生保护。全局搜索含无结果。未知路由提供恢复。状态选择器属于评审工具，不是生产设置。
 
-## 后续三端落地映射（仅设计）
+## 三端落地映射（2026-10-28按实际源码校正）
 
 | 责任 | React | Vue | Angular |
 |---|---|---|---|
-| 持久壳 / 路由 | React Router 父布局 / Outlet | RouterView + route meta | ShellComponent + RouterOutlet |
+| 持久壳 / 路由 | React Router 父布局 / Outlet | 父布局 + RouterView | WorkspaceShell + RouterOutlet |
 | URL 查询 / 详情页签 | searchParams | route query / computed | queryParamMap / signals |
-| 表单与未保存 | 页面 hook + blocker | composable + leave/update guard | Reactive Forms + CanDeactivate |
-| 操作状态 / 失效 | 本端 request hook，AbortController | 本端 composable，onScopeDispose | 本端 service，RxJS 取消 |
-| 表格 / 对话框 | MUI | Element Plus | Angular Material |
+| 表单与未保存 | 页面 hook + blocker | 页面 composable + beforeEach | Reactive Forms + CanActivate/CanDeactivate |
+| 操作状态 / 失效 | Context + 纯事务命令 | reactive store + 克隆提交 | DI store + signals + 纯事务命令 |
+| V3 表格 / 对话框 | 原生 table/dialog + JSX | 原生 table/dialog + Vue 模板 | 原生 table/dialog + Angular 模板 |
 | 确定性模拟 / 权限 | 本端领域与 Mock | 本端领域与 Mock | 本端领域与 Mock |
 | 验证 | 本端 unit/Playwright | 本端 unit/Playwright | 本端 unit/Playwright |
 
-只共享文档契约和人工审核规则，不共享运行时代码、设计令牌包、Mock、资源、依赖或测试源码。原型中的通用渲染器只用于评审，不作为第四个运行时依赖。正式开发先重新确认状态模型与 API，再按相同验收脚本分别惯用实现。壳层持有身份、导航；页面持有筛选草稿和请求；URL 持有位置；模拟仓库存已保存业务状态；离开页面不缓存无限实例。
+只共享文档契约和人工审核规则，不共享运行时代码、设计令牌包、Mock、资源、依赖或测试源码。原型中的通用渲染器只用于评审，不作为第四个运行时依赖。本轮状态模型与权限按批准原型和实施契约重建，各端分别惯用实现；原设计建议的MUI/Element Plus/Material仍保留在旧教学兼容区，不声称V3已使用它们。当前领域事务是同步本地Mock，不代表真实请求取消/鉴权服务。壳层持有身份、导航；页面持有筛选草稿和请求；URL 持有位置；模拟仓库存已保存业务状态；离开页面不缓存无限实例。
 
 ## 请审核的决策
 

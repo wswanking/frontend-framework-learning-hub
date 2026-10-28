@@ -175,6 +175,46 @@ describe("V3 independent domain transactions", () => {
       }),
     ).toThrow("用尽");
   });
+  it("rejects overlong units and tags atomically, and trims accepted input", () => {
+    const original = seed();
+    const before = structuredClone(original);
+    expect(() =>
+      run(original, {
+        type: "attribute",
+        id: "PRD-001",
+        name: "extra",
+        fieldType: "float",
+        unit: "x".repeat(13),
+      }),
+    ).toThrow("单位");
+    expect(original).toEqual(before);
+    expect(() =>
+      run(original, {
+        type: "editDevice",
+        id: "DEV-1001",
+        name: "updated",
+        group: "华东冷链",
+        tags: "x".repeat(81),
+      }),
+    ).toThrow("标签");
+    expect(original).toEqual(before);
+    const attribute = run(original, {
+      type: "attribute",
+      id: "PRD-001",
+      name: "extra",
+      fieldType: "float",
+      unit: "  °C  ",
+    });
+    expect(attribute.products[0].fields.at(-1)?.unit).toBe("°C");
+    const edited = run(original, {
+      type: "editDevice",
+      id: "DEV-1001",
+      name: "updated",
+      group: "华东冷链",
+      tags: "  试点  ",
+    });
+    expect(edited.devices[0].tags).toBe("试点");
+  });
   it("rejects partial and corrupt persisted structures used by templates", () => {
     expect(validSnapshot(seed())).toBe(true);
     expect(validSnapshot({ schema: 1, devices: [] })).toBe(false);

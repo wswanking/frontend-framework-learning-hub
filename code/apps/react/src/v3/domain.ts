@@ -140,7 +140,7 @@ export function execute(
       Object.assign(d, {
         name: text(command.name, "名称", 1, 48),
         group: text(command.group, "分组"),
-        tags: command.tags.trim().slice(0, 80),
+        tags: text(command.tags, "标签", 0, 80),
       });
       action = "修改设备资料";
       object = d.id;
@@ -212,7 +212,7 @@ export function execute(
       p.fields.push({
         name: command.name,
         type: command.fieldType,
-        unit: command.unit.slice(0, 12),
+        unit: text(command.unit, "单位", 0, 12),
       });
       action = "新增物模型属性";
       object = p.id;
