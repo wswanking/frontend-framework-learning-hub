@@ -1,0 +1,95 @@
+{
+  "results": [
+    {
+      "path": "workspace",
+      "viewport": "390×844",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "devices",
+      "viewport": "390×844",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "products",
+      "viewport": "390×844",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "telemetry",
+      "viewport": "390×844",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "rules",
+      "viewport": "390×844",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "alarms",
+      "viewport": "390×844",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "ota",
+      "viewport": "390×844",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "tenants",
+      "viewport": "390×844",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "access",
+      "viewport": "390×844",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "connectors",
+      "viewport": "390×844",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "audit",
+      "viewport": "390×844",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "settings",
+      "viewport": "390×844",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "nodes",
+      "viewport": "390×844",
+      "overflow": false,
+      "violations": []
+    },
+    {
+      "path": "learning",
+      "viewport": "390×844",
+      "overflow": false,
+      "violations": []
+    }
+  ],
+  "failures": [],
+  "additionalChecks": [
+    "390px edit device saved",
+    "390px alarm acknowledgment saved",
+    "HTTP-loaded app navigation works with network offline"
+  ],
+  "externalRequests": []
+}

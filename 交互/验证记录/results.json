@@ -1,0 +1,57 @@
+{
+  "timestamp": "2026-10-19T16:17:11.868Z",
+  "browser": "154.0.8037.57",
+  "environment": "Linux; Chromium 154.0.8037.57; Playwright 1.63.0; axe-core 4.13.0",
+  "results": [
+    {
+      "name": "01 设备注册 → 上报 → 时序 → 返回；禁止重复序列号",
+      "status": "PASS"
+    },
+    {
+      "name": "02 创建阈值规则 → 触发告警 → 确认分派 → 解决与审计",
+      "status": "PASS"
+    },
+    {
+      "name": "03 OTA 创建 → 部分失败 → 仅失败重试 → 全部完成",
+      "status": "PASS"
+    },
+    {
+      "name": "04 邀请成员 → 分配角色 → 配额失败保留 → RBAC 拒绝写入",
+      "status": "PASS"
+    },
+    {
+      "name": "05 筛选 URL、详情深链、返回焦点、后退前进、壳层不重载",
+      "status": "PASS"
+    },
+    {
+      "name": "06 未保存对话框关闭 / 后退取消 / 前进放弃 / 刷新保护",
+      "status": "PASS"
+    },
+    {
+      "name": "07 所有模块 / 未知地址 / 加载空错403 / 搜索与通知",
+      "status": "PASS"
+    },
+    {
+      "name": "08 批量删除确认 / 产品属性 / 影子 / 命令 / CSV / 偏好",
+      "status": "PASS"
+    },
+    {
+      "name": "09 手机与平板无页面横溢、移动导航键盘焦点、截图",
+      "status": "PASS"
+    },
+    {
+      "name": "10 axe WCAG 2A/AA + 2.1AA 桌面、表单、手机导航",
+      "status": "PASS"
+    },
+    {
+      "name": "11 模态焦点圈定和返回、移动菜单圈定、页面草稿取消导航",
+      "status": "PASS"
+    },
+    {
+      "name": "12 单文件 file:// 离线打开与持久化",
+      "status": "BLOCKED",
+      "error": "环境浏览器策略阻止 file:// 导航（ERR_BLOCKED_BY_ADMINISTRATOR）；未绕过。HTTP 单文件运行已验证。"
+    }
+  ],
+  "pageErrors": []
+}

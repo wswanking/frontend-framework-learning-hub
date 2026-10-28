@@ -51,3 +51,7 @@ React `useBlocker`、Vue `onBeforeRouteLeave/onBeforeRouteUpdate`、Angular `Can
 ## M4 构建与部署边界
 
 基础拓扑为三独立 origin 的根站点。tools 只做外层编排与本地静态验证，不被任一应用运行时引用。v2 候选由各端隔离构建、快照、完整浏览器检查、同字节封装后汇总；CI 汇总不重建。v1 build-only 包不等价于 v2。详细状态、缓存、SPA 回退与回滚边界见 [部署教学](../learning/deployment.md)，真实结果见 QUALITY。
+
+## V3 重建（2026-10-28）
+
+默认工作区路由 `/v3/workspace`，14模块与设备详情在各端持久父壳内运行。旧业务路由保留教学兼容，诊断迁至 `/diagnostics`。已应用查询/页签归URL，草稿/勾选归页面，已提交领域归本端独立V3存储；不无限缓存页面、不跨端运行共享。详细契约见 [V3-IMPLEMENTATION](../interaction/V3-IMPLEMENTATION.md)。为贴合批准外观，V3可使用各框架渲染的原生语义table/dialog与本端样式；既有主UI库教学仍保留，不把未使用库写成实现事实。

@@ -11,7 +11,7 @@
 1. 用户当前指令。
 2. [总 PRD](docs/prd/PRD.md)与模块需求。
 3. [架构规范](docs/architecture/CONTEXT.md)、[仓库边界](docs/architecture/REPOSITORY.md)与[领域契约](docs/architecture/contracts/README.md)。
-4. [统一交互 V2](docs/interaction/UNIFIED-V2.md)与相关交互规格。
+4. 已批准 [V3 设计](交互/DESIGN.md)与 [V3 实施契约](docs/interaction/V3-IMPLEMENTATION.md)；[统一交互 V2](docs/interaction/UNIFIED-V2.md)保留为旧教学路由依据。
 
 ## 独立维护原则
 

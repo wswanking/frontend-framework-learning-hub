@@ -1,5 +1,9 @@
 # 诊断与验收环境
 
+## 2026-10-28：V3 重建启动（尚未验证）
+
+上次本地 V3 提交与源码未持久保留，不能恢复同一版本。现根据用户明确授权，从远端 M1–M4 `b20bd23` 和批准设计 `d809519` 重建；独立分支 `feat/v3-approved-workspace` 在开始时远端不存在，同名 PR 查询为空。阶段性提交推送持久保存，最终草稿 PR 到 main；不合并、不部署。以下历史测试数字不作为本次成功证据，逐端实施与完整新验证完成后另记。
+
 ## 2026-10-19：分页回归等待实际数据
 
 `c97f348` 的 [PR检查39179706424](https://github.com/wswanking/frontend-framework-learning-hub/actions/runs/39179706424) 与 [push检查39179703140](https://github.com/wswanking/frontend-framework-learning-hub/actions/runs/39179703140) 均已完成成功，三端任务、tooling及同文件候选汇总均成功。但 push React 为201 passed、1 flaky：设备分页用例在URL已提交时读取了上一页的圣保罗行，点击时第二页悉尼行刚好替换，造成名称比较失败；重试通过。

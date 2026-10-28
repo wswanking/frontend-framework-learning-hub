@@ -1,5 +1,7 @@
 # IoT Atlas 产品需求文档（PRD）
 
+> 2026-10-28：按用户已批准的 [V3 设计](../../交互/DESIGN.md) 与 [实施契约](../interaction/V3-IMPLEMENTATION.md) 从远端 b20bd23 重新实现14模块、四条Mock流程、同一交互三端独立教学。关联 IOT-PLATFORM-003、IOT-DEVICE-001、IOT-RULE-001、IOT-OTA-001、IOT-TENANT-001、IOT-LEARNING-001。默认V3工作区与旧教学路由并存；V3治理写入仅平台管理员，与批准原型权限矩阵一致。设计批准及推送/草稿PR已授权；正式验收、合并和部署未授权。本轮测试必须重新执行。
+
 | 字段 | 内容 |
 | --- | --- |
 | 产品 | IoT Atlas · 前端框架学习中心 |
