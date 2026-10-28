@@ -1,0 +1,21 @@
+{
+  "runAt": "2026-10-28T12:03:01.062Z",
+  "scope": "Static src/v3 scan; complements but does not replace each app boundary checks",
+  "results": [
+    {
+      "app": "react",
+      "sourceFiles": 16,
+      "forbiddenWrapperOrCrossAppImportMatches": []
+    },
+    {
+      "app": "vue",
+      "sourceFiles": 19,
+      "forbiddenWrapperOrCrossAppImportMatches": []
+    },
+    {
+      "app": "angular",
+      "sourceFiles": 21,
+      "forbiddenWrapperOrCrossAppImportMatches": []
+    }
+  ]
+}

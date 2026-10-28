@@ -1,0 +1,371 @@
+{
+  "app": "vue",
+  "runAt": "2026-10-28T11:46:04.510Z",
+  "standard": "WCAG 2/2.1 A/AA automated rules; incomplete items require human review",
+  "results": [
+    {
+      "module": "workspace",
+      "layout": "desktop",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 4
+        }
+      ]
+    },
+    {
+      "module": "alarms",
+      "layout": "desktop",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "module": "telemetry",
+      "layout": "desktop",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "module": "nodes",
+      "layout": "desktop",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "module": "devices",
+      "layout": "desktop",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "module": "products",
+      "layout": "desktop",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "module": "rules",
+      "layout": "desktop",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "module": "ota",
+      "layout": "desktop",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "module": "connectors",
+      "layout": "desktop",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "module": "tenants",
+      "layout": "desktop",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "module": "access",
+      "layout": "desktop",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "module": "audit",
+      "layout": "desktop",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "module": "settings",
+      "layout": "desktop",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "module": "learning",
+      "layout": "desktop",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "module": "workspace",
+      "layout": "mobile",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 9
+        }
+      ]
+    },
+    {
+      "module": "alarms",
+      "layout": "mobile",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "module": "telemetry",
+      "layout": "mobile",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 7
+        }
+      ]
+    },
+    {
+      "module": "nodes",
+      "layout": "mobile",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "module": "devices",
+      "layout": "mobile",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "module": "products",
+      "layout": "mobile",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "module": "rules",
+      "layout": "mobile",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "module": "ota",
+      "layout": "mobile",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "module": "connectors",
+      "layout": "mobile",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 3
+        }
+      ]
+    },
+    {
+      "module": "tenants",
+      "layout": "mobile",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "module": "access",
+      "layout": "mobile",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "module": "audit",
+      "layout": "mobile",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "module": "settings",
+      "layout": "mobile",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    },
+    {
+      "module": "learning",
+      "layout": "mobile",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 2
+        }
+      ]
+    }
+  ]
+}

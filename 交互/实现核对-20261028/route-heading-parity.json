@@ -1,0 +1,254 @@
+[
+  {
+    "module": "workspace",
+    "headings": [
+      {
+        "app": "react",
+        "title": "早上好，开始今天的运行巡检"
+      },
+      {
+        "app": "vue",
+        "title": "早上好，开始今天的运行巡检"
+      },
+      {
+        "app": "angular",
+        "title": "早上好，开始今天的运行巡检"
+      }
+    ],
+    "consistent": true
+  },
+  {
+    "module": "alarms",
+    "headings": [
+      {
+        "app": "react",
+        "title": "告警中心"
+      },
+      {
+        "app": "vue",
+        "title": "告警中心"
+      },
+      {
+        "app": "angular",
+        "title": "告警中心"
+      }
+    ],
+    "consistent": true
+  },
+  {
+    "module": "telemetry",
+    "headings": [
+      {
+        "app": "react",
+        "title": "时序数据"
+      },
+      {
+        "app": "vue",
+        "title": "时序数据"
+      },
+      {
+        "app": "angular",
+        "title": "时序数据"
+      }
+    ],
+    "consistent": true
+  },
+  {
+    "module": "nodes",
+    "headings": [
+      {
+        "app": "react",
+        "title": "全球节点"
+      },
+      {
+        "app": "vue",
+        "title": "全球节点"
+      },
+      {
+        "app": "angular",
+        "title": "全球节点"
+      }
+    ],
+    "consistent": true
+  },
+  {
+    "module": "devices",
+    "headings": [
+      {
+        "app": "react",
+        "title": "设备中心"
+      },
+      {
+        "app": "vue",
+        "title": "设备中心"
+      },
+      {
+        "app": "angular",
+        "title": "设备中心"
+      }
+    ],
+    "consistent": true
+  },
+  {
+    "module": "products",
+    "headings": [
+      {
+        "app": "react",
+        "title": "产品与物模型"
+      },
+      {
+        "app": "vue",
+        "title": "产品与物模型"
+      },
+      {
+        "app": "angular",
+        "title": "产品与物模型"
+      }
+    ],
+    "consistent": true
+  },
+  {
+    "module": "rules",
+    "headings": [
+      {
+        "app": "react",
+        "title": "规则与场景"
+      },
+      {
+        "app": "vue",
+        "title": "规则与场景"
+      },
+      {
+        "app": "angular",
+        "title": "规则与场景"
+      }
+    ],
+    "consistent": true
+  },
+  {
+    "module": "ota",
+    "headings": [
+      {
+        "app": "react",
+        "title": "固件与 OTA"
+      },
+      {
+        "app": "vue",
+        "title": "固件与 OTA"
+      },
+      {
+        "app": "angular",
+        "title": "固件与 OTA"
+      }
+    ],
+    "consistent": true
+  },
+  {
+    "module": "connectors",
+    "headings": [
+      {
+        "app": "react",
+        "title": "连接与转发"
+      },
+      {
+        "app": "vue",
+        "title": "连接与转发"
+      },
+      {
+        "app": "angular",
+        "title": "连接与转发"
+      }
+    ],
+    "consistent": true
+  },
+  {
+    "module": "tenants",
+    "headings": [
+      {
+        "app": "react",
+        "title": "租户与成员"
+      },
+      {
+        "app": "vue",
+        "title": "租户与成员"
+      },
+      {
+        "app": "angular",
+        "title": "租户与成员"
+      }
+    ],
+    "consistent": true
+  },
+  {
+    "module": "access",
+    "headings": [
+      {
+        "app": "react",
+        "title": "角色与权限"
+      },
+      {
+        "app": "vue",
+        "title": "角色与权限"
+      },
+      {
+        "app": "angular",
+        "title": "角色与权限"
+      }
+    ],
+    "consistent": true
+  },
+  {
+    "module": "audit",
+    "headings": [
+      {
+        "app": "react",
+        "title": "审计与运维"
+      },
+      {
+        "app": "vue",
+        "title": "审计与运维"
+      },
+      {
+        "app": "angular",
+        "title": "审计与运维"
+      }
+    ],
+    "consistent": true
+  },
+  {
+    "module": "settings",
+    "headings": [
+      {
+        "app": "react",
+        "title": "设置与集成"
+      },
+      {
+        "app": "vue",
+        "title": "设置与集成"
+      },
+      {
+        "app": "angular",
+        "title": "设置与集成"
+      }
+    ],
+    "consistent": true
+  },
+  {
+    "module": "learning",
+    "headings": [
+      {
+        "app": "react",
+        "title": "学习与交付"
+      },
+      {
+        "app": "vue",
+        "title": "学习与交付"
+      },
+      {
+        "app": "angular",
+        "title": "学习与交付"
+      }
+    ],
+    "consistent": true
+  }
+]

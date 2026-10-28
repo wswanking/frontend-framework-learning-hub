@@ -1,0 +1,20 @@
+[
+  {
+    "framework": "react",
+    "file": "docs/learning/react.md",
+    "checked": 27,
+    "missing": []
+  },
+  {
+    "framework": "vue",
+    "file": "docs/learning/vue.md",
+    "checked": 29,
+    "missing": []
+  },
+  {
+    "framework": "angular",
+    "file": "docs/learning/angular.md",
+    "checked": 27,
+    "missing": []
+  }
+]

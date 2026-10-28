@@ -1,0 +1,271 @@
+{
+  "runAt": "2026-10-28T11:58:59.285Z",
+  "source": "fresh 2026-10-28 rebuild; no historical result reuse",
+  "apps": [
+    {
+      "app": "react",
+      "results": [
+        {
+          "name": "exact approved seed fields",
+          "status": "pass"
+        },
+        {
+          "name": "register → pending → online/log, duplicate serial atomic rejection",
+          "status": "pass"
+        },
+        {
+          "name": "rule → alarm → assignment → resolution → audit",
+          "status": "pass"
+        },
+        {
+          "name": "OTA stages, last failure, only failed retry count",
+          "status": "pass"
+        },
+        {
+          "name": "operator denied normal advance; allowed retry and retry advance",
+          "status": "pass"
+        },
+        {
+          "name": "active batch deletion and duplicate targets rejected",
+          "status": "pass"
+        },
+        {
+          "name": "normal advance rejects offline target without effects",
+          "status": "pass"
+        },
+        {
+          "name": "failed target deleted prevents retry without effects",
+          "status": "pass"
+        },
+        {
+          "name": "successful target deleted does not block failure-only retry",
+          "status": "pass"
+        },
+        {
+          "name": "retry advance checks failed target online atomically",
+          "status": "pass"
+        },
+        {
+          "name": "governance invite, role, quota, duplicate email case",
+          "status": "pass"
+        },
+        {
+          "name": "role boundaries reject viewer/operator/tenantAdmin atomically",
+          "status": "pass"
+        },
+        {
+          "name": "invalid metadata edit is atomic",
+          "status": "pass"
+        },
+        {
+          "name": "meter excludes temperature actions at domain boundary",
+          "status": "pass"
+        },
+        {
+          "name": "product field, shadow sync, command log, prefs, connector",
+          "status": "pass"
+        },
+        {
+          "name": "overlong tags rejected atomically instead of silently truncated",
+          "status": "pass"
+        },
+        {
+          "name": "overlong unit rejected atomically instead of silently truncated",
+          "status": "pass"
+        },
+        {
+          "name": "tags and unit normalize surrounding whitespace consistently",
+          "status": "pass"
+        },
+        {
+          "name": "persisted mixed-product snapshot roundtrip retains saved edit",
+          "status": "pass"
+        },
+        {
+          "name": "malformed nested snapshot safely falls back to seed",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "app": "vue",
+      "results": [
+        {
+          "name": "exact approved seed fields",
+          "status": "pass"
+        },
+        {
+          "name": "register → pending → online/log, duplicate serial atomic rejection",
+          "status": "pass"
+        },
+        {
+          "name": "rule → alarm → assignment → resolution → audit",
+          "status": "pass"
+        },
+        {
+          "name": "OTA stages, last failure, only failed retry count",
+          "status": "pass"
+        },
+        {
+          "name": "operator denied normal advance; allowed retry and retry advance",
+          "status": "pass"
+        },
+        {
+          "name": "active batch deletion and duplicate targets rejected",
+          "status": "pass"
+        },
+        {
+          "name": "normal advance rejects offline target without effects",
+          "status": "pass"
+        },
+        {
+          "name": "failed target deleted prevents retry without effects",
+          "status": "pass"
+        },
+        {
+          "name": "successful target deleted does not block failure-only retry",
+          "status": "pass"
+        },
+        {
+          "name": "retry advance checks failed target online atomically",
+          "status": "pass"
+        },
+        {
+          "name": "governance invite, role, quota, duplicate email case",
+          "status": "pass"
+        },
+        {
+          "name": "role boundaries reject viewer/operator/tenantAdmin atomically",
+          "status": "pass"
+        },
+        {
+          "name": "invalid metadata edit is atomic",
+          "status": "pass"
+        },
+        {
+          "name": "meter excludes temperature actions at domain boundary",
+          "status": "pass"
+        },
+        {
+          "name": "product field, shadow sync, command log, prefs, connector",
+          "status": "pass"
+        },
+        {
+          "name": "overlong tags rejected atomically instead of silently truncated",
+          "status": "pass"
+        },
+        {
+          "name": "overlong unit rejected atomically instead of silently truncated",
+          "status": "pass"
+        },
+        {
+          "name": "tags and unit normalize surrounding whitespace consistently",
+          "status": "pass"
+        },
+        {
+          "name": "persisted mixed-product snapshot roundtrip retains saved edit",
+          "status": "pass"
+        },
+        {
+          "name": "malformed nested snapshot safely falls back to seed",
+          "status": "pass"
+        }
+      ]
+    },
+    {
+      "app": "angular",
+      "results": [
+        {
+          "name": "exact approved seed fields",
+          "status": "pass"
+        },
+        {
+          "name": "register → pending → online/log, duplicate serial atomic rejection",
+          "status": "pass"
+        },
+        {
+          "name": "rule → alarm → assignment → resolution → audit",
+          "status": "pass"
+        },
+        {
+          "name": "OTA stages, last failure, only failed retry count",
+          "status": "pass"
+        },
+        {
+          "name": "operator denied normal advance; allowed retry and retry advance",
+          "status": "pass"
+        },
+        {
+          "name": "active batch deletion and duplicate targets rejected",
+          "status": "pass"
+        },
+        {
+          "name": "normal advance rejects offline target without effects",
+          "status": "pass"
+        },
+        {
+          "name": "failed target deleted prevents retry without effects",
+          "status": "pass"
+        },
+        {
+          "name": "successful target deleted does not block failure-only retry",
+          "status": "pass"
+        },
+        {
+          "name": "retry advance checks failed target online atomically",
+          "status": "pass"
+        },
+        {
+          "name": "governance invite, role, quota, duplicate email case",
+          "status": "pass"
+        },
+        {
+          "name": "role boundaries reject viewer/operator/tenantAdmin atomically",
+          "status": "pass"
+        },
+        {
+          "name": "invalid metadata edit is atomic",
+          "status": "pass"
+        },
+        {
+          "name": "meter excludes temperature actions at domain boundary",
+          "status": "pass"
+        },
+        {
+          "name": "product field, shadow sync, command log, prefs, connector",
+          "status": "pass"
+        },
+        {
+          "name": "overlong tags rejected atomically instead of silently truncated",
+          "status": "pass"
+        },
+        {
+          "name": "overlong unit rejected atomically instead of silently truncated",
+          "status": "pass"
+        },
+        {
+          "name": "tags and unit normalize surrounding whitespace consistently",
+          "status": "pass"
+        },
+        {
+          "name": "persisted mixed-product snapshot roundtrip retains saved edit",
+          "status": "pass"
+        },
+        {
+          "name": "malformed nested snapshot safely falls back to seed",
+          "status": "pass"
+        }
+      ]
+    }
+  ],
+  "hashes": {
+    "/workspace/frontend-framework-learning-hub/code/apps/react/src/v3/domain.ts": "5897bba579b88af93d4de0aa231832901f1e226ec0bcc57ee70d51d85eb583b1",
+    "/workspace/frontend-framework-learning-hub/code/apps/react/src/v3/seed.ts": "f1a056da047954708d473a146bb9de7bf745228e8f6421a6af4f33cc683be977",
+    "/workspace/frontend-framework-learning-hub/code/apps/react/src/v3/types.ts": "503ebdb9f9d18860b54ed194e467055eb4355676be8970ce0b775ffbbf4a5795",
+    "/workspace/frontend-framework-learning-hub/code/apps/vue/src/v3/domain.ts": "db14b4af5c1aa77101475b6d7ab8efe4e85e27d444c48dad707ff747f26c6d1d",
+    "/workspace/frontend-framework-learning-hub/code/apps/vue/src/v3/seed.ts": "b242ca4036f09a1df15981c8ad754b271057fd23f9da94bf233a6b266f69ece9",
+    "/workspace/frontend-framework-learning-hub/code/apps/vue/src/v3/store.ts": "2eb34ef793a1535eb1407552d83b527f0a9707296cda8b1dd52a585a6b286a26",
+    "/workspace/frontend-framework-learning-hub/code/apps/angular/src/v3/model.ts": "377d7a90f5bfa8eb22bbb14b4c7216fd0d174b7cea26e3ff1e690ca6724d8035",
+    "/workspace/frontend-framework-learning-hub/code/apps/angular/src/v3/seed.ts": "e3fc2511b0e04514f1861a51736a0becff69a5ce3d3850b6a72ccf906c662a36"
+  }
+}

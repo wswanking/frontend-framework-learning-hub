@@ -1,0 +1,34 @@
+{
+  "app": "react",
+  "runAt": "2026-10-28T11:56:24.715Z",
+  "mainOutline": {
+    "color": "rgb(23, 43, 56)",
+    "width": "3px",
+    "style": "none"
+  },
+  "shadowPairs": [
+    {
+      "label": "desired.targetTemp",
+      "value": "22 °C",
+      "labelRight": 187,
+      "valueLeft": 197,
+      "noOverlap": true
+    },
+    {
+      "label": "reported.targetTemp",
+      "value": "22 °C",
+      "labelRight": 187,
+      "valueLeft": 197,
+      "noOverlap": true
+    },
+    {
+      "label": "差异",
+      "value": "已同步",
+      "labelRight": 187,
+      "valueLeft": 197,
+      "noOverlap": true
+    }
+  ],
+  "pageOverflow": false,
+  "status": "pass"
+}

@@ -1,0 +1,16 @@
+{
+  "app": "angular",
+  "runAt": "2026-10-28T12:09:25.619Z",
+  "cases": [
+    {
+      "width": 1440,
+      "status": "pass",
+      "returnedToOriginalProductButton": true
+    },
+    {
+      "width": 390,
+      "status": "pass",
+      "returnedToOriginalProductButton": true
+    }
+  ]
+}

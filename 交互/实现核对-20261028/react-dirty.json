@@ -1,0 +1,55 @@
+{
+  "app": "react",
+  "runAt": "2026-10-28T11:43:33.238Z",
+  "checks": [
+    {
+      "name": "dirty back cancellation preserves draft and location",
+      "status": "pass"
+    },
+    {
+      "name": "dirty back acceptance discards draft",
+      "status": "pass"
+    },
+    {
+      "name": "dirty forward cancellation restores history index",
+      "status": "pass"
+    },
+    {
+      "name": "dirty forward acceptance",
+      "status": "pass"
+    },
+    {
+      "name": "dirty link navigation cancellation",
+      "status": "pass"
+    },
+    {
+      "name": "refresh cancelled retains draft; does not wait for load",
+      "status": "pass"
+    },
+    {
+      "name": "refresh accepted discards unsaved settings",
+      "status": "pass"
+    },
+    {
+      "name": "Escape cancellation retains modal draft",
+      "status": "pass"
+    },
+    {
+      "name": "Escape acceptance restores trigger focus",
+      "status": "pass"
+    },
+    {
+      "name": "deep unknown path shows recoverable shell",
+      "status": "pass"
+    },
+    {
+      "name": "unknown history target still protects draft on cancellation",
+      "status": "pass"
+    },
+    {
+      "name": "unknown history target accepted with same shell DOM",
+      "status": "pass"
+    }
+  ],
+  "errors": []
+}

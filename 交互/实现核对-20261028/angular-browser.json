@@ -1,0 +1,491 @@
+{
+  "app": "angular",
+  "runAt": "2026-10-28T11:41:05.316Z",
+  "checks": [
+    {
+      "name": "desktop fixed shell geometry",
+      "status": "pass"
+    },
+    {
+      "name": "14 route shell/document invariance",
+      "status": "pass"
+    },
+    {
+      "name": "56 recoverable exceptions retain shell",
+      "status": "pass"
+    },
+    {
+      "name": "CSV reads applied URL, not pending draft",
+      "status": "pass"
+    },
+    {
+      "name": "unknown deep path retains recoverable shell",
+      "status": "pass"
+    },
+    {
+      "name": "meter contains energy/power but no temperature actions",
+      "status": "pass"
+    },
+    {
+      "name": "desktop no page overflow / empty toast",
+      "status": "pass"
+    },
+    {
+      "name": "mobile no page overflow / empty toast",
+      "status": "pass"
+    },
+    {
+      "name": "mobile menu focus trap and Escape return",
+      "status": "pass"
+    }
+  ],
+  "errors": [],
+  "modules": [
+    {
+      "module": "workspace",
+      "title": "早上好，开始今天的运行巡检",
+      "sameShell": true,
+      "sameDocument": true,
+      "overflow": false
+    },
+    {
+      "module": "alarms",
+      "title": "告警中心",
+      "sameShell": true,
+      "sameDocument": true,
+      "overflow": false
+    },
+    {
+      "module": "telemetry",
+      "title": "时序数据",
+      "sameShell": true,
+      "sameDocument": true,
+      "overflow": false
+    },
+    {
+      "module": "nodes",
+      "title": "全球节点",
+      "sameShell": true,
+      "sameDocument": true,
+      "overflow": false
+    },
+    {
+      "module": "devices",
+      "title": "设备中心",
+      "sameShell": true,
+      "sameDocument": true,
+      "overflow": false
+    },
+    {
+      "module": "products",
+      "title": "产品与物模型",
+      "sameShell": true,
+      "sameDocument": true,
+      "overflow": false
+    },
+    {
+      "module": "rules",
+      "title": "规则与场景",
+      "sameShell": true,
+      "sameDocument": true,
+      "overflow": false
+    },
+    {
+      "module": "ota",
+      "title": "固件与 OTA",
+      "sameShell": true,
+      "sameDocument": true,
+      "overflow": false
+    },
+    {
+      "module": "connectors",
+      "title": "连接与转发",
+      "sameShell": true,
+      "sameDocument": true,
+      "overflow": false
+    },
+    {
+      "module": "tenants",
+      "title": "租户与成员",
+      "sameShell": true,
+      "sameDocument": true,
+      "overflow": false
+    },
+    {
+      "module": "access",
+      "title": "角色与权限",
+      "sameShell": true,
+      "sameDocument": true,
+      "overflow": false
+    },
+    {
+      "module": "audit",
+      "title": "审计与运维",
+      "sameShell": true,
+      "sameDocument": true,
+      "overflow": false
+    },
+    {
+      "module": "settings",
+      "title": "设置与集成",
+      "sameShell": true,
+      "sameDocument": true,
+      "overflow": false
+    },
+    {
+      "module": "learning",
+      "title": "学习与交付",
+      "sameShell": true,
+      "sameDocument": true,
+      "overflow": false
+    }
+  ],
+  "exceptions": [
+    {
+      "module": "workspace",
+      "state": "loading",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "workspace",
+      "state": "empty",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "workspace",
+      "state": "error",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "workspace",
+      "state": "forbidden",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "alarms",
+      "state": "loading",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "alarms",
+      "state": "empty",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "alarms",
+      "state": "error",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "alarms",
+      "state": "forbidden",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "telemetry",
+      "state": "loading",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "telemetry",
+      "state": "empty",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "telemetry",
+      "state": "error",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "telemetry",
+      "state": "forbidden",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "nodes",
+      "state": "loading",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "nodes",
+      "state": "empty",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "nodes",
+      "state": "error",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "nodes",
+      "state": "forbidden",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "devices",
+      "state": "loading",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "devices",
+      "state": "empty",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "devices",
+      "state": "error",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "devices",
+      "state": "forbidden",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "products",
+      "state": "loading",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "products",
+      "state": "empty",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "products",
+      "state": "error",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "products",
+      "state": "forbidden",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "rules",
+      "state": "loading",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "rules",
+      "state": "empty",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "rules",
+      "state": "error",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "rules",
+      "state": "forbidden",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "ota",
+      "state": "loading",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "ota",
+      "state": "empty",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "ota",
+      "state": "error",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "ota",
+      "state": "forbidden",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "connectors",
+      "state": "loading",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "connectors",
+      "state": "empty",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "connectors",
+      "state": "error",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "connectors",
+      "state": "forbidden",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "tenants",
+      "state": "loading",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "tenants",
+      "state": "empty",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "tenants",
+      "state": "error",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "tenants",
+      "state": "forbidden",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "access",
+      "state": "loading",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "access",
+      "state": "empty",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "access",
+      "state": "error",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "access",
+      "state": "forbidden",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "audit",
+      "state": "loading",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "audit",
+      "state": "empty",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "audit",
+      "state": "error",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "audit",
+      "state": "forbidden",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "settings",
+      "state": "loading",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "settings",
+      "state": "empty",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "settings",
+      "state": "error",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "settings",
+      "state": "forbidden",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "learning",
+      "state": "loading",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "learning",
+      "state": "empty",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "learning",
+      "state": "error",
+      "sameShell": true,
+      "hasStateMessage": true
+    },
+    {
+      "module": "learning",
+      "state": "forbidden",
+      "sameShell": true,
+      "hasStateMessage": true
+    }
+  ],
+  "buildTime": "2026-10-28T11:39:42.070Z",
+  "geometry": {
+    "sidebar": 224,
+    "topbar": 64
+  },
+  "csv": {
+    "url": "http://127.0.0.1:14603/v3/telemetry?device=DEV-1001&window=15",
+    "draft": "45",
+    "body": "﻿时间,温度°C,质量\n08:30,24.3,有效\n08:45,24.6,有效"
+  }
+}

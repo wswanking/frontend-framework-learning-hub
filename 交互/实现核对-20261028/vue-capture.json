@@ -1,0 +1,29 @@
+{
+  "app": "vue",
+  "runAt": "2026-10-28T12:06:07.348Z",
+  "browser": "154.0.8037.57",
+  "buildTime": "2026-10-28T12:04:11.182Z",
+  "indexSha256": "e038ba988c655ff6f808e74380a665e27d945a77bae3a82725175f8ce55f4e63",
+  "screenshots": [
+    {
+      "file": "vue-desktop.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "00133090c362e820f5bc3e230edcaefdd96de53e8b16e6bab88ee69b3166829a",
+      "pageOverflow": false,
+      "emptyVisibleStatus": 0
+    },
+    {
+      "file": "vue-mobile.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "40263ab9138309fc179d955944b046fb02b6b3e4b96fe586820a4ce1c39378ef",
+      "pageOverflow": false,
+      "emptyVisibleStatus": 0
+    }
+  ]
+}

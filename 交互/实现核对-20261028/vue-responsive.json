@@ -1,0 +1,49 @@
+{
+  "app": "vue",
+  "runAt": "2026-10-28T11:46:12.197Z",
+  "checks": [
+    {
+      "width": 1051,
+      "menuVisible": false,
+      "gridColumns": "471px 280px",
+      "pageOverflow": false,
+      "pass": true
+    },
+    {
+      "width": 1050,
+      "menuVisible": true,
+      "gridColumns": "584.391px 389.609px",
+      "pageOverflow": false,
+      "pass": true
+    },
+    {
+      "width": 681,
+      "menuVisible": true,
+      "gridColumns": "355px 250px",
+      "pageOverflow": false,
+      "pass": true
+    },
+    {
+      "width": 680,
+      "menuVisible": true,
+      "gridColumns": "648px",
+      "pageOverflow": false,
+      "pass": true
+    },
+    {
+      "width": 390,
+      "menuVisible": true,
+      "gridColumns": "358px",
+      "pageOverflow": false,
+      "pass": true
+    }
+  ],
+  "tables": [
+    {
+      "keyboardRegion": true,
+      "scrollWidth": 578,
+      "clientWidth": 356
+    }
+  ],
+  "tableHint": true
+}

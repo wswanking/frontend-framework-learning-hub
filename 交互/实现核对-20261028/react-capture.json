@@ -1,0 +1,29 @@
+{
+  "app": "react",
+  "runAt": "2026-10-28T11:56:11.055Z",
+  "browser": "154.0.8037.57",
+  "buildTime": "2026-10-28T11:55:23.124Z",
+  "indexSha256": "7dc8fe797b66282610cc42aadc25af1b0b885b0428b2b30d099e725e044d194c",
+  "screenshots": [
+    {
+      "file": "react-desktop.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "8897d9947d10288b0003ad623f13f2c37cad2f9096c2fa4d57d4abcb857829b4",
+      "pageOverflow": false,
+      "emptyVisibleStatus": 0
+    },
+    {
+      "file": "react-mobile.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "05704ca5f5288e293d13a85bb5736605ebd85bc0e8669bb673bd69d3edb6eae9",
+      "pageOverflow": false,
+      "emptyVisibleStatus": 0
+    }
+  ]
+}

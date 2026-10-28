@@ -1,0 +1,29 @@
+{
+  "app": "angular",
+  "runAt": "2026-10-28T12:09:45.790Z",
+  "browser": "154.0.8037.57",
+  "buildTime": "2026-10-28T12:08:14.551Z",
+  "indexSha256": "0133e392f5311b94b121acb92e551c74fc2d8cb5b8d8c1cf34d446a6ed41ab7e",
+  "screenshots": [
+    {
+      "file": "angular-desktop.png",
+      "viewport": {
+        "width": 1440,
+        "height": 1000
+      },
+      "sha256": "4ee66e9c28f7b543b3317654b956dde06f20943db3fe98589c8b6bae158f396a",
+      "pageOverflow": false,
+      "emptyVisibleStatus": 0
+    },
+    {
+      "file": "angular-mobile.png",
+      "viewport": {
+        "width": 390,
+        "height": 844
+      },
+      "sha256": "fc46546e5e921652901711b9142a2747228b7ccdf4906c5f2a8192e374297e23",
+      "pageOverflow": false,
+      "emptyVisibleStatus": 0
+    }
+  ]
+}

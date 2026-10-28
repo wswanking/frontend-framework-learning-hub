@@ -1,0 +1,22 @@
+{
+  "app": "vue",
+  "runAt": "2026-10-28T12:05:49.632Z",
+  "checks": [
+    {
+      "resetErrorRecoveredWithSameShell": true,
+      "width": 1440,
+      "selectionCleared": true,
+      "focusTrap": true,
+      "removedTriggerFallbackToMain": true,
+      "persistedDeletion": true
+    },
+    {
+      "resetErrorRecoveredWithSameShell": true,
+      "width": 390,
+      "selectionCleared": true,
+      "focusTrap": true,
+      "removedTriggerFallbackToMain": true,
+      "persistedDeletion": true
+    }
+  ]
+}

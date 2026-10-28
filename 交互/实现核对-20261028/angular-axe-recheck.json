@@ -1,0 +1,33 @@
+{
+  "app": "angular",
+  "runAt": "2026-10-28T11:51:09.183Z",
+  "standard": "WCAG 2/2.1 A/AA automated rules; incomplete items require human review",
+  "results": [
+    {
+      "module": "workspace",
+      "layout": "desktop",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 18
+        }
+      ]
+    },
+    {
+      "module": "workspace",
+      "layout": "mobile",
+      "pageOverflow": false,
+      "violations": [],
+      "incomplete": [
+        {
+          "id": "color-contrast",
+          "impact": "serious",
+          "nodes": 10
+        }
+      ]
+    }
+  ]
+}

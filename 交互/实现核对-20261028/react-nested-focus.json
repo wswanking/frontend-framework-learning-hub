@@ -1,0 +1,16 @@
+{
+  "app": "react",
+  "runAt": "2026-10-28T12:01:37.347Z",
+  "cases": [
+    {
+      "width": 1440,
+      "status": "pass",
+      "returnedToOriginalProductButton": true
+    },
+    {
+      "width": 390,
+      "status": "pass",
+      "returnedToOriginalProductButton": true
+    }
+  ]
+}
