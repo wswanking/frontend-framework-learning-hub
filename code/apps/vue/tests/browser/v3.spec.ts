@@ -342,6 +342,12 @@ test("V3 node connector audit and state discard boundaries", async ({
   await page.getByLabel("评审页面状态").selectOption("error");
   await page.getByLabel("评审页面状态").selectOption("normal");
   await expect(page.getByLabel("邮件摘要偏好")).not.toBeChecked();
+  await go(page, "工作区");
+  await page.getByLabel("评审页面状态").selectOption("error");
+  await page.getByRole("button", { name: "重置演示" }).click();
+  await modal(page).getByRole("button", { name: "确认重置" }).click();
+  await expect(page.getByLabel("评审页面状态")).toHaveValue("normal");
+  await expect(page.getByRole("heading", { level: 1 })).toContainText("早上好");
 });
 
 test("V3 deletion clears selection and dialog contains keyboard focus", async ({

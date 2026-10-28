@@ -224,7 +224,7 @@ export function execute(s: State, a: Action, p: Input): string {
       const d = device();
       d.name = required(p.name, 1, 48);
       d.group = required(p.group, 1, 40);
-      d.tags = (p.tags || "").slice(0, 80);
+      d.tags = required(p.tags, 0, 80);
       result = "设备资料已保存";
       break;
     }
@@ -282,7 +282,7 @@ export function execute(s: State, a: Action, p: Input): string {
       product.fields.push({
         name,
         type: p.type!,
-        unit: (p.unit || "").slice(0, 12),
+        unit: required(p.unit, 0, 12),
       });
       result = "属性已添加";
       break;

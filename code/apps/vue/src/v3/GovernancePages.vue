@@ -125,7 +125,7 @@ function save() {
             v-model="q"
             placeholder="例如：注册、升级、配额" /></label
         ><button class="primary">筛选</button
-        ><RouterLink to="/v3/audit">清除</RouterLink>
+        ><RouterLink class="button-link" to="/v3/audit">清除</RouterLink>
       </form>
       <DataTable :headers="['时间', '身份', '操作', '对象']"
         ><tr

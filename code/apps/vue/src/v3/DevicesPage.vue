@@ -247,7 +247,7 @@ const detailPath = (id: string) => ({
             <option>待接入</option>
           </select></label
         ><button class="primary">应用</button
-        ><RouterLink to="/v3/devices">清除</RouterLink>
+        ><RouterLink class="button-link" to="/v3/devices">清除</RouterLink>
       </form>
       <div v-if="selected.length" class="bulk show">
         <strong>已选择 {{ selected.length }} 台</strong

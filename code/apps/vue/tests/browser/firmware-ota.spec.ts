@@ -66,6 +66,9 @@ test('IOT-TENANT-001 previews storage use and rejects firmware metadata beyond t
 });
 
 test('IOT-OTA-001 previews batches, auto pauses on failure and preserves a retry attempt', async ({ page }) => {
+  // This cross-module journey includes quota, two OTA attempts, axe and history.
+  // Keep individual assertions bounded while allowing the complete journey on CI.
+  test.setTimeout(60_000);
   const errors: string[] = []; page.on('pageerror', error => errors.push(error.message));
   await page.goto('/tenants');
   await page.getByRole('button', { name: '华东智联' }).click();

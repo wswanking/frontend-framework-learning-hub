@@ -179,5 +179,11 @@ function changeScenario(e: Event) {
     <span>IoT Atlas / 澄海智联 · Vue 独立 Mock</span
     ><span>已批准交互实现 · 不代表生产验收</span>
   </footer>
-  <OperationsDialog ref="ops" />
+  <OperationsDialog
+    ref="ops"
+    @reset="
+      scenario = 'normal';
+      revision++;
+    "
+  />
 </template>

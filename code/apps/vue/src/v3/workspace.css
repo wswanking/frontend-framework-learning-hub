@@ -1217,3 +1217,19 @@ body:has(.v3 dialog[open]),
 body:has(.v3 .sidebar.open) {
   overflow: hidden;
 }
+
+.v3 .filters .button-link {
+  display: flex;
+  align-items: center;
+  height: 38px;
+  padding: 8px 13px;
+  border: 1px solid #cbd5dc;
+  border-radius: 6px;
+  background: white;
+  color: var(--ink);
+  font-weight: 550;
+  text-decoration: none;
+}
+.v3 .filters .button-link:hover {
+  background: #eef3f5;
+}

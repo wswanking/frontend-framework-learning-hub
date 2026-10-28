@@ -162,3 +162,53 @@ it("roundtrips a modified snapshot containing both device kinds", async () => {
 it("rejects nonexistent connector commands", () => {
   expect(() => execute(seed(), "connector", { id: "FTP" })).toThrow("不存在");
 });
+
+it("rejects overlong tags transactionally", async () => {
+  vi.restoreAllMocks();
+  localStorage.clear();
+  vi.resetModules();
+  const store = await import("./store");
+  const before = JSON.stringify(store.state);
+  expect(() =>
+    store.command("edit", {
+      id: "DEV-1001",
+      name: "changed",
+      group: "华东冷链",
+      tags: "x".repeat(81),
+    }),
+  ).toThrow();
+  expect(JSON.stringify(store.state)).toBe(before);
+});
+it("rejects overlong property units transactionally", async () => {
+  vi.restoreAllMocks();
+  localStorage.clear();
+  vi.resetModules();
+  const store = await import("./store");
+  const before = JSON.stringify(store.state);
+  expect(() =>
+    store.command("field", {
+      id: "PRD-001",
+      name: "pressure",
+      type: "float",
+      unit: "x".repeat(13),
+    }),
+  ).toThrow();
+  expect(JSON.stringify(store.state)).toBe(before);
+});
+it("trims valid tags and property units", () => {
+  const s = seed();
+  execute(s, "edit", {
+    id: "DEV-1001",
+    name: "冷链",
+    group: "华东冷链",
+    tags: "  重点  ",
+  });
+  execute(s, "field", {
+    id: "PRD-001",
+    name: "pressure",
+    type: "float",
+    unit: "  hPa  ",
+  });
+  expect(s.devices[0]?.tags).toBe("重点");
+  expect(s.products[0]?.fields.at(-1)?.unit).toBe("hPa");
+});

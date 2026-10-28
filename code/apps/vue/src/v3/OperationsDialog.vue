@@ -6,6 +6,7 @@ import { RouterLink } from "vue-router";
 import Modal from "./Modal.vue";
 import DataTable from "./DataTable.vue";
 import StatusTag from "./StatusTag.vue";
+const emit = defineEmits<{ reset: [] }>();
 const ops = useOperations();
 const {
   kind,
@@ -21,6 +22,11 @@ const {
   batch,
   isForm,
 } = ops;
+async function saveForm() {
+  const resetting = kind.value === "reset";
+  await ops.save();
+  if (resetting && !kind.value) emit("reset");
+}
 defineExpose({ open: ops.open, clear: ops.clear });
 </script>
 <template>
@@ -33,7 +39,7 @@ defineExpose({ open: ops.open, clear: ops.clear });
     @close="ops.close"
     ><form
       v-if="isForm"
-      @submit.prevent="ops.save"
+      @submit.prevent="saveForm"
       @input="ops.markDirty"
       @change="ops.markDirty"
     >
@@ -50,9 +56,7 @@ defineExpose({ open: ops.open, clear: ops.clear });
       </p>
       <p v-if="kind === 'retry'">
         只重试
-        {{
-          batch?.targets.filter((t) => t.status === "失败").length
-        }}
+        {{ batch?.targets.filter((t) => t.status === "失败").length }}
         台失败设备，已成功设备保持不变。
       </p>
       <p v-if="kind === 'reboot'">
