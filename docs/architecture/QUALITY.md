@@ -1,5 +1,15 @@
 # 诊断与验收环境
 
+## 2026-10-28：PR #2 首两轮 CI 诊断与修复后完整复验
+
+[首轮40688405912](https://github.com/wswanking/frontend-framework-learning-hub/actions/runs/40688405912)对应 `2f00616`，Vue/Angular/tooling成功，React浏览器222通过、2失败，总装skipped。失败为两视口56异常矩阵选择loading后heading消失；已有CI重试也失败，不能记为flaky通过。检查发现Shell延后effect在路由提交后重置scenario，可能覆盖新操作；本地Chromium154重复原矩阵10/10未复现153首次选择时序，但“loading后实际点击同URL并保持状态”的新增负对照两视口在旧实现稳定失败。环境拒绝下载153及trace文件主机（403），已停止未绕过；原远端日志和产物可在GitHub查看。
+
+运行时修复提交 `0905a2a2a32360f95f66a74a6dca5beb3dd1fd92` 将scenario只绑定当前pathname+search，路由变化在render阶段派生normal并替换单条选择，无无限页面缓存或延后覆盖；同URL保留已选状态。dirty/modal保护未改。[第二轮40690310405](https://github.com/wswanking/frontend-framework-learning-hub/actions/runs/40690310405)原异常矩阵已两端通过，但新导航helper错误等待“已取消”的目标导航，导致另两项失败，本地也复现。测试修复 `874d03633063dcc089694b5dced54b5a071e5060` 区分只触发点击和成功导航等待；取消URL与保存后再次编辑保护的原断言全部保留。
+
+最终本地重新执行完整React diagnose：guards4、unit126、边界/type/lint/build通过；同份冻结源码完整224/224（desktop112/mobile112），零失败、零跳过、零重试，6.9分钟；133个冻结文件SHA一致。Vue/Angular源码及测试未变，先前完整222/246、unit131/151结果继续绑定相同文件。独立审阅另对React同URL/换路由/历史状态及12项dirty完整复核通过，更新截图及构建指纹。最终视觉候选采集另记在归档XML中，人工始终VISUAL_PENDING。
+
+更新后的 [完整XML与日志](../../交互/实现核对-20261028/验证/README.md)区分最终 `ci-fix-*` 与早期本地通过/远端失败，保留两轮真实CI记录。这个证据提交不修改任何应用源码；最后精确HEAD远端CI结论在 [草稿PR #2](https://github.com/wswanking/frontend-framework-learning-hub/pull/2)记录，不能用中间提交或本地通过代替。未合并、未部署、未批准视觉验收。
+
 ## 2026-10-28：V3 重建最终本地验证
 
 从 `b20bd23` 保留 M1–M4 成果，并依据批准设计 `d809519` 重建；不是遗失本地 V3 提交的逐字恢复，未复用旧测试数字。独立分支 `feat/v3-approved-workspace` 已阶段推送，最终运行时代码提交 `bfe3de601e0b6b39df0054e326e7f0960d04c85e` 已与远端核验一致。后续提交仅归档证据、说明；最终 PR 的精确 HEAD 与远端 CI 结果在 PR 中记录。

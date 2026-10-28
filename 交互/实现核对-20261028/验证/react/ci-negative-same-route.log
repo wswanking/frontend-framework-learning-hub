@@ -1,0 +1,101 @@
+
+> @iot-atlas/react@0.0.0 test:e2e
+> playwright test v3.spec.ts --grep all 14 modules --retries=0
+
+[WebServer] (node:76676) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:76689) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 2 tests using 2 workers
+
+(node:76713) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:76714) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/browser/v3.spec.ts:239:1 › V3 all 14 modules keep the shell across all 56 exception states (7.1s)
+  ✘  2 [mobile] › tests/browser/v3.spec.ts:239:1 › V3 all 14 modules keep the shell across all 56 exception states (7.4s)
+
+
+  1) [desktop] › tests/browser/v3.spec.ts:239:1 › V3 all 14 modules keep the shell across all 56 exception states 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: '正在加载工作区', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('heading', { name: '正在加载工作区', exact: true }) with timeout 5000ms
+      - waiting for getByRole('heading', { name: '正在加载工作区', exact: true })
+
+
+      247 |   await expect(
+      248 |     page.getByRole("heading", { name: "正在加载工作区", exact: true }),
+    > 249 |   ).toBeVisible();
+          |     ^
+      250 |   await expect(page.getByLabel("页面状态")).toHaveValue("loading");
+      251 |   await page.getByRole("button", { name: "结束模拟加载" }).click();
+      252 |   const states: { [key: string]: string } = {
+        at /workspace/frontend-framework-learning-hub/code/apps/react/tests/browser/v3.spec.ts:249:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    reports/test-results/v3-V3-all-14-modules-keep--dd776-oss-all-56-exception-states-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: reports/test-results/v3-V3-all-14-modules-keep--dd776-oss-all-56-exception-states-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/test-results/v3-V3-all-14-modules-keep--dd776-oss-all-56-exception-states-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace reports/test-results/v3-V3-all-14-modules-keep--dd776-oss-all-56-exception-states-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [mobile] › tests/browser/v3.spec.ts:239:1 › V3 all 14 modules keep the shell across all 56 exception states 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: '正在加载工作区', exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('heading', { name: '正在加载工作区', exact: true }) with timeout 5000ms
+      - waiting for getByRole('heading', { name: '正在加载工作区', exact: true })
+
+
+      247 |   await expect(
+      248 |     page.getByRole("heading", { name: "正在加载工作区", exact: true }),
+    > 249 |   ).toBeVisible();
+          |     ^
+      250 |   await expect(page.getByLabel("页面状态")).toHaveValue("loading");
+      251 |   await page.getByRole("button", { name: "结束模拟加载" }).click();
+      252 |   const states: { [key: string]: string } = {
+        at /workspace/frontend-framework-learning-hub/code/apps/react/tests/browser/v3.spec.ts:249:5
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    reports/test-results/v3-V3-all-14-modules-keep--dd776-oss-all-56-exception-states-mobile/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: reports/test-results/v3-V3-all-14-modules-keep--dd776-oss-all-56-exception-states-mobile/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/test-results/v3-V3-all-14-modules-keep--dd776-oss-all-56-exception-states-mobile/trace.zip
+    Usage:
+
+        npx playwright show-trace reports/test-results/v3-V3-all-14-modules-keep--dd776-oss-all-56-exception-states-mobile/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [desktop] › tests/browser/v3.spec.ts:239:1 › V3 all 14 modules keep the shell across all 56 exception states 
+    [mobile] › tests/browser/v3.spec.ts:239:1 › V3 all 14 modules keep the shell across all 56 exception states 
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

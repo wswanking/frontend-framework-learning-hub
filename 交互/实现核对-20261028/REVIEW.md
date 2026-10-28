@@ -48,7 +48,7 @@ node reports/v3-rebuild-parity/summarize.mjs
 
 ## 定稿
 
-独立范围内60/60领域场景、42模块路由、168异常状态、36脏数据/历史/刷新场景通过；84页axe零违规、零页面横溢出。三端产品嵌套对话框精确回原产品行按钮，桌面/手机共6场景通过。Angular最终焦点修复3efc352构建已复核。新增源文件清单 `source-provenance.json` 绑定HEAD bfe3de601e0b6b39df0054e326e7f0960d04c85e 与三端无未提交生产源码的SHA；最终dist/截图对应 `*-capture.json`，不把前期完整矩阵假称每次最终构建都重跑。
+独立范围内60/60领域场景、42模块路由、168异常状态、36脏数据/历史/刷新场景通过；84页axe零违规、零页面横溢出。三端产品嵌套对话框精确回原产品行按钮，桌面/手机共6场景通过。Angular最终焦点修复3efc352构建已复核。新增源文件清单 `source-provenance.json` 绑定HEAD 0905a2a2a32360f95f66a74a6dca5beb3dd1fd92 与三端无未提交生产源码的SHA；最终dist/截图对应 `*-capture.json`，不把前期完整矩阵假称每次最终构建都重跑。
 
 完整独立矩阵运行后仅针对产品改动做影响复核，最后重新捕获6图；各端最终完整suite与远程CI另由根线程汇总。移动影子排版、标签规范化、错误重置、删除选中项、嵌套焦点等修复均有针对性证据。
 
@@ -57,3 +57,7 @@ node reports/v3-rebuild-parity/summarize.mjs
 ## 最后视觉补正
 
 父线程发现前版Vue desktop在侧栏底部以下有main橙色焦点框，这是本审阅者首轮人工看图遗漏，并非此前axe能覆盖的通过项。Vue在bfe3de601e0b6b39df0054e326e7f0960d04c85e仅取消非交互main的轮廓，12:20:55 UTC构建后重新核对1440/390两视口：main outline-style:none，跳过链接和后续交互控件保持solid可见焦点。`vue-outline-recheck.mjs/json`为新增独立证据；Vue两张最终图与capture/source provenance已更新，并实际查看desktop确认橙线消失。实际重看Angular desktop也未见同类问题。没有重跑未受影响的完整矩阵；用户视觉验收仍待确认。
+
+## React CI后增量复核
+
+React scenario路由关联修复0905a2a2a32360f95f66a74a6dca5beb3dd1fd92后，12:42:28 UTC构建独立验证1440/390两视口同URL点击保留loading、切换设备路由恢复normal、历史返回normal、同一shell继续连接，全部通过。`react-scenario-recheck.mjs/json`保留脚本与结果。另重新执行`react-dirty.json` 12/12通过，含后退/前进/刷新取消与接受、Escape及未知路径。React最终两图/capture和源代码provenance已更新；未重复其他完整矩阵。

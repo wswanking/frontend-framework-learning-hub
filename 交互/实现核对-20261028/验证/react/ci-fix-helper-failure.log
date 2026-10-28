@@ -1,0 +1,336 @@
+
+> @iot-atlas/react@0.0.0 test:e2e
+> playwright test --retries=0
+
+[WebServer] (node:77889) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:77902) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 224 tests using 2 workers
+
+(node:77926) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:77927) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    1 [desktop] › tests/browser/dashboard.spec.ts:34:1 › IOT-DASH-001 keeps mobile filters collapsed until requested (3.1s)
+  ✓    2 [desktop] › tests/browser/dashboard.spec.ts:8:1 › IOT-DASH-001 clears paused events and detail after identity or permission changes (3.9s)
+  ✓    4 [desktop] › tests/browser/dashboard.spec.ts:66:1 › IOT-DASH-001 opens the lab from the shared navigation (2.2s)
+  ✓    5 [desktop] › tests/browser/dashboard.spec.ts:76:1 › IOT-DASH-001 map controls change and reset the view without changing the query (2.5s)
+  ✓    3 [desktop] › tests/browser/dashboard.spec.ts:51:1 › IOT-QUALITY-001 keeps key data readable at a tablet viewport (7.8s)
+  ✓    7 [desktop] › tests/browser/dashboard.spec.ts:138:1 › IOT-DASH-001 applies a valid custom range and rejects reversed or future times (3.1s)
+  ✓    6 [desktop] › tests/browser/dashboard.spec.ts:101:1 › IOT-DASH-001 one applied query drives metrics, map, ranking and country detail (7.2s)
+  ✓    8 [desktop] › tests/browser/dashboard.spec.ts:168:1 › IOT-DASH-001 partial failure, stale data, theme and narrow layout (7.2s)
+  ✓    9 [desktop] › tests/browser/dashboard.spec.ts:211:1 › IOT-DASH-001 reflects device alarm acknowledgement across pages (5.5s)
+  ✓   11 [desktop] › tests/browser/dashboard.spec.ts:252:1 › IOT-DASH-001 receives Mock messages live and holds new events while paused (3.6s)
+  ✓   12 [desktop] › tests/browser/dashboard.spec.ts:286:1 › IOT-DASH-001 drills from continent through country to node with the applied range (2.6s)
+  ✓   13 [desktop] › tests/browser/dashboard.spec.ts:317:1 › IOT-DASH-001 and IOT-GEO-001 keep tenant, UTC range and node level across pages (3.2s)
+  ✓   10 [desktop] › tests/browser/dashboard.spec.ts:235:1 › IOT-DASH-001 includes a live device message in the event stream (11.2s)
+  ✓   14 [desktop] › tests/browser/dashboard.spec.ts:335:1 › IOT-DASH-001 shows query cutoff separately from successful refresh time (3.7s)
+  ✓   16 [desktop] › tests/browser/delivery.spec.ts:4:1 › IOT-PLATFORM-001/002 shows factual requirements, issue and pending review with traceability (2.9s)
+  ✓   15 [desktop] › tests/browser/dashboard.spec.ts:348:1 › IOT-DASH-001 expands the full event history without changing the query (5.0s)
+  ✓   17 [desktop] › tests/browser/delivery.spec.ts:27:1 › IOT-RELEASE-001 explains why production is blocked and saves only a local Mock record (2.1s)
+  ✓   18 [desktop] › tests/browser/delivery.spec.ts:43:1 › IOT-PLATFORM-002 light theme is accessible and page fits the viewport (3.3s)
+  ✓   19 [desktop] › tests/browser/delivery.spec.ts:51:1 › IOT-PLATFORM-001 returns an approved scope change to review with a CHG trace (3.4s)
+  ✓   21 [desktop] › tests/browser/delivery.spec.ts:100:1 › IOT-RELEASE-001 keeps a blocked record editable with an audit revision (2.2s)
+  ✓   20 [desktop] › tests/browser/delivery.spec.ts:82:1 › IOT-RELEASE-001 groups checks and opens missing release material (4.3s)
+  ✓   22 [desktop] › tests/browser/delivery.spec.ts:126:1 › IOT-PLATFORM-002 delivery dialog keeps keyboard focus and restores the trigger (1.9s)
+  ✓   23 [desktop] › tests/browser/delivery.spec.ts:143:1 › IOT-RELEASE-001 keeps release title and actions visible while reviewing checks (1.9s)
+  ✓   25 [desktop] › tests/browser/device-flow.spec.ts:51:1 › M2 distinguishes empty, unavailable and forbidden lists with recoverable feedback (2.5s)
+  ✓   24 [desktop] › tests/browser/device-flow.spec.ts:4:1 › M2 restores applied filters, pagination and edited detail through URL and history (3.9s)
+  ✓   26 [desktop] › tests/browser/device-flow.spec.ts:69:1 › M2 missing detail reports failure in the drawer and returns to its filtered list (1.4s)
+  ✓   27 [desktop] › tests/browser/device-flow.spec.ts:81:1 › M2 readonly identity explains metadata permissions without an edit action (1.7s)
+  ✓   28 [desktop] › tests/browser/device-flow.spec.ts:91:1 › M2 Escape protects a dirty draft and restores focus after discard (2.3s)
+  ✓   29 [desktop] › tests/browser/device-flow.spec.ts:115:1 › M2 slow detail and save expose pending state and prevent duplicate writes (2.0s)
+  ✓   30 [desktop] › tests/browser/device-flow.spec.ts:138:1 › M2 version conflicts keep the draft until explicit reload, then allow saving (2.5s)
+  ✓   31 [desktop] › tests/browser/device-flow.spec.ts:164:1 › M2 history cannot reveal a foreign device after identity changes (2.1s)
+  ✓   32 [desktop] › tests/browser/device-flow.spec.ts:180:1 › M2 history closes nested control preview and releases the detail scroll lock (2.2s)
+  ✓   33 [desktop] › tests/browser/device-flow.spec.ts:196:1 › M2 full-width tablet detail traps focus and releases it when resized to desktop (2.0s)
+  ✓   34 [desktop] › tests/browser/devices.spec.ts:5:1 › IOT-TENANT-001 warns before device registration enters the quota warning range (1.9s)
+  ✓   35 [desktop] › tests/browser/devices.spec.ts:14:1 › IOT-DEVICE-001 keeps create, import and delete confirmation focus inside dialogs (2.7s)
+  ✓   36 [desktop] › tests/browser/devices.spec.ts:53:1 › IOT-DEVICE-001 shows the empty UTC interval and focuses the range control (2.6s)
+  ✓   37 [desktop] › tests/browser/devices.spec.ts:67:1 › IOT-DEVICE-001 exports every selected device across pages (2.0s)
+  ✓   38 [desktop] › tests/browser/devices.spec.ts:86:1 › IOT-DEVICE-001 requeries the UTC window when zooming telemetry (2.3s)
+  ✓   39 [desktop] › tests/browser/devices.spec.ts:100:1 › IOT-DEVICE-001 filters, sorts and pages devices before opening detail (2.4s)
+  ✓   40 [desktop] › tests/browser/devices.spec.ts:125:3 › IOT-DEVICE-001 UTC and custom tag filters › filters imported tags and treats the entered last active minute as UTC (2.8s)
+  ✓   42 [desktop] › tests/browser/devices.spec.ts:175:1 › IOT-DEVICE-001 queries a custom UTC telemetry interval and rejects invalid bounds (1.7s)
+  ✓   43 [desktop] › tests/browser/devices.spec.ts:194:1 › IOT-DEVICE-001 shows raw messages and persists fault alarm acknowledgement (2.8s)
+  ✓   41 [desktop] › tests/browser/devices.spec.ts:149:1 › IOT-DEVICE-001 shows two telemetry units, gaps, zoom and export (7.7s)
+  ✓   45 [desktop] › tests/browser/devices.spec.ts:250:1 › IOT-DEVICE-001 explains rejected control parameters inside the preview (4.3s)
+  ✓   44 [desktop] › tests/browser/devices.spec.ts:210:1 › IOT-DEVICE-001 imports CSV atomically and confirms batch deletion (10.7s)
+  ✓   46 [desktop] › tests/browser/devices.spec.ts:269:1 › IOT-DEVICE-001 previews and records model driven control, with offline and permission guards (6.6s)
+  ✓   48 [desktop] › tests/browser/devices.spec.ts:340:1 › IOT-DEVICE-001 displays and reconciles the device shadow after a command (3.1s)
+  ✓   47 [desktop] › tests/browser/devices.spec.ts:315:1 › IOT-DEVICE-001 live telemetry updates and persists the reported shadow (8.2s)
+  ✓   49 [desktop] › tests/browser/devices.spec.ts:366:1 › IOT-DEVICE-001 is accessible in light theme and narrow viewport (3.3s)
+  ✓   51 [desktop] › tests/browser/diagnostic.spec.ts:3:1 › IOT-QUALITY-001 invalid input, failure and retry (2.1s)
+  ✓   50 [desktop] › tests/browser/devices.spec.ts:379:1 › IOT-DEVICE-001 keeps edited metadata after reload (2.7s)
+  ✓   53 [desktop] › tests/browser/firmware-ota.spec.ts:4:1 › IOT-FIRMWARE-001 registers, verifies and releases metadata without uploading the file (2.9s)
+  ✓   52 [desktop] › tests/browser/diagnostic.spec.ts:20:1 › IOT-QUALITY-001 accessible states and responsive layout (4.3s)
+  ✓   54 [desktop] › tests/browser/firmware-ota.spec.ts:35:1 › IOT-FIRMWARE-001 shows actual local read progress before checksum completes (2.4s)
+  ✓   55 [desktop] › tests/browser/firmware-ota.spec.ts:46:1 › IOT-TENANT-001 previews storage use and rejects firmware metadata beyond the tenant limit (2.8s)
+  ✓   57 [desktop] › tests/browser/firmware-ota.spec.ts:128:1 › IOT-FIRMWARE-001 and IOT-OTA-001 remain accessible and fit a narrow viewport (2.6s)
+  ✓   58 [desktop] › tests/browser/firmware-ota.spec.ts:139:1 › IOT-OTA-001 confirms rollback as a separate task and keeps read-only roles read-only (12.4s)
+  ✓   56 [desktop] › tests/browser/firmware-ota.spec.ts:68:1 › IOT-OTA-001 previews batches, auto pauses on failure and preserves a retry attempt (18.0s)
+  ✓   60 [desktop] › tests/browser/geography.spec.ts:60:1 › IOT-GEO-001 clears old tenant data and detail when identity is denied (3.3s)
+  ✓   59 [desktop] › tests/browser/geography.spec.ts:4:1 › IOT-GEO-001 filters, drills to device, and keeps unlocated devices accessible (7.1s)
+  ✓   61 [desktop] › tests/browser/geography.spec.ts:91:1 › IOT-GEO-001 keeps the applied map when a custom UTC range is invalid (3.7s)
+  ✓   62 [desktop] › tests/browser/geography.spec.ts:114:1 › IOT-GEO-001 sorts and paginates a dense node list and opens device detail (6.8s)
+  ✓   63 [desktop] › tests/browser/geography.spec.ts:158:1 › IOT-GEO-001 map fallback, permissions, theme and narrow layout (5.3s)
+  ✓   65 [desktop] › tests/browser/labs.spec.ts:4:1 › IOT-LEARNING-001 main UI example filters fixed data and keeps theme local (3.1s)
+  ✓   64 [desktop] › tests/browser/geography.spec.ts:188:1 › IOT-GEO-001 legend filters map, list and statistics through the same status query (4.2s)
+  ✓   67 [desktop] › tests/browser/labs.spec.ts:68:1 › IOT-LEARNING-001 lab fits narrow screens and passes accessibility scan (4.0s)
+  ✓   68 [desktop] › tests/browser/labs.spec.ts:77:1 › IOT-LEARNING-001 renders the same trend, bar and pie data with three chart libraries (2.5s)
+  ✓   66 [desktop] › tests/browser/labs.spec.ts:31:1 › IOT-LEARNING-001 React candidate UI libraries render real controls with shared data (8.0s)
+  ✓   69 [desktop] › tests/browser/labs.spec.ts:100:1 › IOT-LEARNING-001 serves this framework implementation source and PRD link (2.0s)
+  ✓   70 [desktop] › tests/browser/products.spec.ts:4:1 › IOT-TENANT-001 previews product quota warning before saving a new product (3.3s)
+  ✓   71 [desktop] › tests/browser/products.spec.ts:21:1 › IOT-PRODUCT-001 paginates associated devices after a permitted import (3.9s)
+  ✓   72 [desktop] › tests/browser/products.spec.ts:49:1 › IOT-PRODUCT-001 lists associated devices and opens their detail (2.7s)
+  ✓   74 [desktop] › tests/browser/products.spec.ts:102:1 › IOT-PRODUCT-001 removes product details across identities and forbidden responses (1.8s)
+  ✓   73 [desktop] › tests/browser/products.spec.ts:65:1 › IOT-PRODUCT-001 confirmation dialogs support keyboard focus and Escape (2.9s)
+  ✓   75 [desktop] › tests/browser/products.spec.ts:119:1 › IOT-PRODUCT-001 keeps access configuration separate and persists validated edits (3.3s)
+  ✓   76 [desktop] › tests/browser/products.spec.ts:148:1 › IOT-PRODUCT-001 confirms protocol impact before resetting paths (3.2s)
+  ✓   77 [desktop] › tests/browser/products.spec.ts:168:1 › IOT-PRODUCT-001 exports only selected visible products (1.7s)
+  ✓   78 [desktop] › tests/browser/products.spec.ts:182:1 › IOT-PRODUCT-001 product list filters, pages, and DP conversion (3.4s)
+  ✓   79 [desktop] › tests/browser/products.spec.ts:218:1 › IOT-PRODUCT-001 validates edits, shows impact and guards unsaved changes (3.5s)
+  ✓   80 [desktop] › tests/browser/products.spec.ts:251:1 › IOT-PRODUCT-001 locates invalid model JSON and preserves the draft (2.5s)
+  ✓   81 [desktop] › tests/browser/products.spec.ts:273:1 › IOT-PRODUCT-001 validates new model identifiers while editing and preserves existing items (2.8s)
+  ✓   82 [desktop] › tests/browser/products.spec.ts:295:1 › IOT-PRODUCT-001 read-only role, theme, accessibility and narrow layout (3.5s)
+  ✓   83 [desktop] › tests/browser/products.spec.ts:313:1 › IOT-PRODUCT-001 confirms removal of incompatible model fields (2.3s)
+  ✓   84 [desktop] › tests/browser/rules.spec.ts:4:1 › IOT-RULE-001 saves a dry-run sample and compares immutable rule versions (3.6s)
+  ✓   85 [desktop] › tests/browser/rules.spec.ts:28:1 › IOT-RULE-001 lists seeded rules and traces a dry run before explicit log application (3.5s)
+  ✓   87 [desktop] › tests/browser/rules.spec.ts:91:1 › IOT-RULE-001 enforces viewer and operator permissions in the page (1.6s)
+  ✓   86 [desktop] › tests/browser/rules.spec.ts:61:1 › IOT-RULE-001 creates and persists a connected rule and prevents a cycle (4.4s)
+  ✓   88 [desktop] › tests/browser/rules.spec.ts:103:1 › IOT-RULE-001 stays accessible in light theme and narrow viewport (4.0s)
+  ✓   89 [desktop] › tests/browser/shell.spec.ts:19:1 › IOT-PLATFORM-003 M1 persistent shell, all menus, lazy content and history (4.9s)
+  ✓   90 [desktop] › tests/browser/shell.spec.ts:44:1 › M1 dirty metadata protects Back to unknown route and refresh; discard and focus return (4.2s)
+  ✓   91 [desktop] › tests/browser/shell.spec.ts:65:1 › M1 dirty products protect navigation and forward history (1.9s)
+  ✓   92 [desktop] › tests/browser/shell.spec.ts:79:1 › M1 responsive navigation and fixed chrome (2.4s)
+  ✓   94 [desktop] › tests/browser/shell.spec.ts:126:1 › M1 React map survives callback changes while country drawer opens (1.9s)
+  ✓   93 [desktop] › tests/browser/shell.spec.ts:103:1 › M1 dirty unknown destination, route links and clean deep-link reload (3.7s)
+  ✓   95 [desktop] › tests/browser/shell.spec.ts:136:1 › M1 saved normalized metadata leaves without confirmation and closed detail stops telemetry (2.2s)
+  ✓   96 [desktop] › tests/browser/shell.spec.ts:157:1 › M1 navigation chrome stays mounted while the next route chunk is loading (2.3s)
+  ✓   97 [desktop] › tests/browser/tenants.spec.ts:5:1 › IOT-TENANT-001 filters tenants and carries the selected tenant to the dashboard (2.9s)
+  ✓   98 [desktop] › tests/browser/tenants.spec.ts:30:1 › IOT-TENANT-001 previews quota impact, manages Mock members and keeps viewers read-only (4.3s)
+  ✓   99 [desktop] › tests/browser/tenants.spec.ts:66:1 › IOT-TENANT-001 has accessible light theme and no page overflow (2.6s)
+  ✓  101 [desktop] › tests/browser/tenants.spec.ts:112:1 › IOT-TENANT-001 creates a tenant, publishes its product and registers its device (3.7s)
+  ✓  100 [desktop] › tests/browser/tenants.spec.ts:73:1 › IOT-TENANT-001 routes blocked quota use to the correct tenant resources (5.6s)
+  ✓  103 [desktop] › tests/browser/v3.spec.ts:125:1 › V3 rule-to-alarm lifecycle preserves owner, reason and audit (2.2s)
+  ✓  102 [desktop] › tests/browser/v3.spec.ts:63:1 › V3 provisioning, metadata, shadow, command and applied-query CSV (4.0s)
+  ✓  104 [desktop] › tests/browser/v3.spec.ts:161:1 › V3 OTA failure/retry changes only failed attempts and operator permissions (2.9s)
+  ✓  105 [desktop] › tests/browser/v3.spec.ts:202:1 › V3 members, quota validation and viewer write denial (2.3s)
+  ✓  107 [desktop] › tests/browser/v3.spec.ts:308:1 › V3 list filter restoration, modal keyboard focus and saved-form guard does not leak (2.5s)
+  ✓  108 [desktop] › tests/browser/v3.spec.ts:339:1 › V3 dirty back, forward, unknown route and native refresh cancel/accept (2.4s)
+  ✘  109 [desktop] › tests/browser/v3.spec.ts:388:1 › V3 identity/search discard destroys drafts and leaves future guards active (6.8s)
+  ✓  106 [desktop] › tests/browser/v3.spec.ts:239:1 › V3 all 14 modules keep the shell across all 56 exception states (12.3s)
+(node:82889) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  110 [desktop] › tests/browser/v3.spec.ts:463:1 › V3 bulk delete requires confirmation and clears removed selections (1.9s)
+  ✓  112 [desktop] › tests/browser/v3.spec.ts:480:1 › V3 corrupt persistence recovers, denied persistence is reported honestly (1.9s)
+(node:83081) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  111 [desktop] › tests/browser/v3.spec.ts:420:1 › V3 model attributes, connectors, nodes, search and notifications are interactive (5.2s)
+(node:83223) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  113 [mobile] › tests/browser/dashboard.spec.ts:8:1 › IOT-DASH-001 clears paused events and detail after identity or permission changes (3.5s)
+  ✓  114 [mobile] › tests/browser/dashboard.spec.ts:34:1 › IOT-DASH-001 keeps mobile filters collapsed until requested (3.6s)
+  ✓  116 [mobile] › tests/browser/dashboard.spec.ts:66:1 › IOT-DASH-001 opens the lab from the shared navigation (2.4s)
+  ✓  115 [mobile] › tests/browser/dashboard.spec.ts:51:1 › IOT-QUALITY-001 keeps key data readable at a tablet viewport (7.9s)
+  ✓  117 [mobile] › tests/browser/dashboard.spec.ts:76:1 › IOT-DASH-001 map controls change and reset the view without changing the query (2.6s)
+  ✓  119 [mobile] › tests/browser/dashboard.spec.ts:138:1 › IOT-DASH-001 applies a valid custom range and rejects reversed or future times (3.8s)
+  ✓  118 [mobile] › tests/browser/dashboard.spec.ts:101:1 › IOT-DASH-001 one applied query drives metrics, map, ranking and country detail (7.8s)
+  ✓  120 [mobile] › tests/browser/dashboard.spec.ts:168:1 › IOT-DASH-001 partial failure, stale data, theme and narrow layout (7.1s)
+  ✓  121 [mobile] › tests/browser/dashboard.spec.ts:211:1 › IOT-DASH-001 reflects device alarm acknowledgement across pages (6.9s)
+  ✓  123 [mobile] › tests/browser/dashboard.spec.ts:252:1 › IOT-DASH-001 receives Mock messages live and holds new events while paused (2.5s)
+  ✓  124 [mobile] › tests/browser/dashboard.spec.ts:286:1 › IOT-DASH-001 drills from continent through country to node with the applied range (2.9s)
+  ✓  122 [mobile] › tests/browser/dashboard.spec.ts:235:1 › IOT-DASH-001 includes a live device message in the event stream (9.7s)
+  ✓  125 [mobile] › tests/browser/dashboard.spec.ts:317:1 › IOT-DASH-001 and IOT-GEO-001 keep tenant, UTC range and node level across pages (2.3s)
+  ✓  126 [mobile] › tests/browser/dashboard.spec.ts:335:1 › IOT-DASH-001 shows query cutoff separately from successful refresh time (2.2s)
+  ✓  127 [mobile] › tests/browser/dashboard.spec.ts:348:1 › IOT-DASH-001 expands the full event history without changing the query (2.3s)
+  ✓  128 [mobile] › tests/browser/delivery.spec.ts:4:1 › IOT-PLATFORM-001/002 shows factual requirements, issue and pending review with traceability (2.3s)
+  ✓  129 [mobile] › tests/browser/delivery.spec.ts:27:1 › IOT-RELEASE-001 explains why production is blocked and saves only a local Mock record (1.9s)
+  ✓  130 [mobile] › tests/browser/delivery.spec.ts:43:1 › IOT-PLATFORM-002 light theme is accessible and page fits the viewport (2.7s)
+  ✓  131 [mobile] › tests/browser/delivery.spec.ts:51:1 › IOT-PLATFORM-001 returns an approved scope change to review with a CHG trace (3.2s)
+  ✓  133 [mobile] › tests/browser/delivery.spec.ts:100:1 › IOT-RELEASE-001 keeps a blocked record editable with an audit revision (2.0s)
+  ✓  132 [mobile] › tests/browser/delivery.spec.ts:82:1 › IOT-RELEASE-001 groups checks and opens missing release material (3.9s)
+  ✓  134 [mobile] › tests/browser/delivery.spec.ts:126:1 › IOT-PLATFORM-002 delivery dialog keeps keyboard focus and restores the trigger (1.6s)
+  ✓  135 [mobile] › tests/browser/delivery.spec.ts:143:1 › IOT-RELEASE-001 keeps release title and actions visible while reviewing checks (1.6s)
+  ✓  137 [mobile] › tests/browser/device-flow.spec.ts:51:1 › M2 distinguishes empty, unavailable and forbidden lists with recoverable feedback (2.0s)
+  ✓  136 [mobile] › tests/browser/device-flow.spec.ts:4:1 › M2 restores applied filters, pagination and edited detail through URL and history (3.7s)
+  ✓  138 [mobile] › tests/browser/device-flow.spec.ts:69:1 › M2 missing detail reports failure in the drawer and returns to its filtered list (1.2s)
+  ✓  139 [mobile] › tests/browser/device-flow.spec.ts:81:1 › M2 readonly identity explains metadata permissions without an edit action (1.5s)
+  ✓  140 [mobile] › tests/browser/device-flow.spec.ts:91:1 › M2 Escape protects a dirty draft and restores focus after discard (2.3s)
+  ✓  141 [mobile] › tests/browser/device-flow.spec.ts:115:1 › M2 slow detail and save expose pending state and prevent duplicate writes (1.8s)
+  ✓  142 [mobile] › tests/browser/device-flow.spec.ts:138:1 › M2 version conflicts keep the draft until explicit reload, then allow saving (2.2s)
+  ✓  143 [mobile] › tests/browser/device-flow.spec.ts:164:1 › M2 history cannot reveal a foreign device after identity changes (1.5s)
+  ✓  144 [mobile] › tests/browser/device-flow.spec.ts:180:1 › M2 history closes nested control preview and releases the detail scroll lock (1.9s)
+  ✓  145 [mobile] › tests/browser/device-flow.spec.ts:196:1 › M2 full-width tablet detail traps focus and releases it when resized to desktop (1.7s)
+  ✓  146 [mobile] › tests/browser/devices.spec.ts:5:1 › IOT-TENANT-001 warns before device registration enters the quota warning range (1.4s)
+  ✓  147 [mobile] › tests/browser/devices.spec.ts:14:1 › IOT-DEVICE-001 keeps create, import and delete confirmation focus inside dialogs (2.7s)
+  ✓  148 [mobile] › tests/browser/devices.spec.ts:53:1 › IOT-DEVICE-001 shows the empty UTC interval and focuses the range control (2.3s)
+  ✓  149 [mobile] › tests/browser/devices.spec.ts:67:1 › IOT-DEVICE-001 exports every selected device across pages (2.0s)
+  ✓  150 [mobile] › tests/browser/devices.spec.ts:86:1 › IOT-DEVICE-001 requeries the UTC window when zooming telemetry (2.1s)
+  ✓  151 [mobile] › tests/browser/devices.spec.ts:100:1 › IOT-DEVICE-001 filters, sorts and pages devices before opening detail (2.1s)
+  ✓  152 [mobile] › tests/browser/devices.spec.ts:125:3 › IOT-DEVICE-001 UTC and custom tag filters › filters imported tags and treats the entered last active minute as UTC (2.9s)
+  ✓  154 [mobile] › tests/browser/devices.spec.ts:175:1 › IOT-DEVICE-001 queries a custom UTC telemetry interval and rejects invalid bounds (1.4s)
+  ✓  155 [mobile] › tests/browser/devices.spec.ts:194:1 › IOT-DEVICE-001 shows raw messages and persists fault alarm acknowledgement (1.9s)
+  ✓  153 [mobile] › tests/browser/devices.spec.ts:149:1 › IOT-DEVICE-001 shows two telemetry units, gaps, zoom and export (7.5s)
+  ✓  157 [mobile] › tests/browser/devices.spec.ts:250:1 › IOT-DEVICE-001 explains rejected control parameters inside the preview (2.8s)
+  ✓  156 [mobile] › tests/browser/devices.spec.ts:210:1 › IOT-DEVICE-001 imports CSV atomically and confirms batch deletion (7.2s)
+  ✓  158 [mobile] › tests/browser/devices.spec.ts:269:1 › IOT-DEVICE-001 previews and records model driven control, with offline and permission guards (3.9s)
+  ✓  160 [mobile] › tests/browser/devices.spec.ts:340:1 › IOT-DEVICE-001 displays and reconciles the device shadow after a command (3.0s)
+  ✓  159 [mobile] › tests/browser/devices.spec.ts:315:1 › IOT-DEVICE-001 live telemetry updates and persists the reported shadow (8.1s)
+  ✓  161 [mobile] › tests/browser/devices.spec.ts:366:1 › IOT-DEVICE-001 is accessible in light theme and narrow viewport (3.3s)
+  ✓  162 [mobile] › tests/browser/devices.spec.ts:379:1 › IOT-DEVICE-001 keeps edited metadata after reload (2.0s)
+  ✓  163 [mobile] › tests/browser/diagnostic.spec.ts:3:1 › IOT-QUALITY-001 invalid input, failure and retry (1.8s)
+  ✓  165 [mobile] › tests/browser/firmware-ota.spec.ts:4:1 › IOT-FIRMWARE-001 registers, verifies and releases metadata without uploading the file (3.0s)
+  ✓  164 [mobile] › tests/browser/diagnostic.spec.ts:20:1 › IOT-QUALITY-001 accessible states and responsive layout (4.1s)
+  ✓  166 [mobile] › tests/browser/firmware-ota.spec.ts:35:1 › IOT-FIRMWARE-001 shows actual local read progress before checksum completes (2.1s)
+  ✓  167 [mobile] › tests/browser/firmware-ota.spec.ts:46:1 › IOT-TENANT-001 previews storage use and rejects firmware metadata beyond the tenant limit (2.4s)
+  ✓  169 [mobile] › tests/browser/firmware-ota.spec.ts:128:1 › IOT-FIRMWARE-001 and IOT-OTA-001 remain accessible and fit a narrow viewport (2.4s)
+  ✓  170 [mobile] › tests/browser/firmware-ota.spec.ts:139:1 › IOT-OTA-001 confirms rollback as a separate task and keeps read-only roles read-only (12.4s)
+  ✓  168 [mobile] › tests/browser/firmware-ota.spec.ts:68:1 › IOT-OTA-001 previews batches, auto pauses on failure and preserves a retry attempt (17.1s)
+  ✓  172 [mobile] › tests/browser/geography.spec.ts:60:1 › IOT-GEO-001 clears old tenant data and detail when identity is denied (3.7s)
+  ✓  171 [mobile] › tests/browser/geography.spec.ts:4:1 › IOT-GEO-001 filters, drills to device, and keeps unlocated devices accessible (7.6s)
+  ✓  173 [mobile] › tests/browser/geography.spec.ts:91:1 › IOT-GEO-001 keeps the applied map when a custom UTC range is invalid (3.1s)
+  ✓  175 [mobile] › tests/browser/geography.spec.ts:158:1 › IOT-GEO-001 map fallback, permissions, theme and narrow layout (5.3s)
+  ✓  174 [mobile] › tests/browser/geography.spec.ts:114:1 › IOT-GEO-001 sorts and paginates a dense node list and opens device detail (5.7s)
+  ✓  177 [mobile] › tests/browser/labs.spec.ts:4:1 › IOT-LEARNING-001 main UI example filters fixed data and keeps theme local (3.4s)
+  ✓  176 [mobile] › tests/browser/geography.spec.ts:188:1 › IOT-GEO-001 legend filters map, list and statistics through the same status query (4.7s)
+  ✓  179 [mobile] › tests/browser/labs.spec.ts:68:1 › IOT-LEARNING-001 lab fits narrow screens and passes accessibility scan (5.8s)
+  ✓  178 [mobile] › tests/browser/labs.spec.ts:31:1 › IOT-LEARNING-001 React candidate UI libraries render real controls with shared data (9.0s)
+  ✓  180 [mobile] › tests/browser/labs.spec.ts:77:1 › IOT-LEARNING-001 renders the same trend, bar and pie data with three chart libraries (3.5s)
+  ✓  181 [mobile] › tests/browser/labs.spec.ts:100:1 › IOT-LEARNING-001 serves this framework implementation source and PRD link (2.3s)
+  ✓  182 [mobile] › tests/browser/products.spec.ts:4:1 › IOT-TENANT-001 previews product quota warning before saving a new product (3.0s)
+  ✓  183 [mobile] › tests/browser/products.spec.ts:21:1 › IOT-PRODUCT-001 paginates associated devices after a permitted import (4.4s)
+  ✓  184 [mobile] › tests/browser/products.spec.ts:49:1 › IOT-PRODUCT-001 lists associated devices and opens their detail (2.6s)
+  ✓  186 [mobile] › tests/browser/products.spec.ts:102:1 › IOT-PRODUCT-001 removes product details across identities and forbidden responses (2.0s)
+  ✓  185 [mobile] › tests/browser/products.spec.ts:65:1 › IOT-PRODUCT-001 confirmation dialogs support keyboard focus and Escape (3.3s)
+  ✓  187 [mobile] › tests/browser/products.spec.ts:119:1 › IOT-PRODUCT-001 keeps access configuration separate and persists validated edits (3.2s)
+  ✓  188 [mobile] › tests/browser/products.spec.ts:148:1 › IOT-PRODUCT-001 confirms protocol impact before resetting paths (3.0s)
+  ✓  189 [mobile] › tests/browser/products.spec.ts:168:1 › IOT-PRODUCT-001 exports only selected visible products (1.9s)
+  ✓  190 [mobile] › tests/browser/products.spec.ts:182:1 › IOT-PRODUCT-001 product list filters, pages, and DP conversion (3.1s)
+  ✓  191 [mobile] › tests/browser/products.spec.ts:218:1 › IOT-PRODUCT-001 validates edits, shows impact and guards unsaved changes (4.1s)
+  ✓  192 [mobile] › tests/browser/products.spec.ts:251:1 › IOT-PRODUCT-001 locates invalid model JSON and preserves the draft (2.6s)
+  ✓  193 [mobile] › tests/browser/products.spec.ts:273:1 › IOT-PRODUCT-001 validates new model identifiers while editing and preserves existing items (2.8s)
+  ✓  194 [mobile] › tests/browser/products.spec.ts:295:1 › IOT-PRODUCT-001 read-only role, theme, accessibility and narrow layout (3.9s)
+  ✓  195 [mobile] › tests/browser/products.spec.ts:313:1 › IOT-PRODUCT-001 confirms removal of incompatible model fields (2.2s)
+  ✓  196 [mobile] › tests/browser/rules.spec.ts:4:1 › IOT-RULE-001 saves a dry-run sample and compares immutable rule versions (3.6s)
+  ✓  197 [mobile] › tests/browser/rules.spec.ts:28:1 › IOT-RULE-001 lists seeded rules and traces a dry run before explicit log application (3.5s)
+  ✓  199 [mobile] › tests/browser/rules.spec.ts:91:1 › IOT-RULE-001 enforces viewer and operator permissions in the page (1.3s)
+  ✓  198 [mobile] › tests/browser/rules.spec.ts:61:1 › IOT-RULE-001 creates and persists a connected rule and prevents a cycle (3.7s)
+  ✓  200 [mobile] › tests/browser/rules.spec.ts:103:1 › IOT-RULE-001 stays accessible in light theme and narrow viewport (4.6s)
+  ✓  202 [mobile] › tests/browser/shell.spec.ts:44:1 › M1 dirty metadata protects Back to unknown route and refresh; discard and focus return (4.5s)
+  ✓  201 [mobile] › tests/browser/shell.spec.ts:19:1 › IOT-PLATFORM-003 M1 persistent shell, all menus, lazy content and history (7.5s)
+  ✓  203 [mobile] › tests/browser/shell.spec.ts:65:1 › M1 dirty products protect navigation and forward history (2.6s)
+  ✓  204 [mobile] › tests/browser/shell.spec.ts:79:1 › M1 responsive navigation and fixed chrome (3.1s)
+  ✓  206 [mobile] › tests/browser/shell.spec.ts:126:1 › M1 React map survives callback changes while country drawer opens (2.1s)
+  ✓  205 [mobile] › tests/browser/shell.spec.ts:103:1 › M1 dirty unknown destination, route links and clean deep-link reload (3.3s)
+  ✓  207 [mobile] › tests/browser/shell.spec.ts:136:1 › M1 saved normalized metadata leaves without confirmation and closed detail stops telemetry (2.1s)
+  ✓  208 [mobile] › tests/browser/shell.spec.ts:157:1 › M1 navigation chrome stays mounted while the next route chunk is loading (2.6s)
+  ✓  209 [mobile] › tests/browser/tenants.spec.ts:5:1 › IOT-TENANT-001 filters tenants and carries the selected tenant to the dashboard (2.9s)
+  ✓  210 [mobile] › tests/browser/tenants.spec.ts:30:1 › IOT-TENANT-001 previews quota impact, manages Mock members and keeps viewers read-only (4.5s)
+  ✓  211 [mobile] › tests/browser/tenants.spec.ts:66:1 › IOT-TENANT-001 has accessible light theme and no page overflow (2.6s)
+  ✓  213 [mobile] › tests/browser/tenants.spec.ts:112:1 › IOT-TENANT-001 creates a tenant, publishes its product and registers its device (4.0s)
+  ✓  212 [mobile] › tests/browser/tenants.spec.ts:73:1 › IOT-TENANT-001 routes blocked quota use to the correct tenant resources (5.3s)
+  ✓  215 [mobile] › tests/browser/v3.spec.ts:125:1 › V3 rule-to-alarm lifecycle preserves owner, reason and audit (2.4s)
+  ✓  214 [mobile] › tests/browser/v3.spec.ts:63:1 › V3 provisioning, metadata, shadow, command and applied-query CSV (3.9s)
+  ✓  216 [mobile] › tests/browser/v3.spec.ts:161:1 › V3 OTA failure/retry changes only failed attempts and operator permissions (2.7s)
+  ✓  217 [mobile] › tests/browser/v3.spec.ts:202:1 › V3 members, quota validation and viewer write denial (2.7s)
+  ✓  219 [mobile] › tests/browser/v3.spec.ts:308:1 › V3 list filter restoration, modal keyboard focus and saved-form guard does not leak (2.4s)
+  ✓  220 [mobile] › tests/browser/v3.spec.ts:339:1 › V3 dirty back, forward, unknown route and native refresh cancel/accept (2.5s)
+  ✘  221 [mobile] › tests/browser/v3.spec.ts:388:1 › V3 identity/search discard destroys drafts and leaves future guards active (6.8s)
+(node:87431) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  218 [mobile] › tests/browser/v3.spec.ts:239:1 › V3 all 14 modules keep the shell across all 56 exception states (13.4s)
+  ✓  222 [mobile] › tests/browser/v3.spec.ts:463:1 › V3 bulk delete requires confirmation and clears removed selections (2.4s)
+  ✓  224 [mobile] › tests/browser/v3.spec.ts:480:1 › V3 corrupt persistence recovers, denied persistence is reported honestly (1.7s)
+  ✓  223 [mobile] › tests/browser/v3.spec.ts:420:1 › V3 model attributes, connectors, nodes, search and notifications are interactive (5.2s)
+
+
+  1) [desktop] › tests/browser/v3.spec.ts:388:1 › V3 identity/search discard destroys drafts and leaves future guards active 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: '设备中心', exact: true, level: 1 })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('heading', { name: '设备中心', exact: true, level: 1 }) with timeout 5000ms
+      - waiting for getByRole('heading', { name: '设备中心', exact: true, level: 1 })
+
+
+      43 |       exact: true,
+      44 |     }),
+    > 45 |   ).toBeVisible();
+         |     ^
+      46 | }
+      47 | async function prompt(
+      48 |   page: Page,
+        at nav (/workspace/frontend-framework-learning-hub/code/apps/react/tests/browser/v3.spec.ts:45:5)
+        at prompt (/workspace/frontend-framework-learning-hub/code/apps/react/tests/browser/v3.spec.ts:55:3)
+        at /workspace/frontend-framework-learning-hub/code/apps/react/tests/browser/v3.spec.ts:411:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    reports/test-results/v3-V3-identity-search-disc-01e0e-leaves-future-guards-active-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: reports/test-results/v3-V3-identity-search-disc-01e0e-leaves-future-guards-active-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/test-results/v3-V3-identity-search-disc-01e0e-leaves-future-guards-active-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace reports/test-results/v3-V3-identity-search-disc-01e0e-leaves-future-guards-active-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [mobile] › tests/browser/v3.spec.ts:388:1 › V3 identity/search discard destroys drafts and leaves future guards active 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByRole('heading', { name: '设备中心', exact: true, level: 1 })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByRole('heading', { name: '设备中心', exact: true, level: 1 }) with timeout 5000ms
+      - waiting for getByRole('heading', { name: '设备中心', exact: true, level: 1 })
+
+
+      43 |       exact: true,
+      44 |     }),
+    > 45 |   ).toBeVisible();
+         |     ^
+      46 | }
+      47 | async function prompt(
+      48 |   page: Page,
+        at nav (/workspace/frontend-framework-learning-hub/code/apps/react/tests/browser/v3.spec.ts:45:5)
+        at prompt (/workspace/frontend-framework-learning-hub/code/apps/react/tests/browser/v3.spec.ts:55:3)
+        at /workspace/frontend-framework-learning-hub/code/apps/react/tests/browser/v3.spec.ts:411:3
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    reports/test-results/v3-V3-identity-search-disc-01e0e-leaves-future-guards-active-mobile/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: reports/test-results/v3-V3-identity-search-disc-01e0e-leaves-future-guards-active-mobile/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/test-results/v3-V3-identity-search-disc-01e0e-leaves-future-guards-active-mobile/trace.zip
+    Usage:
+
+        npx playwright show-trace reports/test-results/v3-V3-identity-search-disc-01e0e-leaves-future-guards-active-mobile/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [desktop] › tests/browser/v3.spec.ts:388:1 › V3 identity/search discard destroys drafts and leaves future guards active 
+    [mobile] › tests/browser/v3.spec.ts:388:1 › V3 identity/search discard destroys drafts and leaves future guards active 
+  222 passed (7.2m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

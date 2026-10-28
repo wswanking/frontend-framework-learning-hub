@@ -1,6 +1,6 @@
 {
-  "runAt": "2026-10-28T12:23:10.129Z",
-  "head": "bfe3de601e0b6b39df0054e326e7f0960d04c85e",
+  "runAt": "2026-10-28T12:44:46.894Z",
+  "head": "0905a2a2a32360f95f66a74a6dca5beb3dd1fd92",
   "scope": "Working-tree production source files under each src; includes old compatibility pages, excludes spec tests. Dist identities are separately recorded in *-capture.json.",
   "apps": [
     {
@@ -70,7 +70,7 @@
         "code/apps/react/src/useUnsavedChanges.ts": "51bf6d8bedbe27535da791ff44fcae3bb9aa144407870134c208cf7aad737651",
         "code/apps/react/src/v3/Icon.tsx": "63099250936727a0e825c9bb28044aa6fc471747a3451dd2451fa6644098b77d",
         "code/apps/react/src/v3/Page.tsx": "b0c821a26e9e937e81c5af38b60b7f2cc7edb8b7b7793d3d6ad9e6953c7bc621",
-        "code/apps/react/src/v3/Shell.tsx": "630c42d4c10ff294c059c91e059ecfc0ec1cdb75ffaf161225639a9696e7d5c2",
+        "code/apps/react/src/v3/Shell.tsx": "1b96e4a52de1e586328fc0ee9144e9b2073e62c578080468149305f8d0cd2ccb",
         "code/apps/react/src/v3/WorkspaceDialog.tsx": "8bada1051df109df24127448fbe238c085ee0338e7bd98e1d822aa18f9138874",
         "code/apps/react/src/v3/actions.tsx": "e8bf922bf5292df6e6a1dffd396719e1453c27b5603610909209315c414b2eb6",
         "code/apps/react/src/v3/context.tsx": "7ce44b79631c126113b64dc5d84a3dca044ead8983b0baa5a9afd276dc882688",

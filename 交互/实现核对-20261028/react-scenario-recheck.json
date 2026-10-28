@@ -1,0 +1,20 @@
+{
+  "runAt": "2026-10-28T12:44:00.434Z",
+  "buildTime": "2026-10-28T12:42:28.128Z",
+  "cases": [
+    {
+      "width": 1440,
+      "sameUrlLoadingRetained": true,
+      "changedRouteNormal": true,
+      "historyNormal": true,
+      "sameShell": true
+    },
+    {
+      "width": 390,
+      "sameUrlLoadingRetained": true,
+      "changedRouteNormal": true,
+      "historyNormal": true,
+      "sameShell": true
+    }
+  ]
+}

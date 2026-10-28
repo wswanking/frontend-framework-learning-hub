@@ -1,6 +1,7 @@
 {
-  "sourceCommit": "bfe3de601e0b6b39df0054e326e7f0960d04c85e",
-  "note": "Final app tracked file fingerprint; Vue final full browser run in progress, React and Angular full suites complete. Later verification checks unchanged files.",
+  "sourceCommit": "874d03633063dcc089694b5dced54b5a071e5060",
+  "runtimeFixCommit": "0905a2a2a32360f95f66a74a6dca5beb3dd1fd92",
+  "note": "Final 463 tracked app files; React complete suite rerun after CI corrections; Vue and Angular files unchanged. Final evidence commit changes no app files.",
   "files": {
     "code/apps/angular/.gitignore": "6bbb27b7b4b8cd6d67064ee0c8c8cfb44ee85d71ef5d193c64b8d29a1d364459",
     "code/apps/angular/.npmrc": "cde76ca04e048c3eba070a2c0dfcf5b723cf6014eab177157096b924f24ec4ca",
@@ -276,7 +277,7 @@
     "code/apps/react/src/useUnsavedChanges.ts": "51bf6d8bedbe27535da791ff44fcae3bb9aa144407870134c208cf7aad737651",
     "code/apps/react/src/v3/Icon.tsx": "63099250936727a0e825c9bb28044aa6fc471747a3451dd2451fa6644098b77d",
     "code/apps/react/src/v3/Page.tsx": "b0c821a26e9e937e81c5af38b60b7f2cc7edb8b7b7793d3d6ad9e6953c7bc621",
-    "code/apps/react/src/v3/Shell.tsx": "630c42d4c10ff294c059c91e059ecfc0ec1cdb75ffaf161225639a9696e7d5c2",
+    "code/apps/react/src/v3/Shell.tsx": "1b96e4a52de1e586328fc0ee9144e9b2073e62c578080468149305f8d0cd2ccb",
     "code/apps/react/src/v3/WorkspaceDialog.tsx": "8bada1051df109df24127448fbe238c085ee0338e7bd98e1d822aa18f9138874",
     "code/apps/react/src/v3/actions.tsx": "e8bf922bf5292df6e6a1dffd396719e1453c27b5603610909209315c414b2eb6",
     "code/apps/react/src/v3/context.tsx": "7ce44b79631c126113b64dc5d84a3dca044ead8983b0baa5a9afd276dc882688",
@@ -306,7 +307,7 @@
     "code/apps/react/tests/browser/rules.spec.ts": "9646c46079edf16e2f51cac444f375b5f9631e52321a1cc89b48b305b7ef1340",
     "code/apps/react/tests/browser/shell.spec.ts": "1d27afb4124778969a54ea76550b4c3b576e56f8f535c9f2a24dfcea76feb102",
     "code/apps/react/tests/browser/tenants.spec.ts": "779d2b0fb21bdb4219cd67c4493dae456310bc5bba7547825b7d8e4114debb5f",
-    "code/apps/react/tests/browser/v3.spec.ts": "1663a383e3a381b4b4bb1f38b687c5c6e56ada86ba7f903567c7f762e75ad22b",
+    "code/apps/react/tests/browser/v3.spec.ts": "bd235d39031c9e86b115f430776441e22a15f90ee209d8016fdb9963b3419eeb",
     "code/apps/react/tests/setup.ts": "91a3c8962a0edcb956206a501d943fe99e1c78c6d4d8b5c9a948a3362c75978c",
     "code/apps/react/tests/visual/baseline-review.json": "b3295c256621aa0061da3ef8564c1b3f98b7f946ef986c0fed58d7d7d2bf868c",
     "code/apps/react/tests/visual/diagnostic.spec.ts": "8a3845ee9ac9ffccc8a9277f310bcfe4e416e10906c4dc2e9ad60977dbe5bf20",
@@ -465,6 +466,5 @@
     "code/apps/vue/tsconfig.json": "3d334b184dd928a17a4b2b2115018184d5b255d3bc305d2bf1711019f552420c",
     "code/apps/vue/visual.config.ts": "f559b9951c2b4adcbc003bf74868519d0746ddd28438d197ac444e835c377eae",
     "code/apps/vue/vite.config.ts": "d23c44c5a3cb8f09a59080ffd170358f23862ebba14f20bba42d746081f2f89a"
-  },
-  "finalVerification": "All 463 tracked application files unchanged after final complete suites; React visual metadata change is separately documented."
+  }
 }

@@ -41,3 +41,31 @@ screenshots/ 包含 desktop/mobile 的 workspace、devices、device-shadow、ota
 独立 reviewer 最终证据：仓库 reports/v3-rebuild-parity/react-final-delta.json（main 焦点不绘制橙框、390px 影子标签和值间隔10px）、react-nested-focus.json（产品嵌套弹窗桌面/移动准确返回按钮）、domain-results.json（本端20/20领域独立断言）。这些不与本端126unit、224browser混算。
 
 视觉元数据修改后 typecheck、lint 通过；visual:capture **2/2 通过（14.6s）**，产生6张诊断候选截图（desktop/mobile × initial/invalid/success）。见 typecheck-visual-metadata.log、lint-visual-metadata.log、visual-capture.log、visual-final.xml；候选在 ../visual-candidates/，不是已批准产品基线。最终视觉门禁仍 VISUAL_PENDING，未人工批准。
+
+## PR #2 首次 CI 失败与最小修复
+
+精确运行 40688405912 / React job122816647559（PR合并测试765c6ddb，head2f00616）：guard4、unit126、build通过，浏览器222通过/2失败；desktop/mobile的56异常矩阵都在 loading 标题断言失败，自动retry1仍失败，0 flaky。原始日志归档 ci-original/react-job.log，远端诊断artifact12816745001保留trace；证据封装随浏览器失败拒绝，不属于独立产品失败。
+
+Shell 曾在 location.key/path 的 passive effect 里异步重置 scenario，持久select在路由提交期间可继续操作；测试nav也未等待目标内容。修复为单个当前 URL（pathname+search）所属的scenario状态，路由render派生normal并清除前URL选择，避免延后effect覆盖下一次选择，不缓存所有页面；同URL点击保持已选异常。dirty/modal逻辑保持原样。nav helper现在等待目标h1。
+
+新增同URL真实点击保持加载断言嵌入原case，所有56异常/axe断言保留，无新增retry或放宽等待。原Shell负对照desktop/mobile2/2失败，修复后矩阵2/2通过16.8s：ci-negative-same-route.log、ci-negative-results/、ci-fix-matrix-final.log。旧矩阵在154重复5×2为10/10通过（ci-race-reproduction.log），因此不声称CI153原始时序已本地稳定复现。
+
+153下载被cdn.playwright.dev返回403 Domain forbidden，artifact文件引用读取被Tunnel403拒绝；已停止而未绕过。ci-browser-install.log记录限制。新远端精确CI负责153复验。本地继续使用实际系统Chromium154.0.8037.57。
+
+修复后的完整diagnose通过：guard4/4、unit126/126、boundary/type/lint、build1.75s；ci-fix-diagnose.log、ci-fix-unit-final.xml。新冻结源码记录ci-fix-frozen-source.json。完整224零retry结果将在运行结束后记录。
+
+### 修复后的测试 helper 修正（不隐藏第二轮失败）
+
+中间运行40690310405 / job122823129593（head0905a2a）222通过/2失败，0 flaky；56异常矩阵已在153两端通过，失败变为 identity/search 的取消离开测试：新 nav helper 错误地在取消成功、页面仍停留settings时等待设备中心h1。本地对应轮同样222通过/2失败（7.2min）。证据：ci-original/react-fix1-job.log、ci-fix-helper-failure.log、ci-helper-failure/。
+
+随后只拆分测试助手：clickNav仅触发导航供取消断言使用，nav为已预期成功的操作等待目标h1；两处prompt(false)改用clickNav，取消后的URL、草稿、再次编辑/离开保护断言不变。全文件检查没有其他取消/权限拒绝调用nav。runtime为0905a2a，测试helper修正提交874d036。
+
+最新diagnose再次通过guard4、unit126、边界/type/lint/build1.93s，随后完整224零重试重新运行；不把上面的失败轮当作最终通过。
+
+### 修复最终结果（本地）
+
+- 完整 browser **224/224通过，6.9min，零重试、零失败、零跳过**；desktop/mobile112各，含V3各11。关键56异常矩阵、同URL加载保持、取消导航guard均通过。
+- 证据：ci-fix-e2e-final.log、ci-fix-e2e-final.xml、ci-fix-playwright-final/；此前失败日志/trace全部保留，没有覆盖成成功。
+- ci-fix-frozen-source.json 的133个文件在全套结束逐一SHA核验一致，见ci-fix-source-verification.log。运行时0905a2a、测试helper874d036，与本次diagnose/build相符。
+- visual:capture 2/2通过；ci-fix-visual-capture.log、ci-fix-visual-final.xml。实际workspace/devices/shadow/OTA桌面移动截图由最终V3测试重新采集到screenshots/，视觉baseline仍待人工审阅。
+- 精确最终HEAD远端CI由父线程跟踪；不把0905a2a失败的中间运行或本地154通过冒充最终153云端成功。

@@ -21,7 +21,7 @@ npm run visual:capture
 npm run capture:v2
 ```
 
-`diagnose` 无需浏览器；`test:e2e` 和截图需要浏览器引擎，可在 CI 无界面执行。先构建再运行 `capture:v2`，每端在 `reports/v2-candidates/` 生成九个业务路由及关键交互状态的桌面/移动候选截图与清单（当前每端 74 张）。三端都采集后，在仓库根运行 `node tools/build-v2-review.mjs`，可查看 `reports/v2-review/index.html` 中的 V2 图稿与三端候选对照。CI 在隔离安装、构建、浏览器检查和截图采集成功后生成 `reports/ci-evidence.json`，记录提交、运行链接、测试报告与构建文件哈希；它仅是诊断证据。候选截图不等于设计验收；`test:visual` 在当前系统没有审核基准时明确失败，`verify` 才是包含视觉检查的完整门禁。
+`diagnose` 无需浏览器；`test:e2e` 和截图需要浏览器引擎，可在 CI 无界面执行。先构建再运行 `capture:v2`，每端在 `reports/v2-candidates/` 生成九个业务路由及关键交互状态的桌面/移动候选截图与清单（数量以实际生成清单为准）。三端都采集后，在仓库根运行 `node tools/build-v2-review.mjs`，可查看 `reports/v2-review/index.html` 中的 V2 图稿与三端候选对照。CI 在隔离安装、构建、浏览器检查和截图采集成功后生成 `reports/ci-evidence.json`，记录提交、运行链接、测试报告与构建文件哈希；它仅是诊断证据。候选截图不等于设计验收；`test:visual` 在当前系统没有审核基准时明确失败，`verify` 才是包含视觉检查的完整门禁。
 
 外层用 `node tools/diagnose-all.mjs diagnose` 调度三端并比较固定场景下八个功能域的实际 DTO 与错误；也可单独运行 `node tools/diagnose-all.mjs parity`。不需要根 package.json 或根 node_modules。各端源码、依赖、锁文件、配置、测试和资源均独立维护。
 

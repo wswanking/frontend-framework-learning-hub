@@ -5,7 +5,7 @@
       "tests": "126",
       "failures": "0",
       "errors": "0",
-      "time": "10.341635842"
+      "time": "3.736234028"
     },
     "browser": {
       "id": "",
@@ -14,7 +14,7 @@
       "failures": "0",
       "skipped": "0",
       "errors": "0",
-      "time": "838.4735739999999"
+      "time": "414.52199"
     },
     "visualCapture": {
       "id": "",
@@ -23,7 +23,7 @@
       "failures": "0",
       "skipped": "0",
       "errors": "0",
-      "time": "14.565676999999999"
+      "time": "6.531893"
     }
   },
   "vue": {
