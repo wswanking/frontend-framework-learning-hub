@@ -1233,3 +1233,8 @@ body:has(.v3 .sidebar.open) {
 .v3 .filters .button-link:hover {
   background: #eef3f5;
 }
+
+/* Programmatic focus returns to the main landmark; interactive focus stays visible. */
+.v3 .main:focus-visible {
+  outline: none;
+}

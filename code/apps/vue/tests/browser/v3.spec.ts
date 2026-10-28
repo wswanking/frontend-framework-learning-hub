@@ -374,6 +374,18 @@ test("V3 deletion clears selection and dialog contains keyboard focus", async ({
   await expect(modal(page)).not.toBeVisible();
   await expect(page.getByRole("button", { name: "删除所选" })).toHaveCount(0);
   await expect(page.getByRole("main")).toBeFocused();
+  await expect(page.getByRole("main")).toHaveCSS("outline-style", "none");
+  const skip = page.getByRole("link", { name: "跳到主要内容" });
+  await page.keyboard.press("Tab");
+  await skip.focus();
+  await expect(skip).toBeFocused();
+  await expect(skip).toHaveCSS("outline-style", "solid");
+  await expect(skip).toHaveCSS("outline-width", "3px");
+  await page.getByRole("button", { name: "注册设备" }).focus();
+  await expect(page.getByRole("button", { name: "注册设备" })).toHaveCSS(
+    "outline-style",
+    "solid",
+  );
   await expect(page.getByRole("table")).not.toContainText("CH-TEMP-005");
   await page.reload();
   await expect(page.getByRole("table")).not.toContainText("CH-TEMP-005");
