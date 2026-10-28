@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "reviewDate": "2026-10-28",
-  "generatedAt": "2026-10-28T12:12:18.115Z",
+  "generatedAt": "2026-10-28T12:44:47.652Z",
   "basis": {
     "approvedDesignCommit": "d809519887804a66d9206482c51b899ca11ac89d",
     "rebuildBase": "b20bd23cff8941dfac93a2fc7cb7017edae58ccc",
@@ -55,10 +55,10 @@
       },
       "finalCapture": {
         "app": "react",
-        "runAt": "2026-10-28T11:56:11.055Z",
+        "runAt": "2026-10-28T12:44:10.886Z",
         "browser": "154.0.8037.57",
-        "buildTime": "2026-10-28T11:55:23.124Z",
-        "indexSha256": "7dc8fe797b66282610cc42aadc25af1b0b885b0428b2b30d099e725e044d194c",
+        "buildTime": "2026-10-28T12:42:28.128Z",
+        "indexSha256": "8ae6d2967dbe3e08228912545ae9fbc3146a81cdd1e9c36b14d4eebece2f5197",
         "screenshots": [
           {
             "file": "react-desktop.png",
@@ -130,10 +130,10 @@
       },
       "finalCapture": {
         "app": "vue",
-        "runAt": "2026-10-28T12:06:07.348Z",
+        "runAt": "2026-10-28T12:22:37.350Z",
         "browser": "154.0.8037.57",
-        "buildTime": "2026-10-28T12:04:11.182Z",
-        "indexSha256": "e038ba988c655ff6f808e74380a665e27d945a77bae3a82725175f8ce55f4e63",
+        "buildTime": "2026-10-28T12:20:55.990Z",
+        "indexSha256": "39453c2fa57684d7b2dc160e0668499b64e069aba13de21b60f3393ceb038b23",
         "screenshots": [
           {
             "file": "vue-desktop.png",
@@ -141,7 +141,7 @@
               "width": 1440,
               "height": 1000
             },
-            "sha256": "00133090c362e820f5bc3e230edcaefdd96de53e8b16e6bab88ee69b3166829a",
+            "sha256": "35fd8c2b494664dac45ecc2ee9a33d893c8742676221f6cca284cca308b3c44c",
             "pageOverflow": false,
             "emptyVisibleStatus": 0
           },
@@ -254,5 +254,79 @@
     "Screenshots and layout review do not assert pixel identity or user acceptance.",
     "Local mocks do not connect hardware, mail, MQTT, IAM or production OTA services.",
     "Framework builds, unit tests, full browser regression and exact remote CI are tracked separately by implementation owners/root."
-  ]
+  ],
+  "finalVisualCorrection": {
+    "finding": "Vue desktop main landmark inherited orange outline, missed in first manual review and caught by parent.",
+    "fixCommit": "bfe3de601e0b6b39df0054e326e7f0960d04c85e",
+    "targetedEvidence": "vue-outline-recheck.json",
+    "result": {
+      "runAt": "2026-10-28T12:23:06.151Z",
+      "buildTime": "2026-10-28T12:20:55.990Z",
+      "cases": [
+        {
+          "width": 1440,
+          "main": {
+            "style": "none",
+            "width": "3px"
+          },
+          "skip": {
+            "text": "跳到主要内容",
+            "style": "solid",
+            "width": "3px"
+          },
+          "control": {
+            "tag": "SELECT",
+            "style": "solid",
+            "width": "3px"
+          },
+          "pass": true
+        },
+        {
+          "width": 390,
+          "main": {
+            "style": "none",
+            "width": "3px"
+          },
+          "skip": {
+            "text": "跳到主要内容",
+            "style": "solid",
+            "width": "3px"
+          },
+          "control": {
+            "tag": "SELECT",
+            "style": "solid",
+            "width": "3px"
+          },
+          "pass": true
+        }
+      ]
+    },
+    "angularDesktop": "Manually re-opened final image; no equivalent orange main outline.",
+    "userVisualAcceptance": "VISUAL_PENDING"
+  },
+  "reactScenarioCorrection": {
+    "commit": "0905a2a2a32360f95f66a74a6dca5beb3dd1fd92",
+    "evidence": {
+      "runAt": "2026-10-28T12:44:00.434Z",
+      "buildTime": "2026-10-28T12:42:28.128Z",
+      "cases": [
+        {
+          "width": 1440,
+          "sameUrlLoadingRetained": true,
+          "changedRouteNormal": true,
+          "historyNormal": true,
+          "sameShell": true
+        },
+        {
+          "width": 390,
+          "sameUrlLoadingRetained": true,
+          "changedRouteNormal": true,
+          "historyNormal": true,
+          "sameShell": true
+        }
+      ]
+    },
+    "dirtyEvidence": "react-dirty.json",
+    "method": "Targeted two-viewport scenario check and 12 dirty-history checks; no repeat of unchanged full matrices."
+  }
 }

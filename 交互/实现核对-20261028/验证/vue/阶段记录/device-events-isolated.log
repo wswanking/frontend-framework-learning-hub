@@ -1,0 +1,17 @@
+
+ RUN  v4.1.11 /workspace/frontend-framework-learning-hub/code/apps/vue
+
+ ✓ src/device-events.spec.ts (11 tests) 1801ms
+     ✓ dispatches an accepted report to enabled rules beyond the first rule page  1664ms
+
+ Test Files  1 passed (1)
+      Tests  11 passed (11)
+   Start at  12:01:57
+   Duration  4.96s (transform 608ms, setup 142ms, import 701ms, tests 1.80s, environment 1.92s)
+
+JUNIT report written to /workspace/frontend-framework-learning-hub/code/apps/vue/reports/unit.xml
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

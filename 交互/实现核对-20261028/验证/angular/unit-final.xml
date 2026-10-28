@@ -1,0 +1,361 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<testsuites name="vitest tests" tests="151" failures="0" errors="0" time="9.873401866">
+    <testsuite name="src/app.component.spec.ts" timestamp="2026-10-28T12:07:25.688Z" hostname="0f1323690125" tests="1" failures="0" errors="0" skipped="0" time="3.076371415">
+        <testcase classname="src/app.component.spec.ts" name="IOT-QUALITY-001 validation, failed input retention and retry" time="3.071002059">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/contract-parity.spec.ts" timestamp="2026-10-28T12:07:25.690Z" hostname="0f1323690125" tests="1" failures="0" errors="0" skipped="0" time="0.849021772">
+        <testcase classname="src/contract-parity.spec.ts" name="IOT-DOMAIN-001 cross-framework contract export &gt; writes deterministic actual DTOs for the outer parity gate" time="0.841432793">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/dashboard-operations.spec.ts" timestamp="2026-10-28T12:07:25.690Z" hostname="0f1323690125" tests="2" failures="0" errors="0" skipped="0" time="0.009663188">
+        <testcase classname="src/dashboard-operations.spec.ts" name="IOT-DASH-001 operational aggregation &gt; counts open alarms and latest completed OTA attempt within the selected time and devices" time="0.008974285">
+        </testcase>
+        <testcase classname="src/dashboard-operations.spec.ts" name="IOT-DASH-001 operational aggregation &gt; returns an empty rate with no completed executions and uses a half-open window" time="0.000493457">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/dashboard.spec.ts" timestamp="2026-10-28T12:07:25.720Z" hostname="0f1323690125" tests="10" failures="0" errors="0" skipped="0" time="0.246867369">
+        <testcase classname="src/dashboard.spec.ts" name="IOT-DOMAIN-001 / IOT-DASH-001 dashboard contract &gt; replays the same seed and aggregates one filter across every section" time="0.082073951">
+        </testcase>
+        <testcase classname="src/dashboard.spec.ts" name="IOT-DOMAIN-001 / IOT-DASH-001 dashboard contract &gt; filters tenant, region, product and time; empty range has no online rate" time="0.02150976">
+        </testcase>
+        <testcase classname="src/dashboard.spec.ts" name="IOT-DOMAIN-001 / IOT-DASH-001 dashboard contract &gt; changes generated message data only when the explicit seed changes" time="0.023369812">
+        </testcase>
+        <testcase classname="src/dashboard.spec.ts" name="IOT-DOMAIN-001 / IOT-DASH-001 dashboard contract &gt; uses the half-open time range for partial UTC days" time="0.018525795">
+        </testcase>
+        <testcase classname="src/dashboard.spec.ts" name="IOT-DOMAIN-001 / IOT-DASH-001 dashboard contract &gt; rejects UTC calendar overflow while accepting a real leap day" time="0.012835862">
+        </testcase>
+        <testcase classname="src/dashboard.spec.ts" name="IOT-DOMAIN-001 / IOT-DASH-001 dashboard contract &gt; rejects cross-tenant access before revealing data or validation details" time="0.010559318">
+        </testcase>
+        <testcase classname="src/dashboard.spec.ts" name="IOT-DOMAIN-001 / IOT-DASH-001 dashboard contract &gt; reflects an acknowledged device alarm without changing its historical event" time="0.013478713">
+        </testcase>
+        <testcase classname="src/dashboard.spec.ts" name="IOT-DOMAIN-001 / IOT-DASH-001 dashboard contract &gt; refreshes after a saved telemetry message creates a rule alarm" time="0.014251863">
+        </testcase>
+        <testcase classname="src/dashboard.spec.ts" name="IOT-DOMAIN-001 / IOT-DASH-001 dashboard contract &gt; adds recorded telemetry once to dashboard trend and geography using the same time window" time="0.043032964">
+        </testcase>
+        <testcase classname="src/dashboard.spec.ts" name="IOT-DOMAIN-001 / IOT-DASH-001 dashboard contract &gt; returns validation, partial failure and retryable offline states" time="0.003053">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/delivery.spec.ts" timestamp="2026-10-28T12:07:25.728Z" hostname="0f1323690125" tests="8" failures="0" errors="0" skipped="0" time="0.080052364">
+        <testcase classname="src/delivery.spec.ts" name="IOT-PLATFORM-001/002 and IOT-RELEASE-001 governance contract &gt; adds new seed reviews to older browser storage without replacing a recorded decision" time="0.007323123">
+        </testcase>
+        <testcase classname="src/delivery.spec.ts" name="IOT-PLATFORM-001/002 and IOT-RELEASE-001 governance contract &gt; lists factual pending records and traces a requirement to its issue and review" time="0.005313985">
+        </testcase>
+        <testcase classname="src/delivery.spec.ts" name="IOT-PLATFORM-001/002 and IOT-RELEASE-001 governance contract &gt; blocks an unlinked task from execution and keeps immutable revision history" time="0.003276597">
+        </testcase>
+        <testcase classname="src/delivery.spec.ts" name="IOT-PLATFORM-001/002 and IOT-RELEASE-001 governance contract &gt; does not let a contributor clear a high issue by closing or downgrading it" time="0.004380481">
+        </testcase>
+        <testcase classname="src/delivery.spec.ts" name="IOT-PLATFORM-001/002 and IOT-RELEASE-001 governance contract &gt; requires a designated reviewer and a recorded reason; a requirement cannot bypass review" time="0.001105318">
+        </testcase>
+        <testcase classname="src/delivery.spec.ts" name="IOT-PLATFORM-001/002 and IOT-RELEASE-001 governance contract &gt; blocks production when high issues, review, tests or rollback are missing and persists a draft release" time="0.035945004">
+        </testcase>
+        <testcase classname="src/delivery.spec.ts" name="IOT-PLATFORM-001/002 and IOT-RELEASE-001 governance contract &gt; returns an approved requirement to review and records a CHG when its scope changes" time="0.014568304">
+        </testcase>
+        <testcase classname="src/delivery.spec.ts" name="IOT-PLATFORM-001/002 and IOT-RELEASE-001 governance contract &gt; permits a simulated release only after the blocker is resolved and records a reversible rollback" time="0.007496389">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/device-events.spec.ts" timestamp="2026-10-28T12:07:25.734Z" hostname="0f1323690125" tests="11" failures="0" errors="0" skipped="0" time="3.965441917">
+        <testcase classname="src/device-events.spec.ts" name="IOT-DEVICE-001 messages and alarm acknowledgement &gt; includes rule alarms beyond the first log page and excludes partial device ID matches" time="0.053362701">
+        </testcase>
+        <testcase classname="src/device-events.spec.ts" name="IOT-DEVICE-001 messages and alarm acknowledgement &gt; keeps the seed report unchanged after live attributes move forward" time="0.0087172">
+        </testcase>
+        <testcase classname="src/device-events.spec.ts" name="IOT-DEVICE-001 messages and alarm acknowledgement &gt; records valid live reports once and restores them from this app storage" time="0.010284981">
+        </testcase>
+        <testcase classname="src/device-events.spec.ts" name="IOT-DEVICE-001 messages and alarm acknowledgement &gt; does not charge or execute rules for invalid and missing telemetry" time="0.00323343">
+        </testcase>
+        <testcase classname="src/device-events.spec.ts" name="IOT-DEVICE-001 messages and alarm acknowledgement &gt; consumes a new live report with enabled rules once and ignores disabled rules" time="0.004992336">
+        </testcase>
+        <testcase classname="src/device-events.spec.ts" name="IOT-DEVICE-001 messages and alarm acknowledgement &gt; dispatches an accepted report to enabled rules beyond the first rule page" time="3.780857988">
+        </testcase>
+        <testcase classname="src/device-events.spec.ts" name="IOT-DEVICE-001 messages and alarm acknowledgement &gt; counts live messages against the tenant hard quota without charging duplicate reports" time="0.016709578">
+        </testcase>
+        <testcase classname="src/device-events.spec.ts" name="IOT-DEVICE-001 messages and alarm acknowledgement &gt; allows only one concurrent new report for the last message slot" time="0.013644898">
+        </testcase>
+        <testcase classname="src/device-events.spec.ts" name="IOT-DEVICE-001 messages and alarm acknowledgement &gt; shows fault alarm, forbids viewer acknowledgement and persists authorized acknowledgement" time="0.009687466">
+        </testcase>
+        <testcase classname="src/device-events.spec.ts" name="IOT-DEVICE-001 messages and alarm acknowledgement &gt; includes alarms created by rule execution for the same device" time="0.001929374">
+        </testcase>
+        <testcase classname="src/device-events.spec.ts" name="IOT-DEVICE-001 messages and alarm acknowledgement &gt; shows an OTA threshold alarm on the failed device and persists acknowledgement" time="0.055977728">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/device-filter-time.spec.ts" timestamp="2026-10-28T12:07:25.744Z" hostname="0f1323690125" tests="1" failures="0" errors="0" skipped="0" time="0.001182662">
+        <testcase classname="src/device-filter-time.spec.ts" name="IOT-DEVICE-001 UTC list filter &gt; keeps the entered UTC minute independent of browser timezone" time="0.000985261">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/device-import.spec.ts" timestamp="2026-10-28T12:07:25.744Z" hostname="0f1323690125" tests="5" failures="0" errors="0" skipped="0" time="0.035265519">
+        <testcase classname="src/device-import.spec.ts" name="IOT-DEVICE-001 atomic CSV import and delete &gt; parses quoted CSV and rejects missing or malformed columns" time="0.001542546">
+        </testcase>
+        <testcase classname="src/device-import.spec.ts" name="IOT-DEVICE-001 atomic CSV import and delete &gt; previews, imports and deletes as one confirmed operation with persistence" time="0.023421718">
+        </testcase>
+        <testcase classname="src/device-import.spec.ts" name="IOT-DEVICE-001 atomic CSV import and delete &gt; rejects over quota, invalid product, duplicates, observer and cross tenant batches without writes" time="0.005494846">
+        </testcase>
+        <testcase classname="src/device-import.spec.ts" name="IOT-DEVICE-001 atomic CSV import and delete &gt; does not reuse a live device ID after deleting an earlier imported row" time="0.001471259">
+        </testcase>
+        <testcase classname="src/device-import.spec.ts" name="IOT-DEVICE-001 atomic CSV import and delete &gt; returns a success result for reactive array inputs after the mutation" time="0.000687701">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/device-route.spec.ts" timestamp="2026-10-28T12:07:25.746Z" hostname="0f1323690125" tests="3" failures="0" errors="0" skipped="0" time="0.004484653">
+        <testcase classname="src/device-route.spec.ts" name="IOT-DEVICE-001 M2 recoverable URL state &gt; round trips every applied list field without losing the selected device" time="0.001535452">
+        </testcase>
+        <testcase classname="src/device-route.spec.ts" name="IOT-DEVICE-001 M2 recoverable URL state &gt; normalizes invalid pagination and enums without accepting a different seed" time="0.001268142">
+        </testcase>
+        <testcase classname="src/device-route.spec.ts" name="IOT-DEVICE-001 M2 recoverable URL state &gt; removes cleared filters and retains explicit tenant and page" time="0.001338197">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/device-shadow.spec.ts" timestamp="2026-10-28T12:07:25.747Z" hostname="0f1323690125" tests="3" failures="0" errors="0" skipped="0" time="0.071277793">
+        <testcase classname="src/device-shadow.spec.ts" name="IOT-DEVICE-001 device shadow &gt; shows a pending desired value, then reconciles the reported value and persists it" time="0.040452754">
+        </testcase>
+        <testcase classname="src/device-shadow.spec.ts" name="IOT-DEVICE-001 device shadow &gt; rejects cross tenant and missing device access" time="0.026492247">
+        </testcase>
+        <testcase classname="src/device-shadow.spec.ts" name="IOT-DEVICE-001 device shadow &gt; persists valid live reports without filling gaps or replaying older values" time="0.003702068">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/devices.spec.ts" timestamp="2026-10-28T12:07:25.748Z" hostname="0f1323690125" tests="7" failures="0" errors="0" skipped="0" time="0.077789649">
+        <testcase classname="src/devices.spec.ts" name="IOT-DEVICE-001 device and telemetry contract &gt; enforces IOT-TENANT-001 hard device quotas in the create service" time="0.010370249">
+        </testcase>
+        <testcase classname="src/devices.spec.ts" name="IOT-DEVICE-001 device and telemetry contract &gt; filters, sorts and paginates stable device facts with tenant isolation" time="0.002143038">
+        </testcase>
+        <testcase classname="src/devices.spec.ts" name="IOT-DEVICE-001 device and telemetry contract &gt; compares two units and preserves explicit missing telemetry points" time="0.014691466">
+        </testcase>
+        <testcase classname="src/devices.spec.ts" name="IOT-DEVICE-001 device and telemetry contract &gt; validates model-driven commands and records offline failure or online completion" time="0.007976261">
+        </testcase>
+        <testcase classname="src/devices.spec.ts" name="IOT-DEVICE-001 device and telemetry contract &gt; limits metadata changes to admins and rejects stale versions" time="0.017374484">
+        </testcase>
+        <testcase classname="src/devices.spec.ts" name="IOT-DEVICE-001 device and telemetry contract &gt; streams deterministic simulated points and stops after unsubscribe" time="0.009013158">
+        </testcase>
+        <testcase classname="src/devices.spec.ts" name="IOT-DEVICE-001 device and telemetry contract &gt; persists metadata and completed commands across service instances" time="0.015792116">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/diagnostic.spec.ts" timestamp="2026-10-28T12:07:25.755Z" hostname="0f1323690125" tests="2" failures="0" errors="0" skipped="0" time="0.244484526">
+        <testcase classname="src/diagnostic.spec.ts" name="IOT-QUALITY-001 &gt; rejects blank and overlong names" time="0.00101169">
+        </testcase>
+        <testcase classname="src/diagnostic.spec.ts" name="IOT-QUALITY-001 &gt; returns controlled failure and allows retry" time="0.24323431">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/firmware.spec.ts" timestamp="2026-10-28T12:07:25.756Z" hostname="0f1323690125" tests="9" failures="0" errors="0" skipped="0" time="0.17358609">
+        <testcase classname="src/firmware.spec.ts" name="IOT-FIRMWARE-001 firmware contract &gt; counts registered firmware size against the tenant storage quota and releases it on removal" time="0.040255243">
+        </testcase>
+        <testcase classname="src/firmware.spec.ts" name="IOT-FIRMWARE-001 firmware contract &gt; rounds aggregate firmware bytes once in the storage preview" time="0.018361127">
+        </testcase>
+        <testcase classname="src/firmware.spec.ts" name="IOT-FIRMWARE-001 firmware contract &gt; filters, pages, isolates tenants and rejects invalid queries" time="0.058626911">
+        </testcase>
+        <testcase classname="src/firmware.spec.ts" name="IOT-FIRMWARE-001 firmware contract &gt; enforces admin rights, file policy, product compatibility and unique version" time="0.011798483">
+        </testcase>
+        <testcase classname="src/firmware.spec.ts" name="IOT-FIRMWARE-001 firmware contract &gt; verifies, releases, archives, and preserves immutable released metadata" time="0.010702061">
+        </testcase>
+        <testcase classname="src/firmware.spec.ts" name="IOT-FIRMWARE-001 firmware contract &gt; keeps failed checksum draft out of OTA and blocks referenced deletion or archive" time="0.00824078">
+        </testcase>
+        <testcase classname="src/firmware.spec.ts" name="IOT-FIRMWARE-001 firmware contract &gt; persists metadata without binary bytes and reloads before a stale revision write" time="0.001764196">
+        </testcase>
+        <testcase classname="src/firmware.spec.ts" name="IOT-FIRMWARE-001 firmware contract &gt; uses browser SHA-256 and explains rejected files" time="0.016569482">
+        </testcase>
+        <testcase classname="src/firmware.spec.ts" name="IOT-FIRMWARE-001 firmware contract &gt; reports bytes actually read before completing the SHA-256 check" time="0.006059031">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/geo-cluster.spec.ts" timestamp="2026-10-28T12:07:25.759Z" hostname="0f1323690125" tests="3" failures="0" errors="0" skipped="0" time="0.037728699">
+        <testcase classname="src/geo-cluster.spec.ts" name="IOT-GEO-001 deterministic map clustering &gt; groups dense device points, splits by zoom, and leaves unlocated items in the source list" time="0.034803442">
+        </testcase>
+        <testcase classname="src/geo-cluster.spec.ts" name="IOT-GEO-001 deterministic map clustering &gt; uses device status colors and a neutral color for mixed clusters" time="0.000741232">
+        </testcase>
+        <testcase classname="src/geo-cluster.spec.ts" name="IOT-GEO-001 deterministic map clustering &gt; does not merge already aggregated node points and has stable ordering" time="0.000395964">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/geo-list.spec.ts" timestamp="2026-10-28T12:07:25.760Z" hostname="0f1323690125" tests="1" failures="0" errors="0" skipped="0" time="0.001730905">
+        <testcase classname="src/geo-list.spec.ts" name="IOT-GEO-001 sortable list fallback &gt; paginates without changing the source or dropping ties" time="0.001578985">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/geography.spec.ts" timestamp="2026-10-28T12:07:25.760Z" hostname="0f1323690125" tests="5" failures="0" errors="0" skipped="0" time="0.04918547">
+        <testcase classname="src/geography.spec.ts" name="IOT-GEO-001 topology contract &gt; is deterministic, counts all devices and keeps unlocated devices accessible" time="0.003480548">
+        </testcase>
+        <testcase classname="src/geography.spec.ts" name="IOT-GEO-001 topology contract &gt; applies the same filters through continent, country, node and device levels" time="0.024281323">
+        </testcase>
+        <testcase classname="src/geography.spec.ts" name="IOT-GEO-001 topology contract &gt; rejects tenant escape and invalid hierarchy before showing data" time="0.000818941">
+        </testcase>
+        <testcase classname="src/geography.spec.ts" name="IOT-GEO-001 topology contract &gt; rejects UTC calendar overflow while accepting a real leap day" time="0.009632126">
+        </testcase>
+        <testcase classname="src/geography.spec.ts" name="IOT-GEO-001 topology contract &gt; provides a list fallback when the map data fails" time="0.010688527">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/lab-data.spec.ts" timestamp="2026-10-28T12:07:25.764Z" hostname="0f1323690125" tests="1" failures="0" errors="0" skipped="0" time="0.001815193">
+        <testcase classname="src/lab-data.spec.ts" name="IOT-LEARNING-001 fixed comparison data &gt; keeps the same three rows and filters without changing the seed" time="0.001512969">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/model-json.spec.ts" timestamp="2026-10-28T12:07:25.764Z" hostname="0f1323690125" tests="1" failures="0" errors="0" skipped="0" time="0.001781218">
+        <testcase classname="src/model-json.spec.ts" name="IOT-PRODUCT-001 model JSON draft &gt; locates a syntax error without discarding the draft" time="0.001599964">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/ota-trend.spec.ts" timestamp="2026-10-28T12:07:25.765Z" hostname="0f1323690125" tests="2" failures="0" errors="0" skipped="0" time="0.002436497">
+        <testcase classname="src/ota-trend.spec.ts" name="IOT-OTA-001 device progress history &gt; keeps failure and retry in the timeline while reflecting the latest device status" time="0.001653985">
+        </testcase>
+        <testcase classname="src/ota-trend.spec.ts" name="IOT-OTA-001 device progress history &gt; counts cancelled devices separately from pending devices" time="0.000418634">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/ota-version.spec.ts" timestamp="2026-10-28T12:07:25.766Z" hostname="0f1323690125" tests="1" failures="0" errors="0" skipped="0" time="0.00102325">
+        <testcase classname="src/ota-version.spec.ts" name="IOT-OTA-001 current version distribution &gt; uses the latest attempt per device and keeps unstarted targets visible" time="0.000824637">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/ota.spec.ts" timestamp="2026-10-28T12:07:25.766Z" hostname="0f1323690125" tests="6" failures="0" errors="0" skipped="0" time="0.101055853">
+        <testcase classname="src/ota.spec.ts" name="IOT-OTA-001 OTA lifecycle contract &gt; blocks concurrent OTA starts at the tenant hard quota" time="0.014509242">
+        </testcase>
+        <testcase classname="src/ota.spec.ts" name="IOT-OTA-001 OTA lifecycle contract &gt; previews deterministic batches and rejects incompatible firmware, devices, percentages and roles" time="0.008855028">
+        </testcase>
+        <testcase classname="src/ota.spec.ts" name="IOT-OTA-001 OTA lifecycle contract &gt; auto pauses at the failed first batch, keeps later devices unstarted, then retries with immutable history" time="0.023031391">
+        </testcase>
+        <testcase classname="src/ota.spec.ts" name="IOT-OTA-001 OTA lifecycle contract &gt; creates a separate reverse task and preserves source task and device attempt history" time="0.035855523">
+        </testcase>
+        <testcase classname="src/ota.spec.ts" name="IOT-OTA-001 OTA lifecycle contract &gt; guards task controls, tenant isolation and stale revisions" time="0.010932695">
+        </testcase>
+        <testcase classname="src/ota.spec.ts" name="IOT-OTA-001 OTA lifecycle contract &gt; persists tasks without replacing previous events or executing while disconnected" time="0.007121838">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/product-export.spec.ts" timestamp="2026-10-28T12:07:25.771Z" hostname="0f1323690125" tests="1" failures="0" errors="0" skipped="0" time="0.002030364">
+        <testcase classname="src/product-export.spec.ts" name="IOT-PRODUCT-001 selected export &gt; escapes CSV fields and spreadsheet formulas" time="0.00168061">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/products.spec.ts" timestamp="2026-10-28T12:07:25.772Z" hostname="0f1323690125" tests="14" failures="0" errors="0" skipped="0" time="0.362665252">
+        <testcase classname="src/products.spec.ts" name="IOT-PRODUCT-001 product and DP contract &gt; uses current device inventory for product counts and impact previews" time="0.041204325">
+        </testcase>
+        <testcase classname="src/products.spec.ts" name="IOT-PRODUCT-001 product and DP contract &gt; isolates tenants, applies filters and pagination, and preserves deterministic initial data" time="0.009354079">
+        </testcase>
+        <testcase classname="src/products.spec.ts" name="IOT-PRODUCT-001 product and DP contract &gt; enforces write permission, field validation, key uniqueness and version conflicts" time="0.014147996">
+        </testcase>
+        <testcase classname="src/products.spec.ts" name="IOT-PRODUCT-001 product and DP contract &gt; saves validated access metadata with tenant isolation, version checks and legacy storage migration" time="0.019514827">
+        </testcase>
+        <testcase classname="src/products.spec.ts" name="IOT-PRODUCT-001 product and DP contract &gt; previews protocol and linked Product Key changes before writing" time="0.015949787">
+        </testcase>
+        <testcase classname="src/products.spec.ts" name="IOT-PRODUCT-001 product and DP contract &gt; accepts a newly created tenant and rejects product creation at its hard quota" time="0.038785738">
+        </testcase>
+        <testcase classname="src/products.spec.ts" name="IOT-PRODUCT-001 product and DP contract &gt; validates model constraints and requires impact confirmation for attached devices" time="0.006269404">
+        </testcase>
+        <testcase classname="src/products.spec.ts" name="IOT-PRODUCT-001 product and DP contract &gt; does not overwrite an existing model when a new item repeats its identifier" time="0.005890564">
+        </testcase>
+        <testcase classname="src/products.spec.ts" name="IOT-PRODUCT-001 product and DP contract &gt; shows each DP conversion step, rejects bad expressions and data outside limits" time="0.006752851">
+        </testcase>
+        <testcase classname="src/products.spec.ts" name="IOT-PRODUCT-001 product and DP contract &gt; converts boolean and string targets without executing user expressions" time="0.006158342">
+        </testcase>
+        <testcase classname="src/products.spec.ts" name="IOT-PRODUCT-001 product and DP contract &gt; validates mapped DP values against the numeric target and raw input type" time="0.016309655">
+        </testcase>
+        <testcase classname="src/products.spec.ts" name="IOT-PRODUCT-001 product and DP contract &gt; provides retryable offline failure without changing saved data" time="0.000924146">
+        </testcase>
+        <testcase classname="src/products.spec.ts" name="IOT-PRODUCT-001 product and DP contract &gt; persists browser Mock edits and detects a stale version from another instance" time="0.008356396">
+        </testcase>
+        <testcase classname="src/products.spec.ts" name="IOT-PRODUCT-001 product and DP contract &gt; rechecks the version after simulated latency before committing" time="0.169712876">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/rules.spec.ts" timestamp="2026-10-28T12:07:25.780Z" hostname="0f1323690125" tests="10" failures="0" errors="0" skipped="0" time="0.115617898">
+        <testcase classname="src/rules.spec.ts" name="IOT-RULE-001 graph and execution contract &gt; lists tenant-scoped summaries and checks read and write rights first" time="0.011625858">
+        </testcase>
+        <testcase classname="src/rules.spec.ts" name="IOT-RULE-001 graph and execution contract &gt; locates cycles, orphan nodes, incompatible edges and missing actions before save" time="0.018881353">
+        </testcase>
+        <testcase classname="src/rules.spec.ts" name="IOT-RULE-001 graph and execution contract &gt; validates condition groups, safe expressions and node configuration" time="0.00175712">
+        </testcase>
+        <testcase classname="src/rules.spec.ts" name="IOT-RULE-001 graph and execution contract &gt; returns ordered trace inputs and outputs without changing devices or logs" time="0.012031934">
+        </testcase>
+        <testcase classname="src/rules.spec.ts" name="IOT-RULE-001 graph and execution contract &gt; keeps disabled events out of logs and requires confirmation to apply a test" time="0.009484899">
+        </testcase>
+        <testcase classname="src/rules.spec.ts" name="IOT-RULE-001 graph and execution contract &gt; saves with version checks and runs enabled events deterministically" time="0.011731163">
+        </testcase>
+        <testcase classname="src/rules.spec.ts" name="IOT-RULE-001 graph and execution contract &gt; marks expression timeout and action failure on their nodes" time="0.005955387">
+        </testcase>
+        <testcase classname="src/rules.spec.ts" name="IOT-RULE-001 graph and execution contract &gt; persists rules and applied logs across independent service instances" time="0.008192235">
+        </testcase>
+        <testcase classname="src/rules.spec.ts" name="IOT-RULE-001 graph and execution contract &gt; saves named test samples without applying actions and enforces rule scope" time="0.025036353">
+        </testcase>
+        <testcase classname="src/rules.spec.ts" name="IOT-RULE-001 graph and execution contract &gt; keeps immutable versions and compares changed nodes and fields across reload" time="0.010316027">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/telemetry-range.spec.ts" timestamp="2026-10-28T12:07:25.782Z" hostname="0f1323690125" tests="2" failures="0" errors="0" skipped="0" time="0.005926544">
+        <testcase classname="src/telemetry-range.spec.ts" name="IOT-DEVICE-001 UTC telemetry range &gt; retains preset windows and accepts a custom inclusive 30 day interval" time="0.002069193">
+        </testcase>
+        <testcase classname="src/telemetry-range.spec.ts" name="IOT-DEVICE-001 UTC telemetry range &gt; rejects invalid, reversed and overlong intervals before querying" time="0.003210605">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/tenants.spec.ts" timestamp="2026-10-28T12:07:25.783Z" hostname="0f1323690125" tests="6" failures="0" errors="0" skipped="0" time="0.031547894">
+        <testcase classname="src/tenants.spec.ts" name="IOT-TENANT-001 tenant and quota contract &gt; lists only permitted tenants, supports filters, and returns quota and member summaries" time="0.002937144">
+        </testcase>
+        <testcase classname="src/tenants.spec.ts" name="IOT-TENANT-001 tenant and quota contract &gt; creates tenant records with validation, unique keys and stale revision rejection" time="0.004205278">
+        </testcase>
+        <testcase classname="src/tenants.spec.ts" name="IOT-TENANT-001 tenant and quota contract &gt; previews warning, blocks lower than used quotas, and rejects creation at a hard device limit" time="0.001464326">
+        </testcase>
+        <testcase classname="src/tenants.spec.ts" name="IOT-TENANT-001 tenant and quota contract &gt; reads live usage from its own browser storage and persists across service instances" time="0.006893592">
+        </testcase>
+        <testcase classname="src/tenants.spec.ts" name="IOT-TENANT-001 tenant and quota contract &gt; blocks creation for a suspended tenant and returns scenario errors" time="0.0060386">
+        </testcase>
+        <testcase classname="src/tenants.spec.ts" name="IOT-TENANT-001 tenant and quota contract &gt; invites and edits members, prevents duplicate email and preserves a tenant administrator" time="0.009567536">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/v3/model.spec.ts" timestamp="2026-10-28T12:07:25.787Z" hostname="0f1323690125" tests="33" failures="0" errors="0" skipped="0" time="0.242447151">
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; preserves precise seeds and product-specific fields" time="0.048179905">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; provisions and applies telemetry, shadow and command with audit" time="0.084156758">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; rejects serial duplicates, missing groups, and electric control without mutation" time="0.012933431">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; moves rule output through assigned and resolved alarm" time="0.013000043">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; only retries failed OTA and preserves successful attempts" time="0.00999718">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; guards active deletion, duplicate targets and stale/offline OTA transactionally" time="0.00814723">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; operator may retry/advance retries, not start normal upgrades" time="0.004426248">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; does not re-execute a success removed before retry" time="0.001651082">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; governs invitation, role and minimum quota" time="0.004725562">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; viewer rejects register before inputs and never changes audit" time="0.003315823">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; viewer rejects edit before inputs and never changes audit" time="0.001494911">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; viewer rejects ingest before inputs and never changes audit" time="0.001405104">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; viewer rejects shadow before inputs and never changes audit" time="0.001564959">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; viewer rejects sync before inputs and never changes audit" time="0.001770534">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; viewer rejects command before inputs and never changes audit" time="0.00037176">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; viewer rejects delete before inputs and never changes audit" time="0.000473954">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; viewer rejects field before inputs and never changes audit" time="0.00445045">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; viewer rejects rule before inputs and never changes audit" time="0.001251943">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; viewer rejects toggle before inputs and never changes audit" time="0.001590304">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; viewer rejects trial before inputs and never changes audit" time="0.000848945">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; viewer rejects ack before inputs and never changes audit" time="0.000303295">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; viewer rejects resolve before inputs and never changes audit" time="0.000289303">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; viewer rejects batch before inputs and never changes audit" time="0.000405701">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; viewer rejects advance before inputs and never changes audit" time="0.000239779">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; viewer rejects retry before inputs and never changes audit" time="0.000545212">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; viewer rejects invite before inputs and never changes audit" time="0.000890307">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; viewer rejects member before inputs and never changes audit" time="0.000382905">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; viewer rejects quota before inputs and never changes audit" time="0.000357655">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; viewer rejects prefs before inputs and never changes audit" time="0.000911959">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; viewer rejects connect before inputs and never changes audit" time="0.0008122">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="V3 isolated command transactions &gt; validates nonfinite inputs and snapshot structures; fixed query data" time="0.011004034">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="rejects oversized fields without committing partially edited values" time="0.009782479">
+        </testcase>
+        <testcase classname="src/v3/model.spec.ts" name="trims valid tags and units before length checks and saving" time="0.001149496">
+        </testcase>
+    </testsuite>
+    <testsuite name="src/v3/store.spec.ts" timestamp="2026-10-28T12:07:25.833Z" hostname="0f1323690125" tests="2" failures="0" errors="0" skipped="0" time="0.080920761">
+        <testcase classname="src/v3/store.spec.ts" name="keeps a successful in-memory command and truthful storage-denied feedback" time="0.078911267">
+        </testcase>
+        <testcase classname="src/v3/store.spec.ts" name="recovers incomplete persisted state before templates render" time="0.001482788">
+        </testcase>
+    </testsuite>
+</testsuites>

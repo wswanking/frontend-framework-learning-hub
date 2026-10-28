@@ -1,0 +1,20 @@
+✔ same tested bytes assemble with commit, clean state, locks and parity; tampering fails (808.20717ms)
+✔ build modified after snapshot cannot be sealed (241.594765ms)
+✔ partial, failed and stale browser evidence are rejected (225.882434ms)
+✔ dirty state is explicit; independent copy drift is rejected (201.734626ms)
+✔ mixing source provenance, altered evidence or mismatched domain exports fails (688.945722ms)
+✔ extra files and output symlinks are not silently shipped (204.419251ms)
+✔ JUnit accepts Vitest root without optional skipped count (0.344241ms)
+✔ JUnit rejects empty counts, skipped cases and mismatched case totals (0.289063ms)
+✔ deep links return HTML only for document requests; missing assets really 404 (124.437462ms)
+✔ hashed assets are immutable, config is revalidated; ETag and HEAD work (42.750112ms)
+✔ encoded traversal and escaping symlinks cannot expose files (20.779923ms)
+✔ configured prefix is explicit, outside requests fail, and separate release roots can be restarted (32.945974ms)
+ℹ tests 12
+ℹ suites 0
+ℹ pass 12
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 2475.355852

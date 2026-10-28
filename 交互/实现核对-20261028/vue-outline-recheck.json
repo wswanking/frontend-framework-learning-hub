@@ -1,0 +1,42 @@
+{
+  "runAt": "2026-10-28T12:23:06.151Z",
+  "buildTime": "2026-10-28T12:20:55.990Z",
+  "cases": [
+    {
+      "width": 1440,
+      "main": {
+        "style": "none",
+        "width": "3px"
+      },
+      "skip": {
+        "text": "跳到主要内容",
+        "style": "solid",
+        "width": "3px"
+      },
+      "control": {
+        "tag": "SELECT",
+        "style": "solid",
+        "width": "3px"
+      },
+      "pass": true
+    },
+    {
+      "width": 390,
+      "main": {
+        "style": "none",
+        "width": "3px"
+      },
+      "skip": {
+        "text": "跳到主要内容",
+        "style": "solid",
+        "width": "3px"
+      },
+      "control": {
+        "tag": "SELECT",
+        "style": "solid",
+        "width": "3px"
+      },
+      "pass": true
+    }
+  ]
+}

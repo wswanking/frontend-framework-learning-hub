@@ -1,0 +1,168 @@
+
+> @iot-atlas/react@0.0.0 test:e2e
+> playwright test --retries=0
+
+[WebServer] (node:25660) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:25673) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 224 tests using 2 workers
+
+(node:25878) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:25877) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    1 [desktop] › tests/browser/dashboard.spec.ts:34:1 › IOT-DASH-001 keeps mobile filters collapsed until requested (8.5s)
+  ✘    2 [desktop] › tests/browser/dashboard.spec.ts:8:1 › IOT-DASH-001 clears paused events and detail after identity or permission changes (8.8s)
+(node:26499) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    4 [desktop] › tests/browser/dashboard.spec.ts:66:1 › IOT-DASH-001 opens the lab from the shared navigation (7.0s)
+  ✘    5 [desktop] › tests/browser/dashboard.spec.ts:76:1 › IOT-DASH-001 map controls change and reset the view without changing the query (8.4s)
+  ✓    3 [desktop] › tests/browser/dashboard.spec.ts:51:1 › IOT-QUALITY-001 keeps key data readable at a tablet viewport (24.7s)
+(node:27459) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘    6 [desktop] › tests/browser/dashboard.spec.ts:138:1 › IOT-DASH-001 applies a valid custom range and rejects reversed or future times (10.3s)
+(node:28036) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓    7 [desktop] › tests/browser/dashboard.spec.ts:101:1 › IOT-DASH-001 one applied query drives metrics, map, ranking and country detail (18.0s)
+  ✓    9 [desktop] › tests/browser/dashboard.spec.ts:211:1 › IOT-DASH-001 reflects device alarm acknowledgement across pages (16.8s)
+  ✘   10 [desktop] › tests/browser/dashboard.spec.ts:235:1 › IOT-DASH-001 includes a live device message in the event stream (8.8s)
+  ✘    8 [desktop] › tests/browser/dashboard.spec.ts:168:1 › IOT-DASH-001 partial failure, stale data, theme and narrow layout (31.4s)
+
+
+  1) [desktop] › tests/browser/dashboard.spec.ts:8:1 › IOT-DASH-001 clears paused events and detail after identity or permission changes 
+
+    Error: browserContext.close: ENOENT: no such file or directory, open '/workspace/frontend-framework-learning-hub/code/apps/react/reports/test-results/.playwright-artifacts-0/traces/90cda532ab82d274b30b-b900682ea5241375986d.trace'
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    reports/test-results/dashboard-IOT-DASH-001-cle-e0c84-ntity-or-permission-changes-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: reports/test-results/dashboard-IOT-DASH-001-cle-e0c84-ntity-or-permission-changes-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/test-results/dashboard-IOT-DASH-001-cle-e0c84-ntity-or-permission-changes-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace reports/test-results/dashboard-IOT-DASH-001-cle-e0c84-ntity-or-permission-changes-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [desktop] › tests/browser/dashboard.spec.ts:76:1 › IOT-DASH-001 map controls change and reset the view without changing the query 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: locator('.world-chart svg')
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" locator('.world-chart svg') with timeout 5000ms
+      - waiting for locator('.world-chart svg')
+
+
+      78 |   await openMobileFilters(page);
+      79 |   const map = page.locator('.world-chart svg');
+    > 80 |   await expect(map).toBeVisible();
+         |                     ^
+      81 |   const signature = () => map.evaluate(svg => {
+      82 |     let hash = 2166136261;
+      83 |     for (const character of svg.innerHTML) hash = Math.imul(hash ^ character.charCodeAt(0), 16777619);
+        at /workspace/frontend-framework-learning-hub/code/apps/react/tests/browser/dashboard.spec.ts:80:21
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    reports/test-results/dashboard-IOT-DASH-001-map-e28af--without-changing-the-query-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: reports/test-results/dashboard-IOT-DASH-001-map-e28af--without-changing-the-query-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/test-results/dashboard-IOT-DASH-001-map-e28af--without-changing-the-query-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace reports/test-results/dashboard-IOT-DASH-001-map-e28af--without-changing-the-query-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3) [desktop] › tests/browser/dashboard.spec.ts:138:1 › IOT-DASH-001 applies a valid custom range and rejects reversed or future times 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.metric-card').first()
+    Expected substring: "12"
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toContainText" locator('.metric-card').first() with timeout 5000ms
+      - waiting for locator('.metric-card').first()
+
+
+      139 |   await page.goto('/dashboard');
+      140 |   await openMobileFilters(page);
+    > 141 |   await expect(page.locator('.metric-card').first()).toContainText('12');
+          |                                                      ^
+      142 |   await page.getByRole('combobox', { name: '时间范围' }).click();
+      143 |   await page.getByRole('option', { name: '自定义' }).click();
+      144 |   await page.getByLabel('开始时间').fill('2026-09-16T08:00');
+        at /workspace/frontend-framework-learning-hub/code/apps/react/tests/browser/dashboard.spec.ts:141:54
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    reports/test-results/dashboard-IOT-DASH-001-app-bba52-ts-reversed-or-future-times-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: reports/test-results/dashboard-IOT-DASH-001-app-bba52-ts-reversed-or-future-times-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/test-results/dashboard-IOT-DASH-001-app-bba52-ts-reversed-or-future-times-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace reports/test-results/dashboard-IOT-DASH-001-app-bba52-ts-reversed-or-future-times-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  4) [desktop] › tests/browser/dashboard.spec.ts:235:1 › IOT-DASH-001 includes a live device message in the event stream 
+
+    Test was interrupted.
+
+    Error: page.waitForFunction: Test ended.
+
+      239 |   await page.getByRole('tab', { name: '时序数据' }).click();
+      240 |   await page.getByLabel('实时追加').check();
+    > 241 |   await page.waitForFunction(() => JSON.parse(localStorage.getItem('iot-atlas-device-messages-v1') || '[]').some((message: { deviceId: string }) => message.deviceId === 'dev_as_001'));
+          |              ^
+      242 |   await page.getByLabel('实时追加').uncheck();
+      243 |   await page.goto('/dashboard');
+      244 |   await openMobileFilters(page);
+        at /workspace/frontend-framework-learning-hub/code/apps/react/tests/browser/dashboard.spec.ts:241:14
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    reports/test-results/dashboard-IOT-DASH-001-inc-d2c08-message-in-the-event-stream-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: reports/test-results/dashboard-IOT-DASH-001-inc-d2c08-message-in-the-event-stream-desktop/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/test-results/dashboard-IOT-DASH-001-inc-d2c08-message-in-the-event-stream-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace reports/test-results/dashboard-IOT-DASH-001-inc-d2c08-message-in-the-event-stream-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  3 failed
+    [desktop] › tests/browser/dashboard.spec.ts:8:1 › IOT-DASH-001 clears paused events and detail after identity or permission changes 
+    [desktop] › tests/browser/dashboard.spec.ts:76:1 › IOT-DASH-001 map controls change and reset the view without changing the query 
+    [desktop] › tests/browser/dashboard.spec.ts:138:1 › IOT-DASH-001 applies a valid custom range and rejects reversed or future times 
+  2 interrupted
+    [desktop] › tests/browser/dashboard.spec.ts:168:1 › IOT-DASH-001 partial failure, stale data, theme and narrow layout 
+    [desktop] › tests/browser/dashboard.spec.ts:235:1 › IOT-DASH-001 includes a live device message in the event stream 
+  214 did not run
+  5 passed (1.5m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice

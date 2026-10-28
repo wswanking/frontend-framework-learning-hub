@@ -1,9 +1,9 @@
 {
   "app": "vue",
-  "runAt": "2026-10-28T12:06:07.348Z",
+  "runAt": "2026-10-28T12:22:37.350Z",
   "browser": "154.0.8037.57",
-  "buildTime": "2026-10-28T12:04:11.182Z",
-  "indexSha256": "e038ba988c655ff6f808e74380a665e27d945a77bae3a82725175f8ce55f4e63",
+  "buildTime": "2026-10-28T12:20:55.990Z",
+  "indexSha256": "39453c2fa57684d7b2dc160e0668499b64e069aba13de21b60f3393ceb038b23",
   "screenshots": [
     {
       "file": "vue-desktop.png",
@@ -11,7 +11,7 @@
         "width": 1440,
         "height": 1000
       },
-      "sha256": "00133090c362e820f5bc3e230edcaefdd96de53e8b16e6bab88ee69b3166829a",
+      "sha256": "35fd8c2b494664dac45ecc2ee9a33d893c8742676221f6cca284cca308b3c44c",
       "pageOverflow": false,
       "emptyVisibleStatus": 0
     },

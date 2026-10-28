@@ -24,7 +24,7 @@ test.beforeEach(({ page }) => {
   page.on("pageerror", (e) => messages.push(e.message));
 });
 test.afterEach(({ page }) => expect(errors.get(page)).toEqual([]));
-async function nav(page: Page, name: string) {
+async function clickNav(page: Page, name: string) {
   const toggle = page.getByRole("button", { name: "打开导航" });
   if (
     (await toggle.isVisible()) &&
@@ -35,6 +35,17 @@ async function nav(page: Page, name: string) {
     .getByRole("navigation", { name: "主导航" })
     .getByRole("link", { name, exact: true })
     .click();
+}
+async function nav(page: Page, name: string) {
+  await clickNav(page, name);
+  // The shell select stays mounted while a router transition commits.
+  await expect(
+    page.getByRole("heading", {
+      level: 1,
+      name: name === "工作区" ? /^(工作区|早上好，开始今天的运行巡检)$/ : name,
+      exact: true,
+    }),
+  ).toBeVisible();
 }
 async function prompt(
   page: Page,
@@ -234,6 +245,13 @@ test("V3 all 14 modules keep the shell across all 56 exception states", async ({
   test.setTimeout(60000);
   await page.goto("/v3/workspace");
   const shell = await page.getByTestId("v3-shell").elementHandle();
+  await page.getByLabel("页面状态").selectOption("loading");
+  await nav(page, "工作区");
+  await expect(
+    page.getByRole("heading", { name: "正在加载工作区", exact: true }),
+  ).toBeVisible();
+  await expect(page.getByLabel("页面状态")).toHaveValue("loading");
+  await page.getByRole("button", { name: "结束模拟加载" }).click();
   const states: { [key: string]: string } = {
     loading: "正在加载工作区",
     empty: "这里还没有数据",
@@ -393,11 +411,11 @@ test("V3 identity/search discard destroys drafts and leaves future guards active
   await page.keyboard.press("Escape");
   await expect(draft).not.toBeChecked();
   await draft.check();
-  await prompt(page, false, () => nav(page, "设备中心"));
+  await prompt(page, false, () => clickNav(page, "设备中心"));
   await expect(page).toHaveURL(/settings/);
   await page.getByRole("button", { name: "保存偏好" }).click();
   await draft.uncheck();
-  await prompt(page, false, () => nav(page, "设备中心"));
+  await prompt(page, false, () => clickNav(page, "设备中心"));
   await expect(page).toHaveURL(/settings/);
   await page.getByRole("button", { name: "保存偏好" }).click();
 });

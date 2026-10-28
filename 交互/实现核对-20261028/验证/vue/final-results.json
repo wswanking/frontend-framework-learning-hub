@@ -1,0 +1,37 @@
+{
+  "unit": {
+    "name": "vitest tests",
+    "tests": "131",
+    "failures": "0",
+    "errors": "0",
+    "time": "3.160535018"
+  },
+  "e2e": {
+    "id": "",
+    "name": "",
+    "tests": "222",
+    "failures": "0",
+    "skipped": "0",
+    "errors": "0",
+    "time": "397.162483"
+  },
+  "visualCapture": {
+    "id": "",
+    "name": "",
+    "tests": "2",
+    "failures": "0",
+    "skipped": "0",
+    "errors": "0",
+    "time": "4.9157779999999995"
+  },
+  "retries": 0,
+  "runtimeSourceFrozen": true,
+  "sourceManifest": "source-final-sha256.txt",
+  "buildManifest": "build-manifest.json",
+  "visualAcceptance": "pending: no human baseline approval",
+  "limitations": [
+    "local mock only, no backend/hardware integration",
+    "not pixel-identical acceptance",
+    "existing large teaching-library build chunks remain warnings"
+  ]
+}

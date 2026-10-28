@@ -1,0 +1,139 @@
+
+> @iot-atlas/angular@0.0.0 test:e2e
+> playwright test v3.spec.ts --retries=0
+
+[WebServer] (node:17812) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:17829) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 18 tests using 2 workers
+
+(node:17916) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+(node:17918) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [desktop] › tests/browser/v3.spec.ts:77:1 › register, ingest, shadow, command, URL restoration and return focus (11.6s)
+  ✓   3 [desktop] › tests/browser/v3.spec.ts:112:1 › rule input produces assigned and resolved alarm with audit (9.9s)
+  ✓   4 [desktop] › tests/browser/v3.spec.ts:145:1 › OTA partial failure and retry preserves successful attempt counts (9.4s)
+  ✓   5 [desktop] › tests/browser/v3.spec.ts:167:1 › governance invitation, role, quota and viewer denial (11.1s)
+  ✓   6 [desktop] › tests/browser/v3.spec.ts:196:1 › dirty modal back, Escape decisions, focus and clean forward (7.4s)
+  ✓   7 [desktop] › tests/browser/v3.spec.ts:219:1 › dirty settings link/forward and refresh decisions, unknown route recovery (13.1s)
+  ✓   8 [desktop] › tests/browser/v3.spec.ts:262:1 › applied CSV ignores draft; global search and read-only electric detail (6.2s)
+  ✓   9 [desktop] › tests/browser/v3.spec.ts:294:1 › product attributes, connector and node details, settings notifications and audit filter (8.8s)
+(node:20326) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 [desktop] › tests/browser/v3.spec.ts:32:1 › 14 native routes, persistent shell, recoverable exceptions and desktop/mobile rendering (1.6m)
+(node:21079) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  11 [mobile] › tests/browser/v3.spec.ts:77:1 › register, ingest, shadow, command, URL restoration and return focus (10.4s)
+  ✓  12 [mobile] › tests/browser/v3.spec.ts:112:1 › rule input produces assigned and resolved alarm with audit (4.3s)
+  ✓  13 [mobile] › tests/browser/v3.spec.ts:145:1 › OTA partial failure and retry preserves successful attempt counts (3.8s)
+  ✓  14 [mobile] › tests/browser/v3.spec.ts:167:1 › governance invitation, role, quota and viewer denial (3.6s)
+  ✓  15 [mobile] › tests/browser/v3.spec.ts:196:1 › dirty modal back, Escape decisions, focus and clean forward (7.3s)
+  ✓  16 [mobile] › tests/browser/v3.spec.ts:219:1 › dirty settings link/forward and refresh decisions, unknown route recovery (9.4s)
+  ✓  17 [mobile] › tests/browser/v3.spec.ts:262:1 › applied CSV ignores draft; global search and read-only electric detail (4.8s)
+  ✓  18 [mobile] › tests/browser/v3.spec.ts:294:1 › product attributes, connector and node details, settings notifications and audit filter (7.2s)
+  ✘  10 [mobile] › tests/browser/v3.spec.ts:32:1 › 14 native routes, persistent shell, recoverable exceptions and desktop/mobile rendering (1.5m)
+
+
+  1) [desktop] › tests/browser/v3.spec.ts:32:1 › 14 native routes, persistent shell, recoverable exceptions and desktop/mobile rendering 
+
+    Test timeout of 90000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for getByLabel('页面状态')
+
+
+      40 |     await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+      41 |     for (const state of ["loading", "empty", "error", "forbidden"]) {
+    > 42 |       await page.getByLabel("页面状态").selectOption(state);
+         |                                     ^
+      43 |       await expect(page.getByRole("heading", { level: 1 })).toBeVisible();
+      44 |       expect(await shell?.evaluate((el) => el.isConnected)).toBe(true);
+      45 |       await page
+        at /workspace/frontend-framework-learning-hub/code/apps/angular/tests/browser/v3.spec.ts:42:37
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    reports/test-results/v3-14-native-routes-persis-9bc0d-nd-desktop-mobile-rendering-desktop/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    attachment #2: screenshot (image/png) ──────────────────────────────────────────────────────────
+    reports/test-results/v3-14-native-routes-persis-9bc0d-nd-desktop-mobile-rendering-desktop/test-failed-2.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: reports/test-results/v3-14-native-routes-persis-9bc0d-nd-desktop-mobile-rendering-desktop/error-context.md
+
+    attachment #4: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/test-results/v3-14-native-routes-persis-9bc0d-nd-desktop-mobile-rendering-desktop/trace.zip
+    Usage:
+
+        npx playwright show-trace reports/test-results/v3-14-native-routes-persis-9bc0d-nd-desktop-mobile-rendering-desktop/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2) [mobile] › tests/browser/v3.spec.ts:32:1 › 14 native routes, persistent shell, recoverable exceptions and desktop/mobile rendering 
+
+    Test timeout of 90000ms exceeded.
+
+    Error: locator.click: Test timeout of 90000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '返回正常数据', exact: true })
+        - locator resolved to <button class="primary" _ngcontent-ng-c904621305=""> 返回正常数据 </button>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <a aria-label="产品与物模型" href="/v3/products" routerlinkactive="active" _ngcontent-ng-c2248046697="" ariacurrentwhenactive="page">…</a> from <aside class="sidebar open" _ngcontent-ng-c2248046697="">…</aside> subtree intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <a aria-label="产品与物模型" href="/v3/products" routerlinkactive="active" _ngcontent-ng-c2248046697="" ariacurrentwhenactive="page">…</a> from <aside class="sidebar open" _ngcontent-ng-c2248046697="">…</aside> subtree intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        135 × waiting for element to be visible, enabled and stable
+            - element is visible, enabled and stable
+            - scrolling into view if needed
+            - done scrolling
+            - <a aria-label="产品与物模型" href="/v3/products" routerlinkactive="active" _ngcontent-ng-c2248046697="" ariacurrentwhenactive="page">…</a> from <aside class="sidebar open" _ngcontent-ng-c2248046697="">…</aside> subtree intercepts pointer events
+          - retrying click action
+            - waiting 500ms
+
+
+      48 |           exact: true,
+      49 |         })
+    > 50 |         .click();
+         |          ^
+      51 |     }
+      52 |     expect(
+      53 |       await page.evaluate(
+        at /workspace/frontend-framework-learning-hub/code/apps/angular/tests/browser/v3.spec.ts:50:10
+
+    attachment #1: screenshot (image/png) ──────────────────────────────────────────────────────────
+    reports/test-results/v3-14-native-routes-persis-9bc0d-nd-desktop-mobile-rendering-mobile/test-failed-1.png
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+    Error Context: reports/test-results/v3-14-native-routes-persis-9bc0d-nd-desktop-mobile-rendering-mobile/error-context.md
+
+    attachment #3: trace (application/zip) ─────────────────────────────────────────────────────────
+    reports/test-results/v3-14-native-routes-persis-9bc0d-nd-desktop-mobile-rendering-mobile/trace.zip
+    Usage:
+
+        npx playwright show-trace reports/test-results/v3-14-native-routes-persis-9bc0d-nd-desktop-mobile-rendering-mobile/trace.zip
+
+    ────────────────────────────────────────────────────────────────────────────────────────────────
+
+  2 failed
+    [desktop] › tests/browser/v3.spec.ts:32:1 › 14 native routes, persistent shell, recoverable exceptions and desktop/mobile rendering 
+    [mobile] › tests/browser/v3.spec.ts:32:1 › 14 native routes, persistent shell, recoverable exceptions and desktop/mobile rendering 
+  16 passed (3.0m)
+npm notice
+npm notice New major version of npm available! 11.9.0 -> 12.2.1
+npm notice Changelog: https://github.com/npm/cli/releases/tag/v12.2.1
+npm notice To update run: npm install -g npm@12.2.1
+npm notice
